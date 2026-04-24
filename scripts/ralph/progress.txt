@@ -1,0 +1,26 @@
+# Ralph Progress Log
+Started: 2026-04-24
+---
+
+## [2026-04-24] - US-001: Configure TailwindCSS integration
+- Installed tailwindcss v4 + @tailwindcss/vite + postcss + autoprefixer
+- Created src/styles/tailwind.css with `@import "tailwindcss"`
+- Added tailwindcss() plugin to root vite.config.ts and play/vite.config.ts
+- Created tailwind.config.js with content scanning for src/**/*.{vue,ts,tsx} and play/**/*.{vue,ts,tsx}
+- Imported tailwind CSS in src/index.ts entry point
+- Created TmDemo test component using Tailwind utility classes (flex, gap, rounded, bg, text colors)
+- Build produces dist/index.css (11.72 kB, 3.15 kB gzipped)
+- Typecheck passes, build succeeds
+- **Learnings for future iterations:**
+  - This project uses pnpm as package manager
+  - Component pattern: TmXxx.vue + index.ts (with withInstall wrapper)
+  - Build outputs: tm-ui.es.js, tm-ui.cjs.js, index.css, type declarations
+  - Playground runs on port 3001
+---
+
+## Codebase Patterns
+- Component registration: use `withInstall()` from `@/utils/with-install.ts` to make components installable via `app.use()`
+- Each component directory has: `Component.vue` + `index.ts` (exports withInstall-wrapped component)
+- Library entry point (src/index.ts) imports all components and CSS, registers them via install()
+- TailwindCSS v4 uses `@import "tailwindcss"` (not old @tailwind directives) + `@tailwindcss/vite` plugin
+---

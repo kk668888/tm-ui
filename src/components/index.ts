@@ -1,0 +1,8 @@
+export { TmButton } from './TmButton'
+export { TmInput } from './TmInput'
+export { TmSelect } from './TmSelect'
+export { TmTable } from './TmTable'
+export { TmForm } from './TmForm'
+export { TmDemo } from './tm-demo'
+export type { TmFormSchemaItem } from './TmForm'
+export type { TmColumn, TmPageInfo, TmTableProps, TmTableEmits } from './TmTable'

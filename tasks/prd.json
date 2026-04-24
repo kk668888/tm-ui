@@ -1,0 +1,263 @@
+{
+  "project": "tm-ui",
+  "branchName": "ralph/ant-design-vue-full-encapsulation",
+  "description": "全量封装 ant-design-vue 组件，以 Tm 前缀构建 tm-ui 组件库，分四批次完成 80+ 组件的透传+增强默认值封装，集成 TailwindCSS 和单元测试",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "配置 TailwindCSS 集成",
+      "description": "As a 开发者, I want 在组件库中集成 TailwindCSS so that 组件可以使用原子化类名实现样式。",
+      "acceptanceCriteria": [
+        "安装 tailwindcss + postcss + autoprefixer 依赖",
+        "配置 tailwind.config.js，content 扫描 src/**/*.{vue,ts}",
+        "在 vite.config.ts 中集成 tailwindcss",
+        "新建一个测试组件验证 TailwindCSS 在 scoped style 中生效",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "重构组件目录结构为 tm-xxx 格式",
+      "description": "As a 开发者, I want 更清晰的组件目录结构 so that 快速定位组件的实现、类型、测试和文档。",
+      "acceptanceCriteria": [
+        "现有 5 个组件从 TmButton/ 风格迁移到 tm-button/component.ts + TmButton.vue 结构",
+        "src/components/index.ts 更新所有导出路径",
+        "新建组件目录模板：component.ts, TmXxx.vue, types.ts(可选), __tests__/(可选)",
+        "playground 渲染无回归",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "建立通用透传工具函数",
+      "description": "As a 开发者, I want 提取透传+增强模式的通用逻辑 so that 新增组件时减少重复代码。",
+      "acceptanceCriteria": [
+        "创建 src/utils/forward-attrs.ts，自动剥离 class/style",
+        "创建 src/utils/forward-slots.ts，动态槽透传",
+        "TmInput、TmSelect、TmTable 重构使用工具函数",
+        "playground 行为无回归",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "封装基础输入组件（Button、Input、Textarea、InputNumber、InputPassword）",
+      "description": "As a 开发者, I want 封装常用输入基础组件 so that 项目开箱即用。",
+      "acceptanceCriteria": [
+        "每个组件按 tm-xxx/ 目录结构创建",
+        "透传 ant-design-vue 全部 props/events/slots",
+        "增强默认值（placeholder 中文、默认圆角等）",
+        "TailwindCSS 辅助样式应用",
+        "每个组件配套独立 docs/components/*.md 文档",
+        "playground 可正常渲染和使用",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "封装表单组件（Form、Checkbox、Radio、Switch、DatePicker、TimePicker、Upload）",
+      "description": "As a 开发者, I want 封装表单相关组件 so that 构建复杂表单更高效。",
+      "acceptanceCriteria": [
+        "TmForm 增强 schema 类型，补充更多 field type 支持",
+        "每个子组件透传 + 增强默认值",
+        "Checkbox/Radio 增强默认间距和布局",
+        "Upload 增强中文文案",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "封装数据展示组件（Table、List、Tree、TreeSelect、Transfer、Avatar、Badge、Card、Collapse、Descriptions、Empty、Image、Popover、Tooltip）",
+      "description": "As a 开发者, I want 封装数据展示组件 so that 数据驱动 UI 场景全覆盖。",
+      "acceptanceCriteria": [
+        "TmTable 迁移到新目录结构",
+        "Tree/TreeSelect 增强中文搜索 placeholder",
+        "Transfer 增强左右列表中文标题",
+        "Empty 统一空状态默认文案",
+        "Tooltip/Popover 增强默认触发延迟",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "封装反馈组件（Alert、Message、Modal、Notification、Popconfirm、Progress、Result、Spin、Drawer）",
+      "description": "As a 开发者, I want 封装用户反馈组件 so that 交互反馈场景全覆盖。",
+      "acceptanceCriteria": [
+        "Modal/Drawer 增强默认关闭确认行为",
+        "Message/Notification 增强默认中文文案",
+        "Spin 增强默认居中行为",
+        "Progress 增强默认颜色主题",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "封装导航组件（Breadcrumb、Dropdown、Menu、Pagination、Steps、Tabs）",
+      "description": "As a 开发者, I want 封装导航组件 so that 页面导航场景全覆盖。",
+      "acceptanceCriteria": [
+        "Pagination 增强中文文案",
+        "Menu 增强默认选中态样式",
+        "Breadcrumb 增强分隔符默认值",
+        "Steps 增强默认图标和文案",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "为核心组件编写单元测试",
+      "description": "As a 开发者, I want 核心组件有单元测试 so that 重构和升级时有回归保障。",
+      "acceptanceCriteria": [
+        "安装 Vitest + @vue/test-utils",
+        "为 TmButton、TmInput、TmSelect、TmTable、TmForm、TmModal 编写测试",
+        "每个核心组件测试覆盖率 >= 80%",
+        "测试包含：渲染测试、props 测试、events 测试、slots 测试",
+        "npm run test 全部通过"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "封装布局组件（Grid、Layout、Space、Divider、FloatButton、Affix、Anchor）",
+      "description": "As a 开发者, I want 封装布局组件 so that 页面布局场景全覆盖。",
+      "acceptanceCriteria": [
+        "Grid/Space 增强默认间距和对齐",
+        "Layout 增强默认背景色和过渡",
+        "Affix 增强默认 offset 行为",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "封装数据录入补充组件（Cascader、Rate、Slider、ColorPicker、Mentions、AutoComplete、Segmented）",
+      "description": "As a 开发者, I want 补充数据录入组件 so that 复杂表单场景无死角。",
+      "acceptanceCriteria": [
+        "Cascader 增强中文搜索 placeholder",
+        "Rate 增强默认星数和颜色",
+        "Slider 增强默认步长和标记",
+        "Mentions 增强中文选项",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "封装剩余展示组件（Typography、Tag、Timeline、Skeleton、Statistic、Carousel、Comment、QRCode、Watermark）",
+      "description": "As a 开发者, I want 封装剩余展示组件 so that 组件库功能完整。",
+      "acceptanceCriteria": [
+        "Typography 增强默认排版样式",
+        "Timeline 增强默认轴线颜色",
+        "Skeleton 增强默认动画效果",
+        "其余组件按透传+增强模式封装",
+        "每个组件独立 docs/components/*.md 文档",
+        "Typecheck passes"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "封装配置组件（ConfigProvider、App）",
+      "description": "As a 开发者, I want 封装 ant-design-vue 配置组件 so that 全局主题和上下文管理更统一。",
+      "acceptanceCriteria": [
+        "TmConfigProvider 透传 ConfigProvider 全部能力",
+        "提供默认中文 locale 配置",
+        "提供 tm-ui 默认主题 token",
+        "独立 docs/components/*.md 文档",
+        "Typecheck passes"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-014",
+      "title": "自动生成组件 API 文档",
+      "description": "As a 文档维护者, I want 自动生成组件 API 文档 so that 不用手动维护每个组件的 props/events/slots 表格。",
+      "acceptanceCriteria": [
+        "创建文档生成脚本（读取 .vue 文件的 props/emits 定义）",
+        "每个组件 .md 包含自动生成的 API 表格",
+        "示例代码区手动编写",
+        "运行生成脚本验证输出",
+        "VitePress 构建通过"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-015",
+      "title": "更新 playground 和文档站点",
+      "description": "As a 使用者, I want 在 playground 中看到所有新组件的示例 so that 快速了解组件能力。",
+      "acceptanceCriteria": [
+        "play/src/App.vue 更新，展示所有新增组件",
+        "docs/.vitepress/config.ts 更新侧边栏",
+        "每个组件在 docs/components/ 下有独立 .md",
+        "VitePress 站点构建和预览正常",
+        "Verify in browser using dev-browser skill"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-016",
+      "title": "更新构建配置和发布流程",
+      "description": "As a 维护者, I want 更新构建配置以支持新增组件和 TailwindCSS so that 产出正确的大小优化后的包。",
+      "acceptanceCriteria": [
+        "vite.config.ts 确认 TailwindCSS 产物正确打包",
+        "确认 tree-shaking 对未使用组件生效",
+        "构建产物大小在合理范围内（全量 < 500KB gzip）",
+        "npm run build 成功",
+        "TypeScript 类型声明完整"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
