@@ -11,24 +11,24 @@
     </div>
 
     <tm-card>
-      <a-table :data-source="treeData" :columns="columns" row-key="id" :pagination="false" :loading="loading">
+      <tm-table :data-source="treeData" :columns="columns" row-key="id" :pagination="false" :loading="loading">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'type'">
-            <a-tag>{{ record.type }}</a-tag>
+            <tm-tag>{{ record.type }}</tm-tag>
           </template>
           <template v-else-if="column.key === 'status'">
             <StatusTag :value="record.status" />
           </template>
           <template v-else-if="column.key === 'actions'">
-            <a-space wrap>
+            <tm-space wrap>
               <PermissionButton size="small" permission="system:menu:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:menu:delete" danger @click="removeMenu(record.id)">
                 删除
               </PermissionButton>
-            </a-space>
+            </tm-space>
           </template>
         </template>
-      </a-table>
+      </tm-table>
     </tm-card>
 
     <a-modal :open="modalOpen" :title="editingId ? '编辑菜单' : '新建菜单'" :confirm-loading="saving" @ok="submitMenu" @cancel="modalOpen = false">
@@ -52,7 +52,7 @@
           <tm-input v-model="formState.icon" />
         </a-form-item>
         <a-form-item label="排序">
-          <a-input-number v-model:value="formState.sort" :min="1" class="w-full" />
+          <tm-input-number v-model="formState.sort" :min="1" class="w-full" />
         </a-form-item>
       </a-form>
     </a-modal>

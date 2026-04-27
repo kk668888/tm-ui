@@ -11,14 +11,14 @@
         @edit="handleEdit"
       />
     </div>
-    <a-space>
+    <tm-space>
       <tm-button size="small" @click="refreshCurrent">
         {{ t('common.refresh') }}
       </tm-button>
       <tm-button size="small" @click="closeOthers">
         {{ t('common.closeOtherTabs') }}
       </tm-button>
-    </a-space>
+    </tm-space>
   </div>
 </template>
 

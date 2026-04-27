@@ -19,11 +19,11 @@
               <StatusTag :value="record.status" />
             </template>
             <template v-else-if="column.key === 'actions'">
-              <a-space>
+              <tm-space>
                 <tm-button size="small" @click="selectType(record)">查看项</tm-button>
                 <PermissionButton size="small" permission="system:dict:edit" @click="openTypeModal(record)">编辑</PermissionButton>
                 <PermissionButton size="small" permission="system:dict:delete" danger @click="removeType(record.id)">删除</PermissionButton>
-              </a-space>
+              </tm-space>
             </template>
           </template>
         </a-table>
@@ -42,10 +42,10 @@
               <StatusTag :value="record.status" />
             </template>
             <template v-else-if="column.key === 'actions'">
-              <a-space>
+              <tm-space>
                 <PermissionButton size="small" permission="system:dict:edit" @click="openItemModal(record)">编辑</PermissionButton>
                 <PermissionButton size="small" permission="system:dict:delete" danger @click="removeItem(record.id)">删除</PermissionButton>
-              </a-space>
+              </tm-space>
             </template>
           </template>
         </a-table>
@@ -56,7 +56,7 @@
       <a-form layout="vertical">
         <a-form-item label="名称"><tm-input v-model="typeForm.name" /></a-form-item>
         <a-form-item label="编码"><tm-input v-model="typeForm.code" /></a-form-item>
-        <a-form-item label="描述"><a-textarea v-model:value="typeForm.description" :rows="3" /></a-form-item>
+        <a-form-item label="描述"><tm-textarea v-model="typeForm.description" :rows="3" /></a-form-item>
         <a-form-item label="状态">
           <a-radio-group v-model:value="typeForm.status">
             <a-radio value="enabled">启用</a-radio>
@@ -70,8 +70,8 @@
       <a-form layout="vertical">
         <a-form-item label="标签"><tm-input v-model="itemForm.label" /></a-form-item>
         <a-form-item label="值"><tm-input v-model="itemForm.value" /></a-form-item>
-        <a-form-item label="排序"><a-input-number v-model:value="itemForm.sort" :min="1" class="w-full" /></a-form-item>
-        <a-form-item label="备注"><a-textarea v-model:value="itemForm.remark" :rows="3" /></a-form-item>
+        <a-form-item label="排序"><tm-input-number v-model="itemForm.sort" :min="1" class="w-full" /></a-form-item>
+        <a-form-item label="备注"><tm-textarea v-model="itemForm.remark" :rows="3" /></a-form-item>
         <a-form-item label="状态">
           <a-radio-group v-model:value="itemForm.status">
             <a-radio value="enabled">启用</a-radio>

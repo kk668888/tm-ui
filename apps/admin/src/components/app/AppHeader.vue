@@ -7,16 +7,16 @@
         </tm-button>
         <AppBreadcrumbs />
       </div>
-      <a-space>
+      <tm-space>
         <tm-button @click="appStore.searchOpen = true">
           <SearchOutlined />
           {{ t('common.search') }}
         </tm-button>
-        <a-segmented
-          :value="appStore.theme"
+        <tm-segmented
+          :model-value="appStore.theme"
           :options="themeOptions"
           size="small"
-          @change="handleThemeChange"
+          @update:model-value="handleThemeChange"
         />
         <tm-button @click="toggleLanguage">
           <GlobalOutlined />
@@ -24,7 +24,7 @@
         </tm-button>
         <a-dropdown>
           <a class="flex items-center gap-3 text-[var(--admin-text)]" @click.prevent>
-            <a-avatar :src="authStore.profile?.avatar" />
+            <tm-avatar :src="authStore.profile?.avatar" />
             <div class="hidden text-left md:block">
               <div class="text-sm font-semibold">{{ authStore.profile?.nickname }}</div>
               <div class="admin-muted text-xs">{{ authStore.profile?.roleCodes.join(', ') }}</div>
@@ -36,7 +36,7 @@
             </a-menu>
           </template>
         </a-dropdown>
-      </a-space>
+      </tm-space>
     </div>
     <AppGlobalSearch />
   </header>

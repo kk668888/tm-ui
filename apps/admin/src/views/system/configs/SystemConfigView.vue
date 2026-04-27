@@ -19,10 +19,10 @@
           <tm-select v-model="query.group" style="width: 180px" :options="groupOptions" allow-clear />
         </a-form-item>
         <a-form-item>
-          <a-space>
+          <tm-space>
             <tm-button type="primary" @click="loadConfigs">查询</tm-button>
             <tm-button @click="resetQuery">重置</tm-button>
-          </a-space>
+          </tm-space>
         </a-form-item>
       </a-form>
     </tm-card>
@@ -34,10 +34,10 @@
             <StatusTag :value="record.status" />
           </template>
           <template v-else-if="column.key === 'actions'">
-            <a-space wrap>
+            <tm-space wrap>
               <PermissionButton size="small" permission="system:config:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:config:delete" danger @click="removeConfig(record.id)">删除</PermissionButton>
-            </a-space>
+            </tm-space>
           </template>
         </template>
       </a-table>
@@ -53,9 +53,9 @@
         </a-form-item>
         <a-form-item label="值">
           <tm-input v-if="formState.type !== 'boolean'" v-model="stringValue" />
-          <a-switch v-else v-model:checked="booleanValue" />
+          <tm-switch v-else v-model="booleanValue" />
         </a-form-item>
-        <a-form-item label="描述"><a-textarea v-model:value="formState.description" :rows="3" /></a-form-item>
+        <a-form-item label="描述"><tm-textarea v-model="formState.description" :rows="3" /></a-form-item>
       </a-form>
     </a-modal>
   </section>

@@ -1,7 +1,7 @@
 <template>
-  <a-tag :color="color">
+  <tm-tag :color="color">
     {{ label }}
-  </a-tag>
+  </tm-tag>
 </template>
 
 <script setup lang="ts">

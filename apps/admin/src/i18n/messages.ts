@@ -47,6 +47,7 @@ export const messages = {
     },
     menu: {
       dashboard: '工作台',
+      accountLedger: '台账列表',
       system: '系统管理',
       users: '用户管理',
       roles: '角色管理',
@@ -108,6 +109,7 @@ export const messages = {
     },
     menu: {
       dashboard: 'Dashboard',
+      accountLedger: 'Ledger List',
       system: 'System',
       users: 'Users',
       roles: 'Roles',

@@ -19,10 +19,10 @@
           <tm-select v-model="query.status" style="width: 160px" :options="statusOptions" allow-clear />
         </a-form-item>
         <a-form-item>
-          <a-space>
+          <tm-space>
             <tm-button type="primary" @click="loadRoles">查询</tm-button>
             <tm-button @click="resetQuery">重置</tm-button>
-          </a-space>
+          </tm-space>
         </a-form-item>
       </a-form>
     </tm-card>
@@ -34,11 +34,11 @@
             <StatusTag :value="record.status" />
           </template>
           <template v-else-if="column.key === 'actions'">
-            <a-space wrap>
+            <tm-space wrap>
               <PermissionButton size="small" permission="system:role:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:role:edit" @click="openAssign(record)">授权</PermissionButton>
               <PermissionButton size="small" permission="system:role:delete" danger @click="removeRole(record.id)">删除</PermissionButton>
-            </a-space>
+            </tm-space>
           </template>
         </template>
       </a-table>
@@ -53,7 +53,7 @@
           <tm-input v-model="formState.code" />
         </a-form-item>
         <a-form-item label="角色描述">
-          <a-textarea v-model:value="formState.description" :rows="3" />
+          <tm-textarea v-model="formState.description" :rows="3" />
         </a-form-item>
         <a-form-item label="状态">
           <a-radio-group v-model:value="formState.status">

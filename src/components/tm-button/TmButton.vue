@@ -1,8 +1,9 @@
 <template>
-  <ForwardRender :is="AButton" :attrs="{ ...forwardedAttrs, class: 'tm-btn' }" :slots="$slots" />
+  <ForwardRender :is="AButton" :attrs="buttonAttrs" :slots="$slots" />
 </template>
 
 <script setup lang="ts">
+import { computed, useAttrs } from 'vue'
 import { Button as AButton } from 'ant-design-vue'
 import { ForwardRender, useForwardAttrs } from '@/utils'
 
@@ -11,7 +12,13 @@ defineOptions({
   inheritAttrs: false,
 })
 
+const attrs = useAttrs()
 const forwardedAttrs = useForwardAttrs()
+
+const buttonAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  class: ['tm-btn', attrs.class],
+}))
 </script>
 
 <style scoped lang="less">

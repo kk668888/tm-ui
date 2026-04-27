@@ -31,6 +31,7 @@ import type { ItemType, MenuProps } from 'ant-design-vue'
 import {
   AppstoreOutlined,
   BookOutlined,
+  DatabaseOutlined,
   DashboardOutlined,
   FileDoneOutlined,
   FileSearchOutlined,
@@ -45,6 +46,7 @@ const { collapsed } = defineProps<{ collapsed: boolean }>()
 
 const iconMap = {
   DashboardOutlined,
+  DatabaseOutlined,
   AppstoreOutlined,
   TeamOutlined,
   SafetyOutlined,

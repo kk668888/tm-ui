@@ -90,10 +90,11 @@ VITE_USE_MOCK=true
 ## 新增页面
 
 1. 在 `src/views/` 下创建页面组件
-2. 在 `src/router/routes.ts` 增加静态路由
-3. 为路由补充 `meta.title`、`meta.icon`、`meta.permission`
-4. 如果需要按钮控制，在页面中使用权限码
-5. 如果页面要进菜单，不要设置 `meta.hidden`
+2. 不要把全部逻辑堆进一个 `.vue` 文件；优先按 `页面容器 + components/ + composables/ + data.ts + types.ts` 组织
+3. 在 `src/router/routes.ts` 增加静态路由
+4. 为路由补充 `meta.title`、`meta.icon`、`meta.permission`
+5. 如果需要按钮控制，在页面中使用权限码
+6. 如果页面要进菜单，不要设置 `meta.hidden`
 
 ## 新增菜单和权限码
 
@@ -119,3 +120,9 @@ VITE_USE_MOCK=true
 - 业务项目可以直接复制 `apps/admin` 作为基础后台工程
 - 如果项目继续复用当前组件库，保留 `tm-ui` 别名即可
 - 如果拆到独立仓库，建议把 `tm-ui` 改为正式 npm 包或工作区依赖
+
+## 组件使用规则
+
+- 页面层和业务组件层：如果 `tm-ui` 已有等价包装，优先使用 `tm-*` 组件，不直接写 `a-*`
+- 只有在 `tm-ui` 还没有对应包装时，才允许临时直接使用 `ant-design-vue`
+- 原生 HTML 交互元素（如 `button`）在页面层应尽量避免，优先走组件库封装

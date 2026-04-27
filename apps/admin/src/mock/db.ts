@@ -11,6 +11,9 @@ import type {
 } from '@admin/types'
 
 export const buttonPermissions = [
+  'system:ledger:view',
+  'system:ledger:create',
+  'system:ledger:import',
   'system:user:view',
   'system:user:create',
   'system:user:edit',
@@ -105,6 +108,7 @@ export const mockDb: {
       description: '负责内容和配置维护',
       menuIds: [1, 2, 3, 4, 7],
       permissions: [
+        'system:ledger:view',
         'system:user:view',
         'system:user:edit',
         'system:role:view',

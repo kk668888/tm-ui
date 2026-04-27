@@ -11,7 +11,7 @@
         :placeholder="t('common.searchPlaceholder')"
       />
       <div class="max-h-[360px] overflow-y-auto">
-        <a-empty v-if="results.length === 0" :description="t('common.noData')" />
+        <tm-empty v-if="results.length === 0" :description="t('common.noData')" />
         <a-list v-else :data-source="results">
           <template #renderItem="{ item }">
             <a-list-item class="cursor-pointer rounded-2xl transition hover:bg-slate-50 dark:hover:bg-slate-800" @click="openRoute(item.path)">

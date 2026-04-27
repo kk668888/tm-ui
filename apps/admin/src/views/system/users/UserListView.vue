@@ -23,17 +23,17 @@
             allow-clear
           />
         </a-form-item>
-        <a-form-item>
-          <a-space>
-            <tm-button type="primary" @click="loadUsers">查询</tm-button>
-            <tm-button @click="resetQuery">重置</tm-button>
-          </a-space>
-        </a-form-item>
+          <a-form-item>
+            <tm-space>
+              <tm-button type="primary" @click="loadUsers">查询</tm-button>
+              <tm-button @click="resetQuery">重置</tm-button>
+            </tm-space>
+          </a-form-item>
       </a-form>
     </tm-card>
 
     <tm-card>
-      <a-table
+      <tm-table
         :loading="loading"
         :data-source="users"
         :columns="columns"
@@ -46,21 +46,21 @@
             <StatusTag :value="record.status" />
           </template>
           <template v-else-if="column.key === 'roles'">
-            <a-space wrap>
-              <a-tag v-for="role in record.roleCodes" :key="role">{{ role }}</a-tag>
-            </a-space>
+            <tm-space wrap>
+              <tm-tag v-for="role in record.roleCodes" :key="role">{{ role }}</tm-tag>
+            </tm-space>
           </template>
           <template v-else-if="column.key === 'actions'">
-            <a-space wrap>
+            <tm-space wrap>
               <PermissionButton size="small" permission="system:user:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:user:view" @click="openDetail(record)">详情</PermissionButton>
               <PermissionButton size="small" permission="system:user:delete" danger @click="removeUser(record.id)">
                 删除
               </PermissionButton>
-            </a-space>
+            </tm-space>
           </template>
         </template>
-      </a-table>
+      </tm-table>
     </tm-card>
 
     <a-modal
@@ -95,8 +95,8 @@
       </a-form>
     </a-modal>
 
-    <a-drawer :open="detailOpen" width="520" title="用户详情" @close="detailOpen = false">
-      <a-descriptions bordered :column="1">
+    <tm-drawer :open="detailOpen" width="520" title="用户详情" @close="detailOpen = false">
+      <tm-descriptions bordered :column="1">
         <a-descriptions-item label="用户名">{{ detailRecord?.username }}</a-descriptions-item>
         <a-descriptions-item label="昵称">{{ detailRecord?.nickname }}</a-descriptions-item>
         <a-descriptions-item label="邮箱">{{ detailRecord?.email }}</a-descriptions-item>
@@ -107,8 +107,8 @@
         </a-descriptions-item>
         <a-descriptions-item label="创建时间">{{ detailRecord?.createdAt }}</a-descriptions-item>
         <a-descriptions-item label="最近登录">{{ detailRecord?.lastLoginAt }}</a-descriptions-item>
-      </a-descriptions>
-    </a-drawer>
+      </tm-descriptions>
+    </tm-drawer>
   </section>
 </template>
 

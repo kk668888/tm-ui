@@ -7,10 +7,10 @@
           一个面向多个项目复用的后台模板，路由、权限、mock、国际化和主题能力都在这里起步。
         </p>
       </div>
-      <a-space>
+      <tm-space>
         <tm-button type="primary" @click="appStore.searchOpen = true">{{ t('common.search') }}</tm-button>
         <tm-button @click="appStore.toggleTheme()">{{ t('common.theme') }}</tm-button>
-      </a-space>
+      </tm-space>
     </div>
 
     <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -34,13 +34,13 @@
 
       <tm-card>
         <template #title>当前登录信息</template>
-        <a-descriptions bordered :column="1" size="small">
+        <tm-descriptions bordered :column="1" size="small">
           <a-descriptions-item label="User">{{ authStore.profile?.username }}</a-descriptions-item>
           <a-descriptions-item label="Roles">{{ authStore.profile?.roleCodes.join(', ') }}</a-descriptions-item>
           <a-descriptions-item label="Permissions">{{ authStore.permissions.length }}</a-descriptions-item>
           <a-descriptions-item label="Theme">{{ appStore.theme }}</a-descriptions-item>
           <a-descriptions-item label="Locale">{{ appStore.locale }}</a-descriptions-item>
-        </a-descriptions>
+        </tm-descriptions>
       </tm-card>
     </div>
   </section>
