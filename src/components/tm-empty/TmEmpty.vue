@@ -11,7 +11,7 @@
     <template v-if="$slots.description" #description>
       <slot name="description" />
     </template>
-    <slot />
+    <template #default><slot /></template>
   </a-empty>
 </template>
 

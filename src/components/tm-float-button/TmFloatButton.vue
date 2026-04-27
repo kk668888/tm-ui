@@ -1,6 +1,6 @@
 <template>
   <a-float-button v-bind="forwardedAttrs" class="tm-float-button">
-    <slot />
+    <template #default><slot /></template>
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot v-if="name !== 'default'" :name="name" v-bind="slotProps" />
     </template>

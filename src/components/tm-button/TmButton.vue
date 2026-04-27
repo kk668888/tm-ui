@@ -1,14 +1,10 @@
 <template>
-  <a-button v-bind="forwardedAttrs" class="tm-btn">
-    <slot />
-    <template v-for="(_, name) in $slots" #[name]="slotProps">
-      <slot v-if="name !== 'default'" :name="name" v-bind="slotProps" />
-    </template>
-  </a-button>
+  <ForwardRender :is="AButton" :attrs="{ ...forwardedAttrs, class: 'tm-btn' }" :slots="$slots" />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Button as AButton } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({
   name: 'TmButton',

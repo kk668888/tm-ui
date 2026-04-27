@@ -1,20 +1,14 @@
 <template>
-  <a-tooltip
-    v-bind="forwardedAttrs"
-    :title="title"
-    :placement="placement"
-    :color="color"
-    class="tm-tooltip"
-  >
-    <slot />
-    <template v-if="$slots.title" #title>
-      <slot name="title" />
-    </template>
-  </a-tooltip>
+  <ForwardRender
+    :is="ATooltip"
+    :attrs="{ ...forwardedAttrs, title, placement, color, class: 'tm-tooltip' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Tooltip as ATooltip } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmTooltip', inheritAttrs: false })
 

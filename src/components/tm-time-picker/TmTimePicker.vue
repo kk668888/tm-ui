@@ -1,13 +1,6 @@
 <template>
   <a-time-picker
-    v-bind="forwardedAttrs"
-    v-model:value="timeValue"
-    class="tm-time-picker"
-    :placeholder="placeholder"
-    :format="format"
-    :value-format="valueFormat"
-    :allow-clear="allowClear"
-    @update:value="handleChange"
+    v-bind="timePickerAttrs"
   >
     <template v-if="$slots.suffixIcon" #suffixIcon>
       <slot name="suffixIcon" />
@@ -37,7 +30,6 @@ const props = withDefaults(
     allowClear?: boolean
   }>(),
   {
-    modelValue: null,
     placeholder: '请选择时间',
     format: 'HH:mm:ss',
     allowClear: true,
@@ -50,10 +42,16 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const timeValue = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
-})
+const timePickerAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
+  class: 'tm-time-picker',
+  placeholder: props.placeholder,
+  format: props.format,
+  valueFormat: props.valueFormat,
+  allowClear: props.allowClear,
+  'onUpdate:value': handleChange,
+}))
 
 const handleChange = (value: string | Dayjs | null) => {
   emit('update:modelValue', value)

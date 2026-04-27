@@ -6,18 +6,18 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-menu mode="horizontal" :selected-keys="['1']">
-    <tm-menu-item key="1">导航 1</tm-menu-item>
-    <tm-menu-item key="2">导航 2</tm-menu-item>
-    <tm-menu-item key="3">导航 3</tm-menu-item>
+    <a-menu-item key="1">导航 1</a-menu-item>
+    <a-menu-item key="2">导航 2</a-menu-item>
+    <a-menu-item key="3">导航 3</a-menu-item>
   </tm-menu>
 </div>
 
 ```vue
 <template>
   <tm-menu mode="horizontal" :selected-keys="['1']">
-    <tm-menu-item key="1">导航 1</tm-menu-item>
-    <tm-menu-item key="2">导航 2</tm-menu-item>
-    <tm-menu-item key="3">导航 3</tm-menu-item>
+    <a-menu-item key="1">导航 1</a-menu-item>
+    <a-menu-item key="2">导航 2</a-menu-item>
+    <a-menu-item key="3">导航 3</a-menu-item>
   </tm-menu>
 </template>
 ```

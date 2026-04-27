@@ -1,17 +1,15 @@
 <template>
-  <a-radio
-    v-bind="forwardedAttrs"
-    v-model:checked="radioChecked"
-    class="tm-radio"
-    @change="handleChange"
-  >
-    <slot />
-  </a-radio>
+  <ForwardRender
+    :is="ARadio"
+    :attrs="radioAttrs"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useForwardAttrs } from '@/utils'
+import { Radio as ARadio } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({
   name: 'TmRadio',
@@ -22,9 +20,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean
   }>(),
-  {
-    modelValue: false,
-  },
+  {},
 )
 
 const emit = defineEmits<{
@@ -33,14 +29,17 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const radioChecked = computed({
-  get: () => props.modelValue,
-  set: (val: boolean) => emit('update:modelValue', val),
-})
+const radioAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { checked: props.modelValue } : {}),
+  class: 'tm-radio',
+  onChange: handleChange,
+}))
 
 const handleChange = (e: any) => {
   emit('update:modelValue', e.target?.checked ?? e)
 }
+
 </script>
 
 <style scoped lang="less">

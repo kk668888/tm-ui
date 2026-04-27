@@ -1,15 +1,6 @@
 <template>
   <a-select
-    v-bind="forwardedAttrs"
-    v-model:value="selectValue"
-    class="tm-select"
-    :placeholder="placeholder"
-    :show-search="showSearch"
-    :allow-clear="allowClear"
-    :filter-option="filterOption"
-    :not-found-content="notFoundContent"
-    :loading="loading"
-    @update:value="handleSelect"
+    v-bind="selectAttrs"
   >
     <template v-if="$slots.prefixIcon" #prefixIcon>
       <slot name="prefixIcon" />
@@ -67,10 +58,18 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const selectValue = computed({
-  get: () => props.modelValue,
-  set: (val: any) => emit('update:modelValue', val),
-})
+const selectAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
+  class: 'tm-select',
+  placeholder: props.placeholder,
+  showSearch: props.showSearch,
+  allowClear: props.allowClear,
+  filterOption: props.filterOption,
+  notFoundContent: props.notFoundContent,
+  loading: props.loading,
+  'onUpdate:value': handleSelect,
+}))
 
 const handleSelect = (value: any) => {
   emit('update:modelValue', value)

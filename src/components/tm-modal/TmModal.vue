@@ -1,28 +1,15 @@
 <template>
-  <a-modal
-    v-bind="forwardedAttrs"
-    v-model:open="visible"
-    :title="title"
-    :width="width"
-    :confirm-loading="confirmLoading"
-    :ok-text="okText"
-    :cancel-text="cancelText"
-    :mask-closable="maskClosable"
-    :destroy-on-close="destroyOnClose"
-    class="tm-modal"
-    @ok="handleOk"
-    @cancel="handleCancel"
-  >
-    <slot />
-    <template v-for="(_, name) in $slots" #[name]="slotProps">
-      <slot v-if="name !== 'default'" :name="name" v-bind="slotProps" />
-    </template>
-  </a-modal>
+  <ForwardRender
+    :is="AModal"
+    :attrs="{ ...forwardedAttrs, open: visible, title, width, confirmLoading, okText, cancelText, maskClosable, destroyOnClose, class: 'tm-modal', onOk: handleOk, onCancel: handleCancel, 'onUpdate:open': updateVisible }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useForwardAttrs } from '@/utils'
+import { Modal as AModal } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmModal', inheritAttrs: false })
 
@@ -62,6 +49,7 @@ const visible = computed({
 
 const handleOk = () => emit('ok')
 const handleCancel = () => emit('cancel')
+const updateVisible = (value: boolean) => emit('update:modelValue', value)
 </script>
 
 <style scoped lang="less">

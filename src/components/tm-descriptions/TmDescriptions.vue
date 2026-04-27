@@ -1,21 +1,14 @@
 <template>
-  <a-descriptions
-    v-bind="forwardedAttrs"
-    :title="title"
-    :column="column"
-    :bordered="bordered"
-    :size="size"
-    :layout="layout"
-    class="tm-descriptions"
-  >
-    <template v-for="(_, name) in $slots" #[name]="slotProps">
-      <slot :name="name" v-bind="slotProps" />
-    </template>
-  </a-descriptions>
+  <ForwardRender
+    :is="ADescriptions"
+    :attrs="{ ...forwardedAttrs, title, column, bordered, size, layout, class: 'tm-descriptions' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Descriptions as ADescriptions } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmDescriptions', inheritAttrs: false })
 

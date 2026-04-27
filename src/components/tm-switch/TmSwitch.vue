@@ -1,9 +1,6 @@
 <template>
   <a-switch
-    v-bind="forwardedAttrs"
-    v-model:checked="switchChecked"
-    class="tm-switch"
-    @change="handleChange"
+    v-bind="switchAttrs"
   >
     <template v-if="$slots.checkedChildren" #checkedChildren>
       <slot name="checkedChildren" />
@@ -30,9 +27,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean
   }>(),
-  {
-    modelValue: false,
-  },
+  {},
 )
 
 const emit = defineEmits<{
@@ -41,10 +36,12 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const switchChecked = computed({
-  get: () => props.modelValue,
-  set: (val: boolean) => emit('update:modelValue', val),
-})
+const switchAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { checked: props.modelValue } : {}),
+  class: 'tm-switch',
+  onChange: handleChange,
+}))
 
 const handleChange = (value: boolean) => {
   emit('update:modelValue', value)

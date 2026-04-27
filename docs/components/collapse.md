@@ -34,7 +34,7 @@
 
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| activeKey / v-model:activeKey | 当前激活 tab 面板的 key | `string \| string[]` | `-` |
+| activeKey / v-model / v-model:activeKey | 当前激活面板的 key | `string \| string[]` | `-` |
 | defaultActiveKey | 默认激活的面板 | `string` | `-` |
 | accordion | 手风琴模式，每次只能展开一个面板 | `boolean` | `false` |
 | bordered | 是否展示边框 | `boolean` | `true` |

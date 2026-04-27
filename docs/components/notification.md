@@ -1,11 +1,11 @@
 # TmNotification 通知提醒框
 
-组件描述，完整继承 ant-design-vue 的 notification 组件。
+`TmNotification` 是对 ant-design-vue `notification` 的服务封装，不作为模板组件使用。
 
 ## 基础使用
 
 <div class="demo-wrapper" style="padding: 16px 0;">
-  <tm-button type="primary" @click="notification.open({ message: '通知标题', description: '这是通知的内容描述信息。' })">
+  <tm-button type="primary" @click="openNotification">
     打开通知
   </tm-button>
 </div>
@@ -15,11 +15,11 @@
   <tm-button type="primary" @click="openNotification">打开通知</tm-button>
 </template>
 
-<script setup>
-import { notification } from 'ant-design-vue'
+<script setup lang="ts">
+import { TmNotification } from '../../src'
 
 function openNotification() {
-  notification.open({
+  TmNotification.open({
     message: '通知标题',
     description: '这是通知的内容描述信息。',
   })
@@ -29,38 +29,39 @@ function openNotification() {
 
 ## API
 
-### Props
-
-| 属性 | 说明 | 类型 | 默认值 |
-|------|------|------|--------|
-| message | 通知标题 | `string \| VNode \| () => VNode` | - |
-| description | 通知内容 | `string \| VNode \| () => VNode` | - |
-| placement | 弹出位置 | `'topLeft' \| 'topRight' \| 'bottomLeft' \| 'bottomRight'` | `'topRight'` |
-| duration | 自动关闭延时（秒） | `number` | `4.5` |
-| closable | 是否可关闭 | `boolean` | `true` |
-| icon | 自定义图标 | `VNode \| slot` | - |
-| btn | 自定义关闭按钮 | `VNode \| slot` | - |
-| key | 通知唯一标识 | `string \| number` | - |
-
-### 静态方法
+### 方法
 
 | 方法 | 说明 |
 |------|------|
-| notification.open | 打开通知 |
-| notification.success | 成功通知 |
-| notification.error | 错误通知 |
-| notification.warning | 警告通知 |
-| notification.info | 信息通知 |
+| `TmNotification.open(args)` | 打开通知 |
+| `TmNotification.success(args)` | 成功通知 |
+| `TmNotification.error(args)` | 错误通知 |
+| `TmNotification.warning(args)` | 警告通知 |
+| `TmNotification.info(args)` | 信息通知 |
+| `TmNotification.close(key)` | 关闭指定通知 |
+| `TmNotification.destroy()` | 关闭全部通知 |
+| `TmNotification.config(options)` | 配置全局行为 |
+| `TmNotification.useNotification()` | 获取上下文感知实例 |
 
-### Events
+### 默认增强
 
-| 事件名 | 说明 | 回调参数 |
-|--------|------|----------|
-| close | 关闭时触发 | `(e: MouseEvent) => void` |
-| click | 点击通知时触发 | `(e: MouseEvent) => void` |
+| 项目 | 值 |
+|------|----|
+| 默认停留时长 | `4.5` 秒 |
+| 默认弹出位置 | `topRight` |
+| 默认类名 | `tm-notification` |
 
-> TmNotification 透传 ant-design-vue notification 的全部 API。
+### 全局注册
+
+使用 `app.use(TmUI)` 后，也可以通过 `this.$tmNotification` 调用。
 
 <script setup lang="ts">
-import { notification } from 'ant-design-vue'
+import { TmNotification } from '../../src'
+
+function openNotification() {
+  TmNotification.open({
+    message: '通知标题',
+    description: '这是通知的内容描述信息。',
+  })
+}
 </script>

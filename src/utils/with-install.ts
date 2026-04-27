@@ -5,10 +5,10 @@ export type SFCWithInstall<T> = T & Plugin
 /**
  * 为组件添加 install 方法，使其可以通过 app.use() 注册
  */
-export function withInstall<T extends Component>(comp: T): SFCWithInstall<T> {
+export function withInstall<T extends Component>(comp: T, alias?: string): SFCWithInstall<T> {
   const component = comp as SFCWithInstall<T>
   component.install = (app: App) => {
-    const name = (comp as any).name || 'UnnamedComponent'
+    const name = alias || (comp as any).name || 'UnnamedComponent'
     app.component(name, comp)
   }
   return component

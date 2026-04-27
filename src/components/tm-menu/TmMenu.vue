@@ -1,27 +1,19 @@
 <template>
-  <a-menu
-    v-bind="forwardedAttrs"
-    :open-keys="openKeys"
-    :selected-keys="selectedKeys"
-    :mode="mode"
-    :theme="theme"
-    :inline-collapsed="inlineCollapsed"
-    class="tm-menu"
-    @update:open-keys="(v) => emit('update:openKeys', v)"
-    @update:selected-keys="(v) => emit('update:selectedKeys', v)"
-  >
-    <template v-for="(_, name) in $slots" #[name]="slotProps">
-      <slot :name="name" v-bind="slotProps" />
-    </template>
-  </a-menu>
+  <ForwardRender
+    :is="AMenu"
+    :attrs="menuAttrs"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { computed } from 'vue'
+import { Menu as AMenu } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmMenu', inheritAttrs: false })
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     mode?: 'vertical' | 'horizontal' | 'inline'
     theme?: 'light' | 'dark'
@@ -32,8 +24,6 @@ withDefaults(
   {
     mode: 'vertical',
     theme: 'light',
-    openKeys: () => [],
-    selectedKeys: () => [],
   },
 )
 
@@ -43,6 +33,19 @@ const emit = defineEmits<{
 }>()
 
 const forwardedAttrs = useForwardAttrs()
+const menuAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.openKeys !== undefined ? { openKeys: props.openKeys } : {}),
+  ...(props.selectedKeys !== undefined ? { selectedKeys: props.selectedKeys } : {}),
+  mode: props.mode,
+  theme: props.theme,
+  inlineCollapsed: props.inlineCollapsed,
+  class: 'tm-menu',
+  'onUpdate:openKeys': updateOpenKeys,
+  'onUpdate:selectedKeys': updateSelectedKeys,
+}))
+const updateOpenKeys = (keys: string[]) => emit('update:openKeys', keys)
+const updateSelectedKeys = (keys: string[]) => emit('update:selectedKeys', keys)
 </script>
 
 <style scoped lang="less">

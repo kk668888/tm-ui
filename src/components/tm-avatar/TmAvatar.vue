@@ -1,20 +1,14 @@
 <template>
-  <a-avatar
-    v-bind="forwardedAttrs"
-    :src="src"
-    :size="size"
-    :shape="shape"
-    class="tm-avatar"
-  >
-    <template v-if="$slots.icon" #icon>
-      <slot name="icon" />
-    </template>
-    <slot />
-  </a-avatar>
+  <ForwardRender
+    :is="AAvatar"
+    :attrs="{ ...forwardedAttrs, src, size, shape, class: 'tm-avatar' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Avatar as AAvatar } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmAvatar', inheritAttrs: false })
 

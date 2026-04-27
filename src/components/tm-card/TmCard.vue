@@ -3,7 +3,7 @@
     v-bind="forwardedAttrs"
     :title="title"
     :extra="extra"
-    :bordered="bordered""
+    :bordered="bordered"
     :hoverable="hoverable"
     :loading="loading"
     :size="size"

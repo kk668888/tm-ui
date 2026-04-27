@@ -1,15 +1,6 @@
 <template>
   <a-textarea
-    v-bind="forwardedAttrs"
-    v-model:value="textareaValue"
-    class="tm-textarea"
-    :placeholder="placeholder"
-    :allow-clear="allowClear"
-    :auto-size="autoSize"
-    :rows="rows"
-    :maxlength="maxlength"
-    :show-count="showCount"
-    @update:value="handleChange"
+    v-bind="textareaAttrs"
   >
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps" />
@@ -37,7 +28,6 @@ const props = withDefaults(
     showCount?: boolean
   }>(),
   {
-    modelValue: '',
     placeholder: '请输入',
     allowClear: true,
     autoSize: false,
@@ -52,10 +42,18 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const textareaValue = computed({
-  get: () => props.modelValue,
-  set: (val: string) => emit('update:modelValue', val),
-})
+const textareaAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
+  class: 'tm-textarea',
+  placeholder: props.placeholder,
+  allowClear: props.allowClear,
+  autoSize: props.autoSize,
+  rows: props.rows,
+  maxlength: props.maxlength,
+  showCount: props.showCount,
+  'onUpdate:value': handleChange,
+}))
 
 const handleChange = (value: string) => {
   emit('update:modelValue', value)

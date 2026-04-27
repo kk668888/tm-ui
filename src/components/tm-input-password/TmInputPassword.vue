@@ -1,13 +1,6 @@
 <template>
   <a-input-password
-    v-bind="forwardedAttrs"
-    v-model:value="passwordValue"
-    class="tm-input-password"
-    :placeholder="placeholder"
-    :allow-clear="allowClear"
-    :visibility-toggle="visibilityToggle"
-    :maxlength="maxlength"
-    @update:value="handleInput"
+    v-bind="passwordAttrs"
   >
     <template v-if="$slots.prefix" #prefix>
       <slot name="prefix" />
@@ -39,7 +32,6 @@ const props = withDefaults(
     maxlength?: string | number
   }>(),
   {
-    modelValue: '',
     placeholder: '请输入密码',
     allowClear: true,
     visibilityToggle: true,
@@ -52,10 +44,16 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const passwordValue = computed({
-  get: () => props.modelValue,
-  set: (val: string) => emit('update:modelValue', val),
-})
+const passwordAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
+  class: 'tm-input-password',
+  placeholder: props.placeholder,
+  allowClear: props.allowClear,
+  visibilityToggle: props.visibilityToggle,
+  maxlength: props.maxlength,
+  'onUpdate:value': handleInput,
+}))
 
 const handleInput = (value: string) => {
   emit('update:modelValue', value)

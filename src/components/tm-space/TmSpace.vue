@@ -1,11 +1,14 @@
 <template>
-  <a-space v-bind="forwardedAttrs" :size="size" :direction="direction" :align="align" :split="split" :wrap="wrap" class="tm-space">
-    <slot />
-  </a-space>
+  <ForwardRender
+    :is="ASpace"
+    :attrs="{ ...forwardedAttrs, size, direction, align, split, wrap, class: 'tm-space' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Space as ASpace } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmSpace', inheritAttrs: false })
 

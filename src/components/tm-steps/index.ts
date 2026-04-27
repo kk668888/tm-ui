@@ -1,1 +1,1 @@
-export { TmSteps, default } from './component'
+export { TmSteps, TmStep, default } from './component'

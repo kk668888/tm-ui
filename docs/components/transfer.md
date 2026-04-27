@@ -29,7 +29,8 @@
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
 | dataSource | 数据源 | `array<{ key, title, disabled }>` | `[]` |
-| targetKeys | 显示在右侧框数据的 key 集合 | `string[]` | `[]` |
+| modelValue / v-model | 右侧框数据的 key 集合 | `string[]` | `-` |
+| targetKeys | 显示在右侧框数据的 key 集合 | `string[]` | `-` |
 | selectedKeys | 当前选中行的 key 集合 | `string[]` | `[]` |
 | render | 每行数据渲染函数 | `(record) => VNode` | `-` |
 | showSearch | 是否展示搜索框 | `boolean` | `false` |
@@ -42,6 +43,8 @@
 
 | 事件名 | 说明 | 回调参数 |
 |--------|------|----------|
+| update:modelValue | 右侧数据变化时触发 | `(targetKeys)` |
+| update:targetKeys | 右侧数据变化时触发 | `(targetKeys)` |
 | change | 选项在两栏之间转移时的回调 | `(targetKeys, direction, moveKeys)` |
 | select | 选中项变化时触发 | `(selectedKeys, direction)` |
 | scroll | 列表滚动时的回调 | `(direction, event)` |

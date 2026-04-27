@@ -1,26 +1,15 @@
 <template>
-  <a-drawer
-    v-bind="forwardedAttrs"
-    v-model:open="visible"
-    :title="title"
-    :placement="placement"
-    :width="width"
-    :closable="closable"
-    :mask-closable="maskClosable"
-    :destroy-on-close="destroyOnClose"
-    class="tm-drawer"
-    @close="handleClose"
-  >
-    <slot />
-    <template v-for="(_, name) in $slots" #[name]="slotProps">
-      <slot v-if="name !== 'default'" :name="name" v-bind="slotProps" />
-    </template>
-  </a-drawer>
+  <ForwardRender
+    :is="ADrawer"
+    :attrs="{ ...forwardedAttrs, open: visible, title, placement, width, closable, maskClosable, destroyOnClose, class: 'tm-drawer', onClose: handleClose, 'onUpdate:open': updateVisible }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useForwardAttrs } from '@/utils'
+import { Drawer as ADrawer } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmDrawer', inheritAttrs: false })
 
@@ -57,6 +46,7 @@ const visible = computed({
 })
 
 const handleClose = () => emit('close')
+const updateVisible = (value: boolean) => emit('update:modelValue', value)
 </script>
 
 <style scoped lang="less">

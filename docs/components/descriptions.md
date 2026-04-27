@@ -6,20 +6,20 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-descriptions title="用户信息" :column="2" bordered>
-    <tm-descriptions-item label="姓名">张三</tm-descriptions-item>
-    <tm-descriptions-item label="年龄">28</tm-descriptions-item>
-    <tm-descriptions-item label="邮箱">zhangsan@example.com</tm-descriptions-item>
-    <tm-descriptions-item label="地址">北京市朝阳区</tm-descriptions-item>
+    <a-descriptions-item label="姓名">张三</a-descriptions-item>
+    <a-descriptions-item label="年龄">28</a-descriptions-item>
+    <a-descriptions-item label="邮箱">zhangsan@example.com</a-descriptions-item>
+    <a-descriptions-item label="地址">北京市朝阳区</a-descriptions-item>
   </tm-descriptions>
 </div>
 
 ```vue
 <template>
   <tm-descriptions title="用户信息" :column="2" bordered>
-    <tm-descriptions-item label="姓名">张三</tm-descriptions-item>
-    <tm-descriptions-item label="年龄">28</tm-descriptions-item>
-    <tm-descriptions-item label="邮箱">zhangsan@example.com</tm-descriptions-item>
-    <tm-descriptions-item label="地址">北京市朝阳区</tm-descriptions-item>
+    <a-descriptions-item label="姓名">张三</a-descriptions-item>
+    <a-descriptions-item label="年龄">28</a-descriptions-item>
+    <a-descriptions-item label="邮箱">zhangsan@example.com</a-descriptions-item>
+    <a-descriptions-item label="地址">北京市朝阳区</a-descriptions-item>
   </tm-descriptions>
 </template>
 ```
