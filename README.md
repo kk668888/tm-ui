@@ -46,8 +46,14 @@ app.mount('#app')
 # 开发调试（playground）
 pnpm dev
 
+# 后台模板开发
+pnpm admin:dev
+
 # 构建库
 pnpm build
+
+# 构建后台模板
+pnpm admin:build
 
 # 文档站开发
 pnpm docs:dev
@@ -60,6 +66,7 @@ pnpm docs:build
 
 ```
 tm-ui/
+├── apps/admin/    # 可复用后台模板
 ├── src/           # 组件库源码
 ├── play/          # 开发调试沙箱
 ├── docs/          # VitePress 文档站

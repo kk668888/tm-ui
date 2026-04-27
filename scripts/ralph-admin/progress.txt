@@ -1,0 +1,28 @@
+# Ralph Admin Progress Log
+Started: 2026-04-27
+---
+
+## Codebase Patterns
+- Keep the admin template isolated from the component-library build so new app code does not leak into the published `tm-ui` package.
+- Admin app uses `@admin/*` for its own source files and keeps `@/*` reserved for the tm-ui library source alias.
+- Use `pnpm admin:dev` and `pnpm admin:build` for the admin template; root `pnpm build` remains the component-library build.
+- The admin app resolves `tm-ui` to the local library source entry so new backend-template pages exercise the real component wrappers during development.
+---
+
+## [2026-04-27 18:30] - US-001 ~ US-022
+- Implemented a full `apps/admin` reusable admin-template app inside the tm-ui repo with isolated Vite/TS config and root scripts.
+- Added login flow, token persistence, Pinia stores, route guards, static-route permission filtering, button-level permission control, theme switch, i18n, tabs, global search, breadcrumbs, dashboard, and exception pages.
+- Added mock-backed modules for users, roles, menus, dictionaries, logs, and system configs with axios wrapper + in-memory mock adapter.
+- Added admin usage docs and environment example: `apps/admin/README.md` and `apps/admin/.env.example`.
+- Files changed:
+  - Root integration: `package.json`, `pnpm-lock.yaml`, `README.md`, `.gitignore`, `tsconfig.node.json`
+  - Admin app: `apps/admin/**`
+  - Ralph tracking: `scripts/ralph-admin/**`, `tasks/prd-tm-ui-admin-template.md`
+- Checks run:
+  - `pnpm admin:build`
+  - `pnpm build`
+- Learnings for future iterations:
+  - Alias separation matters in mixed app+library repos; keep library alias stable and give the app its own alias namespace.
+  - The mock adapter approach is enough to prove page flow and API contracts before a real backend exists.
+  - Browser verification is still desirable for UI polish, but this implementation was validated via typecheck/build only in the current environment.
+---

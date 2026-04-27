@@ -1,5 +1,6 @@
 node_modules
 dist
+apps/admin/dist
 docs/.vitepress/dist
 *.local
 .env

@@ -19,5 +19,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["vite.config.ts", "play/vite.config.ts"]
+  "include": ["vite.config.ts", "play/vite.config.ts", "apps/admin/vite.config.ts"]
 }
