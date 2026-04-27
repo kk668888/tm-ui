@@ -1,0 +1,1 @@
+export { TmPagination, default } from './component'

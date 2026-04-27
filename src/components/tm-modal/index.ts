@@ -1,0 +1,1 @@
+export { TmModal, default } from './component'

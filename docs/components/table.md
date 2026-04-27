@@ -51,3 +51,15 @@ const data = [
 |--------|------|----------|
 | page-change | 分页变化 | `(page, pageSize)` |
 | sort-change | 排序变化 | `(sorter)` |
+
+<script setup lang="ts">
+const cols = [
+  { title: '姓名', dataIndex: 'name', key: 'name' },
+  { title: '年龄', dataIndex: 'age', key: 'age' },
+]
+const data = [
+  { id: 1, name: '张三', age: 32 },
+  { id: 2, name: '李四', age: 28 },
+  { id: 3, name: '王五', age: 36 },
+]
+</script>

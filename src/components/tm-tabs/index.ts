@@ -1,0 +1,1 @@
+export { TmTabs, default } from './component'

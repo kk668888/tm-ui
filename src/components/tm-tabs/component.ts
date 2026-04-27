@@ -1,0 +1,1 @@
+import C from './TmTabs.vue'; import { withInstall } from '@/utils'; export const TmTabs = withInstall(C); export default TmTabs;

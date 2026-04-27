@@ -1,0 +1,1 @@
+export { TmSpin, default } from './component'

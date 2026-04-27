@@ -1,0 +1,1 @@
+export { TmAlert, default } from './component'

@@ -1,0 +1,1 @@
+export { TmSpace, default } from './component'

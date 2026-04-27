@@ -1,0 +1,2 @@
+import C from './TmBreadcrumb.vue'; import { withInstall } from '@/utils'; export const TmBreadcrumb = withInstall(C); export default TmBreadcrumb;
+export type { TmBreadcrumbItem } from './TmBreadcrumb.vue'

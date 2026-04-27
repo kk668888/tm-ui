@@ -1,0 +1,1 @@
+import C from './TmAnchor.vue'; import { withInstall } from '@/utils'; export const TmAnchor = withInstall(C); export default TmAnchor;

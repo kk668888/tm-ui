@@ -33,3 +33,12 @@ const options = [
 | allowClear | 是否显示清除图标 | `boolean` | `true` |
 | options | 选项列表 | `Array<{ label: string; value: any }>` | `[]` |
 | loading | 加载中 | `boolean` | `false` |
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const selectVal = ref(undefined)
+const options = [
+  { label: '选项 1', value: '1' },
+  { label: '选项 2', value: '2' },
+]
+</script>

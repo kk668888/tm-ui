@@ -1,0 +1,1 @@
+import C from './TmPagination.vue'; import { withInstall } from '@/utils'; export const TmPagination = withInstall(C); export default TmPagination;

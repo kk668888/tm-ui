@@ -1,0 +1,1 @@
+export { TmNotification, default } from './component'

@@ -1,0 +1,1 @@
+export { TmPopconfirm, default } from './component'

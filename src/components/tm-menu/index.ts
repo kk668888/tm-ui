@@ -1,0 +1,1 @@
+export { TmMenu, default } from './component'

@@ -1,0 +1,1 @@
+export { TmAnchor, default } from './component'

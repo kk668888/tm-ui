@@ -1,0 +1,1 @@
+import C from './TmProgress.vue'; import { withInstall } from '@/utils'; export const TmProgress = withInstall(C); export default TmProgress;

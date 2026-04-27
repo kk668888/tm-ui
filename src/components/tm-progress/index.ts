@@ -1,0 +1,1 @@
+export { TmProgress, default } from './component'

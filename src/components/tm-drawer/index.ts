@@ -1,0 +1,1 @@
+export { TmDrawer, default } from './component'

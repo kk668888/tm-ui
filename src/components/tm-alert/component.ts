@@ -1,0 +1,1 @@
+import C from './TmAlert.vue'; import { withInstall } from '@/utils'; export const TmAlert = withInstall(C); export default TmAlert;

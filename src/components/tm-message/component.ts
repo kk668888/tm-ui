@@ -1,0 +1,1 @@
+import C from './TmMessage.vue'; import { withInstall } from '@/utils'; export const TmMessage = withInstall(C); export default TmMessage;

@@ -36,3 +36,8 @@ const inputVal = ref('')
 | placeholder | 占位文本 | `string` | `'请输入'` |
 | allowClear | 是否显示清除图标 | `boolean` | `true` |
 | rows | textarea 行数 | `number` | `3` |
+
+<script setup lang="ts">
+import { ref } from 'vue'
+const inputVal = ref('')
+</script>

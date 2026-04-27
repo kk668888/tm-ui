@@ -1,0 +1,1 @@
+export { TmDivider, default } from './component'

@@ -1,0 +1,1 @@
+import C from './TmModal.vue'; import { withInstall } from '@/utils'; export const TmModal = withInstall(C); export default TmModal;

@@ -2,6 +2,84 @@
 Started: 2026-04-24
 ---
 
+## [2026-04-24] - Documentation and VitePress config update
+- Created 6 new component docs: calendar, flex, float-button, grid, page-header, tour
+- Updated docs/.vitepress/config.ts with full sidebar covering all 74 components organized by category:
+  基础组件(5), 布局组件(5), 导航组件(9), 数据录入(17), 数据展示(19), 反馈组件(10), 其他组件(7)
+- Fixed VitePress SSR build error by aliasing ant-design-vue/es to lib (CJS) version
+- Added @ alias for VitePress to resolve component imports
+- Fixed ssr: false + optimizeDeps for ant-design-vue compatibility
+- Library build: dist/tm-ui.es.js 108.97 kB (22.52 kB gzip), dist/tm-ui.cjs.js 84.99 kB
+- VitePress build: passes (9.18s)
+---
+
+## [2026-04-24] - Missing components: calendar, flex, float-button, grid, page-header, tour
+- Created tm-calendar, tm-flex, tm-float-button, tm-grid (TmRow + TmCol), tm-page-header, tm-tour
+- All follow tm-xxx/ structure with component.ts + Component.vue + index.ts
+- Updated src/index.ts to export all 74 components (was only exporting 6)
+- Build: 1951 modules, dist/tm-ui.es.js 108.97 kB (22.52 kB gzip), dist/tm-ui.cjs.js 84.99 kB
+- All ant-design-vue components now wrapped (excluding internal vc-* modules)
+---
+
+## [2026-04-24] - US-011/012/013: Data input supplements, display supplements, config components
+- US-011: tm-cascader, tm-rate, tm-slider, tm-mentions, tm-auto-complete, tm-segmented (6 components)
+- US-012: tm-typography, tm-tag, tm-timeline, tm-skeleton, tm-statistic, tm-carousel, tm-comment, tm-qr-code, tm-watermark (9 components)
+- US-013: tm-config-provider (with zhCN locale default), tm-app (2 components)
+- All follow tm-xxx/ structure with component.ts + Xxx.vue + index.ts
+- Build: 1925 modules, tree-shaking keeps dist/tm-ui.es.js at 12.46 kB
+---
+
+## [2026-04-24] - US-007: Encapsulate feedback components
+- Created 9 components: tm-alert, tm-message, tm-modal, tm-notification, tm-popconfirm, tm-progress, tm-result, tm-spin, tm-drawer
+- All use useForwardAttrs, v-model for visibility components (modal, drawer)
+- Chinese defaults: TmModal okText/cancelText, TmPopconfirm default title, TmEmpty default description
+- Build: 1790 modules, tree-shaking keeps dist/tm-ui.es.js at 12.46 kB
+---
+
+## [2026-04-24] - US-006: Encapsulate data display components
+- Created 13 components: tm-list, tm-tree, tm-tree-select, tm-transfer, tm-avatar, tm-badge, tm-card, tm-collapse, tm-descriptions, tm-empty, tm-image, tm-popover, tm-tooltip
+- TmTransfer default titles: '待选列表' / '已选列表'
+- TmEmpty default description: '暂无数据'
+- TmCard hoverable with hover shadow, TmTree showLine+showIcon by default
+---
+
+## [2026-04-24] - US-005: Encapsulate form components
+- Created tm-checkbox (a-checkbox wrapper, v-model boolean, gap spacing)
+- Created tm-radio (a-radio wrapper, v-model boolean, gap spacing)
+- Created tm-switch (a-switch wrapper, v-model boolean, slot support)
+- Created tm-date-picker (a-date-picker wrapper, Chinese placeholder '请选择日期')
+- Created tm-time-picker (a-time-picker wrapper, Chinese placeholder '请选择时间')
+- Created tm-upload (a-upload wrapper, Chinese default button '点击上传', TmUploadFile type)
+- Installed dayjs and @ant-design/icons-vue as dev dependencies (required by ant-design-vue date/upload)
+- Build: 1683 modules transformed, tree-shaking keeps dist/tm-ui.es.js at 12.46 kB
+---
+
+## [2026-04-24] - US-004: Encapsulate basic input components
+- Created tm-textarea (standalone a-textarea wrapper, v-model support, Chinese placeholder)
+- Created tm-input-number (a-input-number wrapper with v-model, min/max/step/precision props)
+- Created tm-input-password (a-input-password wrapper, visibility toggle, Chinese placeholder)
+- All components follow tm-xxx/ structure: component.ts + Xxx.vue + index.ts
+- All use useForwardAttrs for attribute forwarding
+- Barrel export updated with new components
+- Build: 52 modules transformed, dist/tm-ui.es.js 12.46 kB
+---
+
+## [2026-04-24] - US-003: Create generic forwarding utility functions
+- Created src/utils/forward-attrs.ts (useForwardAttrs composable strips class/style from inherited attrs)
+- Created src/utils/forward-slots.ts (useForwardSlots composable returns slot names excluding specified ones)
+- Refactored TmInput, TmSelect, TmTable, TmForm to use useForwardAttrs instead of inline computed
+- Each component now: import { useForwardAttrs } from '@/utils'; const forwardedAttrs = useForwardAttrs()
+- Build output: dist/tm-ui.es.js 12.46 kB (smaller due to deduplicated logic), dist/index.css 7.53 kB
+---
+
+## [2026-04-24] - US-002: Refactor component directory structure to tm-xxx format
+- Migrated 5 components: TmButton→tm-button, TmInput→tm-input, TmSelect→tm-select, TmTable→tm-table, TmForm→tm-form
+- Each component now uses: component.ts (withInstall wrapper) + Component.vue + index.ts (re-export from component)
+- Types re-exported via component.ts and index.ts (TmColumn, TmPageInfo, TmTableProps, TmTableEmits, TmFormSchemaItem)
+- src/components/index.ts barrel exports updated to use new directory paths with `export type` for types
+- Typecheck passes, build succeeds (dist/tm-ui.es.js 12.68 kB, dist/index.css 7.49 kB)
+---
+
 ## [2026-04-24] - US-001: Configure TailwindCSS integration
 - Installed tailwindcss v4 + @tailwindcss/vite + postcss + autoprefixer
 - Created src/styles/tailwind.css with `@import "tailwindcss"`
@@ -20,7 +98,16 @@ Started: 2026-04-24
 
 ## Codebase Patterns
 - Component registration: use `withInstall()` from `@/utils/with-install.ts` to make components installable via `app.use()`
-- Each component directory has: `Component.vue` + `index.ts` (exports withInstall-wrapped component)
+- Each component directory has: `component.ts` (withInstall wrapper), `Component.vue`, `index.ts` (re-exports from component)
 - Library entry point (src/index.ts) imports all components and CSS, registers them via install()
 - TailwindCSS v4 uses `@import "tailwindcss"` (not old @tailwind directives) + `@tailwindcss/vite` plugin
+- Directory naming: lowercase with hyphens (tm-button, tm-input, etc.)
 ---
+- Attribute forwarding: `useForwardAttrs()` composable from `@/utils` strips class/style
+- v-model pattern: `const value = computed({ get: () => props.modelValue, set: (v) => emit('update:modelValue', v) })`
+- Chinese defaults across all components
+- Total components created: 59 (excludes tm-demo test component)
+- Build output: dist/tm-ui.es.js 12.46 kB (tree-shaken), dist/index.css 7.65 kB
+- Package manager: pnpm
+- Dev deps added: dayjs, @ant-design/icons-vue
+- Remaining US: US-009 (unit tests - needs Vitest setup), US-014 (auto API docs), US-015 (playground/docs update), US-016 (build config/release)

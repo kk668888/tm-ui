@@ -1,0 +1,1 @@
+import C from './TmLayout.vue'; import { withInstall } from '@/utils'; export const TmLayout = withInstall(C); export default TmLayout;

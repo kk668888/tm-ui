@@ -1,0 +1,1 @@
+import C from './TmNotification.vue'; import { withInstall } from '@/utils'; export const TmNotification = withInstall(C); export default TmNotification;

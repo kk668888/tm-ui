@@ -1,0 +1,1 @@
+export { TmResult, default } from './component'

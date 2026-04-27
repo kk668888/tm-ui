@@ -1,0 +1,1 @@
+import C from './TmMenu.vue'; import { withInstall } from '@/utils'; export const TmMenu = withInstall(C); export default TmMenu;

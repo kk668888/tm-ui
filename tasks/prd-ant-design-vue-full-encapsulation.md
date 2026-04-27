@@ -39,7 +39,8 @@
   src/components/tm-button/
     ├── component.ts      # withInstall 导出入口
     ├── TmButton.vue      # 组件实现
-    ├── types.ts          # 类型定义（如有）
+    ├── types.ts          # 类型定义
+    ├── style.less        # 样式定义
     └── __tests__/        # 单元测试（核心组件）
         └── TmButton.test.ts
   ```

@@ -1,0 +1,1 @@
+import C from './TmPopconfirm.vue'; import { withInstall } from '@/utils'; export const TmPopconfirm = withInstall(C); export default TmPopconfirm;

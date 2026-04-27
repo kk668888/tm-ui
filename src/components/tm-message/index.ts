@@ -1,0 +1,1 @@
+export { TmMessage, default } from './component'

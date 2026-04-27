@@ -1,0 +1,1 @@
+import C from './TmDrawer.vue'; import { withInstall } from '@/utils'; export const TmDrawer = withInstall(C); export default TmDrawer;

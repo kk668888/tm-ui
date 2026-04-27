@@ -1,0 +1,1 @@
+import C from './TmSteps.vue'; import { withInstall } from '@/utils'; export const TmSteps = withInstall(C); export default TmSteps;

@@ -1,0 +1,1 @@
+export { TmAffix, default } from './component'

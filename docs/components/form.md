@@ -68,3 +68,23 @@ const formSchema: TmFormSchemaItem[] = [
 | layout | 布局 | `'horizontal' \| 'vertical' \| 'inline'` | `'horizontal'` |
 | labelCol | 标签布局 | `{ span: number }` | `{ span: 4 }` |
 | wrapperCol | 控件布局 | `{ span: number }` | `{ span: 20 }` |
+
+<script setup lang="ts">
+import { ref } from 'vue'
+
+const formData = ref({ name: '', email: '', role: undefined as string | undefined })
+
+const formSchema = [
+  { field: 'name', label: '姓名', type: 'input', rules: [{ required: true, message: '必填' }] },
+  { field: 'email', label: '邮箱', type: 'input', rules: [{ type: 'email', message: '邮箱格式错误' }] },
+  {
+    field: 'role',
+    label: '角色',
+    type: 'select',
+    options: [
+      { label: '管理员', value: 'admin' },
+      { label: '用户', value: 'user' },
+    ],
+  },
+]
+</script>

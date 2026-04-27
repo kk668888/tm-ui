@@ -1,0 +1,1 @@
+export { TmSteps, default } from './component'
