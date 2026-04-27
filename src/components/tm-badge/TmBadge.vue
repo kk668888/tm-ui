@@ -15,7 +15,7 @@
     <template v-if="$slots.count" #count>
       <slot name="count" />
     </template>
-    <slot />
+    <template #default><slot /></template>
   </a-badge>
 </template>
 

@@ -1,26 +1,14 @@
 <template>
-  <a-list
-    v-bind="forwardedAttrs"
-    :data-source="dataSource"
-    :loading="loading"
-    :pagination="pagination"
-    :header="header"
-    :footer="footer"
-    :bordered="bordered"
-    :size="size"
-    class="tm-list"
-  >
-    <template #renderItem="{ item }">
-      <slot name="renderItem" :item="item" />
-    </template>
-    <template v-for="(_, name) in $slots" #[name]="slotProps">
-      <slot v-if="name !== 'renderItem'" :name="name" v-bind="slotProps" />
-    </template>
-  </a-list>
+  <ForwardRender
+    :is="AList"
+    :attrs="{ ...forwardedAttrs, dataSource, loading, pagination, header, footer, bordered, size, class: 'tm-list' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { useForwardAttrs } from '@/utils'
+import { List as AList } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmList', inheritAttrs: false })
 

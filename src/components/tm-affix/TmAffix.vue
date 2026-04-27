@@ -1,11 +1,14 @@
 <template>
-  <a-affix v-bind="forwardedAttrs" :offset-top="offsetTop" :offset-bottom="offsetBottom" class="tm-affix">
-    <slot />
-  </a-affix>
+  <ForwardRender
+    :is="AAffix"
+    :attrs="{ ...forwardedAttrs, offsetTop, offsetBottom, class: 'tm-affix' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Affix as AAffix } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmAffix', inheritAttrs: false })
 

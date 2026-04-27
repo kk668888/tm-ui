@@ -6,18 +6,18 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-layout style="min-height: 200px;">
-    <tm-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</tm-header>
-    <tm-content style="padding: 16px; background: #f5f5f5;">Content</tm-content>
-    <tm-footer style="text-align: center; background: #001529; color: #fff;">Footer</tm-footer>
+    <a-layout-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</a-layout-header>
+    <a-layout-content style="padding: 16px; background: #f5f5f5;">Content</a-layout-content>
+    <a-layout-footer style="text-align: center; background: #001529; color: #fff;">Footer</a-layout-footer>
   </tm-layout>
 </div>
 
 ```vue
 <template>
   <tm-layout style="min-height: 200px;">
-    <tm-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</tm-header>
-    <tm-content style="padding: 16px; background: #f5f5f5;">Content</tm-content>
-    <tm-footer style="text-align: center; background: #001529; color: #fff;">Footer</tm-footer>
+    <a-layout-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</a-layout-header>
+    <a-layout-content style="padding: 16px; background: #f5f5f5;">Content</a-layout-content>
+    <a-layout-footer style="text-align: center; background: #001529; color: #fff;">Footer</a-layout-footer>
   </tm-layout>
 </template>
 ```

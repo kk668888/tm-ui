@@ -22,6 +22,7 @@ import {
   TmBadge,
   TmCard,
   TmCollapse,
+  TmCollapsePanel,
   TmDescriptions,
   TmEmpty,
   TmImage,
@@ -41,7 +42,9 @@ import {
   TmMenu,
   TmPagination,
   TmSteps,
+  TmStep,
   TmTabs,
+  TmTabPane,
   TmSpace,
   TmDivider,
   TmLayout,
@@ -67,6 +70,8 @@ import {
   TmCalendar,
   TmFlex,
   TmFloatButton,
+  TmFloatButtonGroup,
+  TmBackTop,
   TmRow,
   TmCol,
   TmPageHeader,
@@ -75,7 +80,7 @@ import {
 
 import './styles/tailwind.css'
 
-const components = [
+const installables = [
   TmButton,
   TmInput,
   TmTextarea,
@@ -98,6 +103,7 @@ const components = [
   TmBadge,
   TmCard,
   TmCollapse,
+  TmCollapsePanel,
   TmDescriptions,
   TmEmpty,
   TmImage,
@@ -117,7 +123,9 @@ const components = [
   TmMenu,
   TmPagination,
   TmSteps,
+  TmStep,
   TmTabs,
+  TmTabPane,
   TmSpace,
   TmDivider,
   TmLayout,
@@ -143,6 +151,8 @@ const components = [
   TmCalendar,
   TmFlex,
   TmFloatButton,
+  TmFloatButtonGroup,
+  TmBackTop,
   TmRow,
   TmCol,
   TmPageHeader,
@@ -150,7 +160,7 @@ const components = [
 ]
 
 const install = (app: App) => {
-  components.forEach((comp) => {
+  installables.forEach((comp) => {
     app.use(comp)
   })
 }
@@ -180,6 +190,7 @@ export {
   TmBadge,
   TmCard,
   TmCollapse,
+  TmCollapsePanel,
   TmDescriptions,
   TmEmpty,
   TmImage,
@@ -199,7 +210,9 @@ export {
   TmMenu,
   TmPagination,
   TmSteps,
+  TmStep,
   TmTabs,
+  TmTabPane,
   TmSpace,
   TmDivider,
   TmLayout,
@@ -225,6 +238,8 @@ export {
   TmCalendar,
   TmFlex,
   TmFloatButton,
+  TmFloatButtonGroup,
+  TmBackTop,
   TmRow,
   TmCol,
   TmPageHeader,

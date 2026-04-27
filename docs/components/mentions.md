@@ -5,21 +5,21 @@
 ## 基础使用
 
 <div class="demo-wrapper" style="padding: 16px 0; width: 300px;">
-  <tm-mentions placeholder="输入 @ 提及用户">
-    <tm-mentions-option value="zhangsan">张三</tm-mentions-option>
-    <tm-mentions-option value="lisi">李四</tm-mentions-option>
-    <tm-mentions-option value="wangwu">王五</tm-mentions-option>
-  </tm-mentions>
+  <tm-mentions placeholder="输入 @ 提及用户" :options="mentionOptions" />
 </div>
 
 ```vue
 <template>
-  <tm-mentions placeholder="输入 @ 提及用户">
-    <tm-mentions-option value="zhangsan">张三</tm-mentions-option>
-    <tm-mentions-option value="lisi">李四</tm-mentions-option>
-    <tm-mentions-option value="wangwu">王五</tm-mentions-option>
-  </tm-mentions>
+  <tm-mentions placeholder="输入 @ 提及用户" :options="mentionOptions" />
 </template>
+
+<script setup lang="ts">
+const mentionOptions = [
+  { value: 'zhangsan', label: '张三' },
+  { value: 'lisi', label: '李四' },
+  { value: 'wangwu', label: '王五' },
+]
+</script>
 ```
 
 ## API
@@ -48,3 +48,11 @@
 | blur | 失去焦点时触发 | `(e: FocusEvent) => void` |
 
 > TmMentions 透传 ant-design-vue Mentions 的全部 API。
+
+<script setup lang="ts">
+const mentionOptions = [
+  { value: 'zhangsan', label: '张三' },
+  { value: 'lisi', label: '李四' },
+  { value: 'wangwu', label: '王五' },
+]
+</script>

@@ -6,18 +6,18 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-timeline>
-    <tm-timeline-item color="blue">2024-01-01 事件一</tm-timeline-item>
-    <tm-timeline-item color="green">2024-02-01 事件二</tm-timeline-item>
-    <tm-timeline-item>2024-03-01 事件三</tm-timeline-item>
+    <a-timeline-item color="blue">2024-01-01 事件一</a-timeline-item>
+    <a-timeline-item color="green">2024-02-01 事件二</a-timeline-item>
+    <a-timeline-item>2024-03-01 事件三</a-timeline-item>
   </tm-timeline>
 </div>
 
 ```vue
 <template>
   <tm-timeline>
-    <tm-timeline-item color="blue">2024-01-01 事件一</tm-timeline-item>
-    <tm-timeline-item color="green">2024-02-01 事件二</tm-timeline-item>
-    <tm-timeline-item>2024-03-01 事件三</tm-timeline-item>
+    <a-timeline-item color="blue">2024-01-01 事件一</a-timeline-item>
+    <a-timeline-item color="green">2024-02-01 事件二</a-timeline-item>
+    <a-timeline-item>2024-03-01 事件三</a-timeline-item>
   </tm-timeline>
 </template>
 ```

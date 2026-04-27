@@ -1,17 +1,15 @@
 <template>
-  <a-checkbox
-    v-bind="forwardedAttrs"
-    v-model:checked="checked"
-    class="tm-checkbox"
-    @change="handleChange"
-  >
-    <slot />
-  </a-checkbox>
+  <ForwardRender
+    :is="ACheckbox"
+    :attrs="checkboxAttrs"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useForwardAttrs } from '@/utils'
+import { Checkbox as ACheckbox } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({
   name: 'TmCheckbox',
@@ -22,9 +20,7 @@ const props = withDefaults(
   defineProps<{
     modelValue?: boolean
   }>(),
-  {
-    modelValue: false,
-  },
+  {},
 )
 
 const emit = defineEmits<{
@@ -33,14 +29,17 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const checked = computed({
-  get: () => props.modelValue,
-  set: (val: boolean) => emit('update:modelValue', val),
-})
+const checkboxAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { checked: props.modelValue } : {}),
+  class: 'tm-checkbox',
+  onChange: handleChange,
+}))
 
 const handleChange = (e: any) => {
   emit('update:modelValue', e.target?.checked ?? e)
 }
+
 </script>
 
 <style scoped lang="less">

@@ -1,1 +1,1 @@
-export { TmCollapse, default } from './component'
+export { TmCollapse, TmCollapsePanel, default } from './component'

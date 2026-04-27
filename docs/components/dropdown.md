@@ -5,31 +5,25 @@
 ## 基础使用
 
 <div class="demo-wrapper" style="padding: 16px 0;">
-  <tm-dropdown>
-    <tm-button>下拉菜单 <DownOutlined /></tm-button>
-    <template #overlay>
-      <tm-menu>
-        <tm-menu-item key="1">选项 1</tm-menu-item>
-        <tm-menu-item key="2">选项 2</tm-menu-item>
-        <tm-menu-item key="3">选项 3</tm-menu-item>
-      </tm-menu>
-    </template>
+  <tm-dropdown :items="dropdownItems">
+    <tm-button>下拉菜单</tm-button>
   </tm-dropdown>
 </div>
 
 ```vue
 <template>
-  <tm-dropdown>
+  <tm-dropdown :items="dropdownItems">
     <tm-button>下拉菜单</tm-button>
-    <template #overlay>
-      <tm-menu>
-        <tm-menu-item key="1">选项 1</tm-menu-item>
-        <tm-menu-item key="2">选项 2</tm-menu-item>
-        <tm-menu-item key="3">选项 3</tm-menu-item>
-      </tm-menu>
-    </template>
   </tm-dropdown>
 </template>
+
+<script setup lang="ts">
+const dropdownItems = [
+  { key: '1', label: '选项 1' },
+  { key: '2', label: '选项 2' },
+  { key: '3', label: '选项 3' },
+]
+</script>
 ```
 
 ## API
@@ -54,3 +48,11 @@
 | openChange | 浮层显隐变化 | `(visible: boolean) => void` |
 
 > TmDropdown 透传 ant-design-vue Dropdown 的全部 API。
+
+<script setup lang="ts">
+const dropdownItems = [
+  { key: '1', label: '选项 1' },
+  { key: '2', label: '选项 2' },
+  { key: '3', label: '选项 3' },
+]
+</script>

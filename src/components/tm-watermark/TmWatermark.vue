@@ -1,6 +1,6 @@
 <template>
   <a-watermark v-bind="forwardedAttrs" :content="content" :font="font" :z-index="zIndex" :gap="gap" :rotate="rotate" class="tm-watermark">
-    <slot />
+    <template #default><slot /></template>
   </a-watermark>
 </template>
 <script setup lang="ts">

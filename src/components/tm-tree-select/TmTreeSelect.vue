@@ -1,15 +1,6 @@
 <template>
   <a-tree-select
-    v-bind="forwardedAttrs"
-    v-model:value="selectValue"
-    :tree-data="treeData"
-    :placeholder="placeholder"
-    :show-search="showSearch"
-    :allow-clear="allowClear"
-    :multiple="multiple"
-    :tree-default-expand-all="defaultExpandAll"
-    class="tm-tree-select"
-    @update:value="handleChange"
+    v-bind="treeSelectAttrs"
   >
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps" />
@@ -50,10 +41,18 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const selectValue = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
-})
+const treeSelectAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
+  treeData: props.treeData,
+  placeholder: props.placeholder,
+  showSearch: props.showSearch,
+  allowClear: props.allowClear,
+  multiple: props.multiple,
+  treeDefaultExpandAll: props.defaultExpandAll,
+  class: 'tm-tree-select',
+  'onUpdate:value': handleChange,
+}))
 
 const handleChange = (value: any) => {
   emit('update:modelValue', value)

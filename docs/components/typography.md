@@ -6,18 +6,18 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-typography>
-    <tm-typography-title :level="1">一级标题</tm-typography-title>
-    <tm-typography-paragraph>这是一段普通文本内容，用于展示排版效果。</tm-typography-paragraph>
-    <tm-typography-text type="secondary">次要文本</tm-typography-text>
+    <a-typography-title :level="1">一级标题</a-typography-title>
+    <a-typography-paragraph>这是一段普通文本内容，用于展示排版效果。</a-typography-paragraph>
+    <a-typography-text type="secondary">次要文本</a-typography-text>
   </tm-typography>
 </div>
 
 ```vue
 <template>
   <tm-typography>
-    <tm-typography-title :level="1">一级标题</tm-typography-title>
-    <tm-typography-paragraph>这是一段普通文本内容，用于展示排版效果。</tm-typography-paragraph>
-    <tm-typography-text type="secondary">次要文本</tm-typography-text>
+    <a-typography-title :level="1">一级标题</a-typography-title>
+    <a-typography-paragraph>这是一段普通文本内容，用于展示排版效果。</a-typography-paragraph>
+    <a-typography-text type="secondary">次要文本</a-typography-text>
   </tm-typography>
 </template>
 ```

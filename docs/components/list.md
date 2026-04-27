@@ -5,9 +5,9 @@
 ## 基础使用
 
 <div class="demo-wrapper" style="padding: 16px 0;">
-  <tm-list bordered :data-source="['Item 1', 'Item 2', 'Item 3']" :render-item="(item) => item">
+  <tm-list bordered :data-source="['Item 1', 'Item 2', 'Item 3']">
     <template #renderItem="{ item }">
-      <tm-list-item>{{ item }}</tm-list-item>
+      <a-list-item>{{ item }}</a-list-item>
     </template>
   </tm-list>
 </div>
@@ -16,7 +16,7 @@
 <template>
   <tm-list bordered :data-source="['Item 1', 'Item 2', 'Item 3']">
     <template #renderItem="{ item }">
-      <tm-list-item>{{ item }}</tm-list-item>
+      <a-list-item>{{ item }}</a-list-item>
     </template>
   </tm-list>
 </template>

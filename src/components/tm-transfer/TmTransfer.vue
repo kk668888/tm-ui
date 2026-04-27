@@ -1,14 +1,6 @@
 <template>
   <a-transfer
-    v-bind="forwardedAttrs"
-    :data-source="dataSource"
-    :target-keys="targetKeys"
-    :titles="titles"
-    :show-search="showSearch"
-    :list-style="listStyle"
-    class="tm-transfer"
-    @change="handleChange"
-    @search="handleSearch"
+    v-bind="transferAttrs"
   >
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps" />
@@ -17,12 +9,14 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmTransfer', inheritAttrs: false })
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
+    modelValue?: string[]
     dataSource?: any[]
     targetKeys?: string[]
     titles?: [string, string]
@@ -31,20 +25,37 @@ withDefaults(
   }>(),
   {
     dataSource: () => [],
-    targetKeys: () => [],
     titles: () => ['待选列表', '已选列表'],
     showSearch: false,
   },
 )
 
 const emit = defineEmits<{
+  'update:modelValue': [keys: string[]]
+  'update:targetKeys': [keys: string[]]
   'change': [nextTargetKeys: string[], direction: string, moveKeys: string[]]
   'search': [direction: string, value: string]
 }>()
 
 const forwardedAttrs = useForwardAttrs()
 
+const mergedTargetKeys = computed(() => props.targetKeys ?? props.modelValue)
+
+const transferAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  dataSource: props.dataSource,
+  ...(mergedTargetKeys.value !== undefined ? { targetKeys: mergedTargetKeys.value } : {}),
+  titles: props.titles,
+  showSearch: props.showSearch,
+  listStyle: props.listStyle,
+  class: 'tm-transfer',
+  onChange: handleChange,
+  onSearch: handleSearch,
+}))
+
 const handleChange = (nextTargetKeys: string[], direction: string, moveKeys: string[]) => {
+  emit('update:modelValue', nextTargetKeys)
+  emit('update:targetKeys', nextTargetKeys)
   emit('change', nextTargetKeys, direction, moveKeys)
 }
 

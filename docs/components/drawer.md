@@ -6,7 +6,7 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-button type="primary" @click="visible = true">打开抽屉</tm-button>
-  <tm-drawer v-model:open="visible" title="基本抽屉" placement="right">
+  <tm-drawer v-model="visible" title="基本抽屉" placement="right">
     <p>这是抽屉的内容区域。</p>
   </tm-drawer>
 </div>
@@ -14,7 +14,7 @@
 ```vue
 <template>
   <tm-button type="primary" @click="visible = true">打开抽屉</tm-button>
-  <tm-drawer v-model:open="visible" title="基本抽屉" placement="right">
+  <tm-drawer v-model="visible" title="基本抽屉" placement="right">
     <p>这是抽屉的内容区域。</p>
   </tm-drawer>
 </template>

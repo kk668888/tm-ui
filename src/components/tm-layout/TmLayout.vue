@@ -1,11 +1,14 @@
 <template>
-  <a-layout v-bind="forwardedAttrs" :has-sider="hasSider" class="tm-layout">
-    <slot />
-  </a-layout>
+  <ForwardRender
+    :is="ALayout"
+    :attrs="{ ...forwardedAttrs, hasSider, class: 'tm-layout' }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Layout as ALayout } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmLayout', inheritAttrs: false })
 

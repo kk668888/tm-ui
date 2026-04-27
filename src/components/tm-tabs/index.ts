@@ -1,1 +1,1 @@
-export { TmTabs, default } from './component'
+export { TmTabs, TmTabPane, default } from './component'

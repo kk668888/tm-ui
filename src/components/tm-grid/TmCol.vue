@@ -1,6 +1,6 @@
 <template>
   <a-col v-bind="forwardedAttrs" class="tm-col">
-    <slot />
+    <template #default><slot /></template>
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot v-if="name !== 'default'" :name="name" v-bind="slotProps" />
     </template>

@@ -1,6 +1,6 @@
 <template>
   <a-divider v-bind="forwardedAttrs" :type="type" :orientation="orientation" :dashed="dashed" :plain="plain" class="tm-divider">
-    <slot />
+    <template #default><slot /></template>
   </a-divider>
 </template>
 

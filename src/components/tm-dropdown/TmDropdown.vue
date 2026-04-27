@@ -1,6 +1,6 @@
 <template>
   <a-dropdown v-bind="forwardedAttrs" :trigger="trigger" :placement="placement" class="tm-dropdown">
-    <slot />
+    <template #default><slot /></template>
     <template #overlay>
       <a-menu>
         <a-menu-item v-for="item in items" :key="item.key" @click="handleClick(item)">

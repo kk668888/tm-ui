@@ -1,15 +1,6 @@
 <template>
   <a-upload
-    v-bind="forwardedAttrs"
-    :file-list="fileList"
-    class="tm-upload"
-    :action="action"
-    :multiple="multiple"
-    :show-upload-list="showUploadList"
-    :list-type="listType"
-    :max-count="maxCount"
-    :before-upload="beforeUpload"
-    @change="handleChange"
+    v-bind="uploadAttrs"
   >
     <slot name="default">
       <a-button>
@@ -54,7 +45,6 @@ const props = withDefaults(
     beforeUpload?: (file: File) => boolean | Promise<boolean>
   }>(),
   {
-    modelValue: () => [],
     multiple: false,
     showUploadList: true,
     listType: 'text',
@@ -68,13 +58,21 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const fileList = computed({
-  get: () => props.modelValue,
-  set: (val: TmUploadFile[]) => emit('update:modelValue', val),
-})
+const uploadAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { fileList: props.modelValue } : {}),
+  class: 'tm-upload',
+  action: props.action,
+  multiple: props.multiple,
+  showUploadList: props.showUploadList,
+  listType: props.listType,
+  maxCount: props.maxCount,
+  beforeUpload: props.beforeUpload,
+  onChange: handleChange,
+}))
 
 const handleChange = (info: any) => {
-  fileList.value = info.fileList
+  emit('update:modelValue', info.fileList)
   emit('change', info)
 }
 </script>

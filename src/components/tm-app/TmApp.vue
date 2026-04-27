@@ -1,6 +1,6 @@
 <template>
   <a-app v-bind="forwardedAttrs" class="tm-app">
-    <slot />
+    <template #default><slot /></template>
   </a-app>
 </template>
 <script setup lang="ts">

@@ -12,7 +12,7 @@
     <template v-if="$slots.extra" #extra>
       <slot name="extra" />
     </template>
-    <slot />
+    <template #default><slot /></template>
   </a-result>
 </template>
 

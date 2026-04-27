@@ -40,7 +40,7 @@
 
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
-| activeKey | 当前激活 tab 面板 | `string` | - |
+| activeKey / v-model / v-model:activeKey | 当前激活 tab 面板 | `string` | - |
 | defaultActiveKey | 默认面板 | `string` | - |
 | type | 标签页类型 | `'line' \| 'card' \| 'editable-card'` | `'line'` |
 | size | 大小 | `'small' \| 'middle' \| 'large'` | `'middle'` |

@@ -19,45 +19,51 @@
         <!-- Input -->
         <a-input
           v-if="item.type === 'input'"
-          v-model:value="model[item.field]"
+          :value="formModel[item.field]"
           :placeholder="item.placeholder || `请输入${item.label}`"
           :disabled="item.disabled"
+          @update:value="(value) => updateField(item.field, value)"
         />
         <!-- Textarea -->
         <a-textarea
           v-else-if="item.type === 'textarea'"
-          v-model:value="model[item.field]"
+          :value="formModel[item.field]"
           :placeholder="item.placeholder || `请输入${item.label}`"
           :disabled="item.disabled"
           :rows="item.rows || 3"
+          @update:value="(value) => updateField(item.field, value)"
         />
         <!-- Select -->
         <a-select
           v-else-if="item.type === 'select'"
-          v-model:value="model[item.field]"
+          :value="formModel[item.field]"
           :placeholder="item.placeholder || `请选择${item.label}`"
           :options="item.options"
           :disabled="item.disabled"
+          @update:value="(value) => updateField(item.field, value)"
         />
         <!-- Switch -->
         <a-switch
           v-else-if="item.type === 'switch'"
-          v-model:checked="model[item.field]"
+          :checked="formModel[item.field]"
           :disabled="item.disabled"
+          @update:checked="(value) => updateField(item.field, value)"
         />
         <!-- DatePicker -->
         <a-date-picker
           v-else-if="item.type === 'date'"
-          v-model:value="model[item.field]"
+          :value="formModel[item.field]"
           :placeholder="item.placeholder || `请选择${item.label}`"
           :disabled="item.disabled"
+          @update:value="(value) => updateField(item.field, value)"
         />
         <!-- Default: Input -->
         <a-input
           v-else
-          v-model:value="model[item.field]"
+          :value="formModel[item.field]"
           :placeholder="item.placeholder || `请输入${item.label}`"
           :disabled="item.disabled"
+          @update:value="(value) => updateField(item.field, value)"
         />
       </a-form-item>
     </template>
@@ -114,11 +120,12 @@ const props = withDefaults(
   },
 )
 
-defineEmits<{
+const emit = defineEmits<{
   'update:model': [value: Record<string, any>]
 }>()
 
 const forwardedAttrs = useForwardAttrs()
+const formModel = computed(() => props.model ?? {})
 
 /**
  * 合并 schema 中定义的 rules 和外部传入的 rules
@@ -134,6 +141,13 @@ const computedRules = computed(() => {
   }
   return merged
 })
+
+const updateField = (field: string, value: any) => {
+  emit('update:model', {
+    ...formModel.value,
+    [field]: value,
+  })
+}
 </script>
 
 <style scoped lang="less">

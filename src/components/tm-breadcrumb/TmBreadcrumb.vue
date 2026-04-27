@@ -1,14 +1,16 @@
 <template>
   <a-breadcrumb v-bind="forwardedAttrs" :separator="separator" class="tm-breadcrumb">
-    <a-breadcrumb-item v-for="(item, index) in items" :key="index">
-      <template v-if="item.href">
-        <a :href="item.href">{{ item.title }}</a>
-      </template>
-      <template v-else>
-        {{ item.title }}
-      </template>
-    </a-breadcrumb-item>
-    <slot />
+    <template #default>
+      <a-breadcrumb-item v-for="(item, index) in items" :key="index">
+        <template v-if="item.href">
+          <a :href="item.href">{{ item.title }}</a>
+        </template>
+        <template v-else>
+          {{ item.title }}
+        </template>
+      </a-breadcrumb-item>
+      <slot />
+    </template>
   </a-breadcrumb>
 </template>
 

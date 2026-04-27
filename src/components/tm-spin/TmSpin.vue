@@ -6,7 +6,7 @@
     :tip="tip"
     class="tm-spin"
   >
-    <slot />
+    <template #default><slot /></template>
     <template v-if="$slots.indicator" #indicator>
       <slot name="indicator" />
     </template>

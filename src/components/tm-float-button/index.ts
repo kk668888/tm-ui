@@ -1,1 +1,1 @@
-export { TmFloatButton, default } from './component'
+export { TmFloatButton, TmFloatButtonGroup, TmBackTop, default } from './component'

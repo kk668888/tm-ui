@@ -5,21 +5,21 @@
 ## 基础使用
 
 <div class="demo-wrapper" style="padding: 16px 0;">
-  <tm-breadcrumb>
-    <tm-breadcrumb-item>首页</tm-breadcrumb-item>
-    <tm-breadcrumb-item>列表</tm-breadcrumb-item>
-    <tm-breadcrumb-item>详情</tm-breadcrumb-item>
-  </tm-breadcrumb>
+  <tm-breadcrumb :items="breadcrumbItems" />
 </div>
 
 ```vue
 <template>
-  <tm-breadcrumb>
-    <tm-breadcrumb-item>首页</tm-breadcrumb-item>
-    <tm-breadcrumb-item>列表</tm-breadcrumb-item>
-    <tm-breadcrumb-item>详情</tm-breadcrumb-item>
-  </tm-breadcrumb>
+  <tm-breadcrumb :items="breadcrumbItems" />
 </template>
+
+<script setup lang="ts">
+const breadcrumbItems = [
+  { title: '首页', href: '#' },
+  { title: '列表', href: '#' },
+  { title: '详情' },
+]
+</script>
 ```
 
 ## API
@@ -35,3 +35,11 @@
 | menu | 下拉菜单配置 | `MenuProps` | - |
 
 > TmBreadcrumb 透传 ant-design-vue Breadcrumb 的全部 API。
+
+<script setup lang="ts">
+const breadcrumbItems = [
+  { title: '首页', href: '#' },
+  { title: '列表', href: '#' },
+  { title: '详情' },
+]
+</script>

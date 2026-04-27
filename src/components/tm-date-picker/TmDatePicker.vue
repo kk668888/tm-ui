@@ -1,14 +1,6 @@
 <template>
   <a-date-picker
-    v-bind="forwardedAttrs"
-    v-model:value="dateValue"
-    class="tm-date-picker"
-    :placeholder="placeholder"
-    :format="format"
-    :value-format="valueFormat"
-    :disabled-date="disabledDate"
-    :allow-clear="allowClear"
-    @update:value="handleChange"
+    v-bind="datePickerAttrs"
   >
     <template v-if="$slots.suffixIcon" #suffixIcon>
       <slot name="suffixIcon" />
@@ -39,7 +31,6 @@ const props = withDefaults(
     allowClear?: boolean
   }>(),
   {
-    modelValue: null,
     placeholder: '请选择日期',
     format: 'YYYY-MM-DD',
     allowClear: true,
@@ -52,10 +43,17 @@ const emit = defineEmits<{
 
 const forwardedAttrs = useForwardAttrs()
 
-const dateValue = computed({
-  get: () => props.modelValue,
-  set: (val) => emit('update:modelValue', val),
-})
+const datePickerAttrs = computed(() => ({
+  ...forwardedAttrs.value,
+  ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
+  class: 'tm-date-picker',
+  placeholder: props.placeholder,
+  format: props.format,
+  valueFormat: props.valueFormat,
+  disabledDate: props.disabledDate,
+  allowClear: props.allowClear,
+  'onUpdate:value': handleChange,
+}))
 
 const handleChange = (value: string | Dayjs | null) => {
   emit('update:modelValue', value)

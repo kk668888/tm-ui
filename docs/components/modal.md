@@ -6,7 +6,7 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-button type="primary" @click="visible = true">打开对话框</tm-button>
-  <tm-modal v-model:open="visible" title="基本对话框" @ok="visible = false">
+  <tm-modal v-model="visible" title="基本对话框" @ok="visible = false">
     <p>这是对话框的内容区域。</p>
   </tm-modal>
 </div>
@@ -14,7 +14,7 @@
 ```vue
 <template>
   <tm-button type="primary" @click="visible = true">打开对话框</tm-button>
-  <tm-modal v-model:open="visible" title="基本对话框" @ok="visible = false">
+  <tm-modal v-model="visible" title="基本对话框" @ok="visible = false">
     <p>这是对话框的内容区域。</p>
   </tm-modal>
 </template>

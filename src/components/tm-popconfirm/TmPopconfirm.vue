@@ -1,23 +1,14 @@
 <template>
-  <a-popconfirm
-    v-bind="forwardedAttrs"
-    :title="title"
-    :ok-text="okText"
-    :cancel-text="cancelText"
-    :placement="placement"
-    class="tm-popconfirm"
-    @confirm="handleConfirm"
-    @cancel="handleCancel"
-  >
-    <slot />
-    <template v-if="$slots.icon" #icon>
-      <slot name="icon" />
-    </template>
-  </a-popconfirm>
+  <ForwardRender
+    :is="APopconfirm"
+    :attrs="{ ...forwardedAttrs, title, okText, cancelText, placement, class: 'tm-popconfirm', onConfirm: handleConfirm, onCancel: handleCancel }"
+    :slots="$slots"
+  />
 </template>
 
 <script setup lang="ts">
-import { useForwardAttrs } from '@/utils'
+import { Popconfirm as APopconfirm } from 'ant-design-vue'
+import { ForwardRender, useForwardAttrs } from '@/utils'
 
 defineOptions({ name: 'TmPopconfirm', inheritAttrs: false })
 
