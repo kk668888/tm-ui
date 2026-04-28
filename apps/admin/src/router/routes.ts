@@ -35,6 +35,17 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: { title: 'menu.accountLedger', icon: 'DatabaseOutlined', keepAlive: true, permission: 'system:ledger:view' },
       },
       {
+        path: 'ledger/:id/edit',
+        name: 'AccountLedgerEdit',
+        component: () => import('@admin/views/ledger/edit/LedgerEditView.vue'),
+        meta: {
+          title: 'menu.accountLedgerEdit',
+          hidden: true,
+          activeMenu: '/ledger',
+          permission: 'system:ledger:view',
+        },
+      },
+      {
         path: 'system',
         name: 'System',
         redirect: '/system/users',

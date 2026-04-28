@@ -3,23 +3,30 @@ export interface LedgerRecord {
   name: string
   code: string
   ip: string
-  type: string
-  level: '一级' | '二级' | '未挂接'
+  type: Exclude<LedgerTypeKey, 'all'>
+  typeLabel: string
+  typeTone: 'blue' | 'green' | 'sky' | 'cyan' | 'orange' | 'indigo'
   status: '已登记' | '待确认'
-  businessName: string
-  domain: string
-  environment: '生产' | '测试'
-  networkRegion: string
   department: string
+  creator: string
   createdAt: string
   updatedAt: string
-  assets: number
-  services: number
   linked: boolean
 }
 
-export type LedgerLevelFilter = 'all' | LedgerRecord['level']
-export type LedgerTypeKey = 'all' | 'server' | 'app' | 'database' | 'middleware' | 'template' | 'finance'
+export type LedgerLevelFilter = 'all' | '一级' | '二级' | '未挂接'
+export type LedgerTypeKey =
+  | 'all'
+  | 'server'
+  | 'app'
+  | 'database'
+  | 'middleware'
+  | 'template'
+  | 'finance'
+  | 'storage'
+  | 'container'
+  | 'network'
+  | 'security'
 
 export interface LedgerTypeTab {
   key: LedgerTypeKey

@@ -2,12 +2,14 @@ import { computed, reactive, ref } from 'vue'
 import {
   ledgerColumns,
   ledgerDepartmentOptions,
+  ledgerDisplayTotal,
   ledgerMoreTypeOptions,
   ledgerRecords,
   ledgerStatusOptions,
+  ledgerTypeCount,
   ledgerTypeTabs,
 } from '../data'
-import type { LedgerFilters, LedgerLevelFilter, LedgerLevelSummaryItem, LedgerTypeKey } from '../types'
+import type { LedgerFilters, LedgerTypeKey } from '../types'
 
 export function useLedgerPage() {
   const records = ref(ledgerRecords)
@@ -19,10 +21,6 @@ export function useLedgerPage() {
 
   const activeType = ref<LedgerTypeKey>('all')
   const moreType = ref<Exclude<LedgerTypeKey, 'all'> | undefined>()
-  const activeLevel = ref<LedgerLevelFilter>('all')
-  const hideUnlinked = ref(false)
-  const denseMode = ref(false)
-  const selectedRowKeys = ref<number[]>([])
 
   const filteredRecords = computed(() =>
     records.value.filter((item) => {
@@ -35,38 +33,27 @@ export function useLedgerPage() {
       const departmentMatched = !filters.department || item.department === filters.department
       const typeKey = moreType.value || activeType.value
       const typeMatched = typeKey === 'all' || item.type === typeKey
-      const levelMatched = activeLevel.value === 'all' || item.level === activeLevel.value
-      const linkedMatched = !hideUnlinked.value || item.linked
 
-      return keywordMatched && statusMatched && departmentMatched && typeMatched && levelMatched && linkedMatched
+      return keywordMatched && statusMatched && departmentMatched && typeMatched
     }),
   )
-
-  const levelSummary = computed<LedgerLevelSummaryItem[]>(() => [
-    { key: '一级', label: '一级', count: filteredRecords.value.filter((item) => item.level === '一级').length },
-    { key: '二级', label: '二级', count: filteredRecords.value.filter((item) => item.level === '二级').length },
-    { key: '未挂接', label: '未挂接', count: filteredRecords.value.filter((item) => item.level === '未挂接').length },
-  ])
 
   const tableData = computed(() =>
     [...filteredRecords.value].sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1)),
   )
 
   return {
-    activeLevel,
     activeType,
     columns: ledgerColumns,
-    denseMode,
     departmentOptions: ledgerDepartmentOptions,
+    displayTotal: ledgerDisplayTotal,
     filteredRecords,
     filters,
-    hideUnlinked,
-    levelSummary,
     moreType,
     moreTypeOptions: ledgerMoreTypeOptions,
-    selectedRowKeys,
     statusOptions: ledgerStatusOptions,
     tableData,
+    typeCount: ledgerTypeCount,
     typeTabs: ledgerTypeTabs,
   }
 }

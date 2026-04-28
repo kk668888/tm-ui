@@ -26,7 +26,7 @@
  * TmInput - 增强输入框组件
  * 支持 input 和 textarea 两种类型，兼容受控与非受控使用方式
  */
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 import { useForwardAttrs } from '@/utils'
 
 defineOptions({
@@ -56,12 +56,13 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
+const attrs = useAttrs()
 const forwardedAttrs = useForwardAttrs()
 
 const inputAttrs = computed(() => ({
   ...forwardedAttrs.value,
   ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
-  class: 'tm-input',
+  class: ['tm-input', attrs.class],
   allowClear: props.allowClear,
   placeholder: props.placeholder,
   'onUpdate:value': handleInput,
@@ -70,7 +71,7 @@ const inputAttrs = computed(() => ({
 const textareaAttrs = computed(() => ({
   ...forwardedAttrs.value,
   ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
-  class: 'tm-textarea',
+  class: ['tm-textarea', attrs.class],
   allowClear: props.allowClear,
   placeholder: props.placeholder,
   autoSize: props.autoSize,

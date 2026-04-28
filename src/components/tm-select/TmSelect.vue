@@ -21,7 +21,7 @@
  * TmSelect - 增强选择器组件
  * 支持远程搜索默认配置，空状态提示
  */
-import { computed } from 'vue'
+import { computed, useAttrs } from 'vue'
 import { Empty } from 'ant-design-vue'
 import { useForwardAttrs } from '@/utils'
 
@@ -56,12 +56,13 @@ const emit = defineEmits<{
   'update:modelValue': [value: any]
 }>()
 
+const attrs = useAttrs()
 const forwardedAttrs = useForwardAttrs()
 
 const selectAttrs = computed(() => ({
   ...forwardedAttrs.value,
   ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
-  class: 'tm-select',
+  class: ['tm-select', attrs.class],
   placeholder: props.placeholder,
   showSearch: props.showSearch,
   allowClear: props.allowClear,

@@ -1,13 +1,14 @@
 <template>
-  <section class="admin-page-section">
-    <LedgerPageHeader :total="filteredRecords.length" />
+  <section class="admin-page-section ledger-page">
+    <LedgerPageHeader :total="displayTotal" />
     <LedgerTypeFilters
       :active-type="activeType"
       :more-type="moreType"
       :more-type-options="moreTypeOptions"
+      :type-count="typeCount"
       :type-tabs="typeTabs"
-      @update:active-type="activeType = $event"
-      @update:more-type="moreType = $event"
+      @update:active-type="handleActiveTypeChange"
+      @update:more-type="handleMoreTypeChange"
     />
     <LedgerSearchFilters
       :department-options="departmentOptions"
@@ -15,21 +16,9 @@
       :status-options="statusOptions"
       @update:filters="patchFilters"
     />
-    <LedgerSummaryBar
-      :active-level="activeLevel"
-      :hide-unlinked="hideUnlinked"
-      :level-summary="levelSummary"
-      :total="filteredRecords.length"
-      @update:active-level="activeLevel = $event"
-      @update:dense-mode="denseMode = $event"
-      @update:hide-unlinked="hideUnlinked = $event"
-    />
     <LedgerTable
       :columns="columns"
       :data-source="tableData"
-      :dense-mode="denseMode"
-      :selected-row-keys="selectedRowKeys"
-      @update:selected-row-keys="selectedRowKeys = $event"
     />
   </section>
 </template>
@@ -37,32 +26,44 @@
 <script setup lang="ts">
 import LedgerPageHeader from './components/LedgerPageHeader.vue'
 import LedgerSearchFilters from './components/LedgerSearchFilters.vue'
-import LedgerSummaryBar from './components/LedgerSummaryBar.vue'
 import LedgerTable from './components/LedgerTable.vue'
 import LedgerTypeFilters from './components/LedgerTypeFilters.vue'
 import { useLedgerPage } from './composables/useLedgerPage'
 import type { LedgerFilters } from './types'
-import './ledger.css'
 
 const {
-  activeLevel,
   activeType,
   columns,
-  denseMode,
   departmentOptions,
-  filteredRecords,
+  displayTotal,
   filters,
-  hideUnlinked,
-  levelSummary,
   moreType,
   moreTypeOptions,
-  selectedRowKeys,
   statusOptions,
   tableData,
+  typeCount,
   typeTabs,
 } = useLedgerPage()
 
 function patchFilters(nextFilters: LedgerFilters) {
   Object.assign(filters, nextFilters)
 }
+
+function handleActiveTypeChange(value: typeof activeType.value) {
+  activeType.value = value
+  moreType.value = undefined
+}
+
+function handleMoreTypeChange(value: typeof moreType.value) {
+  moreType.value = value
+  if (value) {
+    activeType.value = 'all'
+  }
+}
 </script>
+
+<style scoped>
+.ledger-page {
+  gap: 14px;
+}
+</style>
