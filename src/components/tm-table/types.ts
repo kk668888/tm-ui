@@ -33,4 +33,5 @@ export interface TmTableEmits<T = any> {
   (e: 'page-change', page: number, pageSize: number): void
   (e: 'sort-change', sorter: any): void
   (e: 'row-click', record: T, index: number): void
+  (e: 'change', pagination: TmPageInfo, filters: Record<string, never>, sorter?: any): void
 }

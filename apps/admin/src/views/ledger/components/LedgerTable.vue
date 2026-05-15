@@ -1,7 +1,7 @@
 <template>
-  <div class="admin-shell-card ledger-table-card">
+  <div class="admin-panel admin-table-panel ledger-table-card">
     <tm-table
-      class="ledger-table"
+      class="admin-data-table ledger-table"
       :data-source="dataSource"
       :columns="columns"
       row-key="id"
@@ -56,9 +56,6 @@ function goEdit(id: number) {
 <style scoped>
 .ledger-table-card {
   overflow: hidden;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 
 .ledger-action-group {
@@ -71,61 +68,22 @@ function goEdit(id: number) {
 :deep(.ledger-name-button.tm-btn.ant-btn-link) {
   height: auto;
   padding: 0;
-  color: #2563eb;
-  font-size: 14px;
+  color: var(--admin-primary);
+  font-size: 13px;
   font-weight: 600;
 }
 
 :deep(.ledger-name-button.tm-btn.ant-btn-link:hover) {
-  color: #1d4ed8;
-}
-
-:deep(.ledger-table .ant-table) {
-  background: #fff;
-}
-
-:deep(.ledger-table .ant-table-container) {
-  border-inline-start: 0 !important;
-}
-
-:deep(.ledger-table .ant-table-thead > tr > th) {
-  height: 52px;
-  padding: 0 16px;
-  background: #f5f5f5;
-  color: #334155;
-  font-size: 14px;
-  font-weight: 700;
-  border-bottom: 1px solid #eceff5;
-}
-
-:deep(.ledger-table .ant-table-tbody > tr > td) {
-  padding: 12px 16px;
-  color: #475569;
-  font-size: 14px;
-  border-bottom: 1px solid #edf1f6;
-  background: #fff;
-}
-
-:deep(.ledger-table .ant-table-tbody > tr:hover > td) {
-  background: #fafcff;
-}
-
-:deep(.ledger-table .ant-table-column-sorter) {
-  color: #b8c1d1;
-}
-
-:deep(.ledger-table .ant-table-column-sorter-up.active),
-:deep(.ledger-table .ant-table-column-sorter-down.active) {
-  color: #4a7bff;
+  color: color-mix(in srgb, var(--admin-primary) 85%, white);
 }
 
 :deep(.ledger-type-tag.tm-tag) {
   margin-inline-end: 0;
   padding: 3px 10px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  background: #fff;
+  background: var(--admin-surface);
 }
 
 .ledger-type-tag-inner {
@@ -181,25 +139,25 @@ function goEdit(id: number) {
   margin-inline-end: 0;
   padding: 2px 10px;
   border-radius: 999px;
-  border-color: #9dd77a;
-  color: #2ca54f;
-  background: #f7fff5;
-  font-size: 13px;
+  border-color: color-mix(in srgb, var(--admin-success) 20%, transparent);
+  color: var(--admin-success);
+  background: var(--admin-success-soft);
+  font-size: 12px;
   font-weight: 600;
 }
 
 :deep(.ledger-action-button.tm-btn.ant-btn-link) {
   height: auto;
   padding: 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 :deep(.ledger-maintain-button.tm-btn.ant-btn-link) {
-  color: #2563eb;
+  color: var(--admin-primary);
 }
 
 :deep(.ledger-offline-button.tm-btn.ant-btn-link) {
-  color: #ef4444;
+  color: var(--admin-danger);
 }
 </style>

@@ -1,7 +1,5 @@
 <template>
-  <a-tree-select
-    v-bind="treeSelectAttrs"
-  >
+  <a-tree-select v-bind="treeSelectAttrs">
     <template v-for="(_, name) in $slots" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps" />
     </template>
@@ -11,32 +9,34 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useForwardAttrs } from '@/utils'
+import type { TmTreeOption, TmValue } from '../shared-types'
 
 defineOptions({ name: 'TmTreeSelect', inheritAttrs: false })
 
-const props = withDefaults(
-  defineProps<{
-    modelValue?: any
-    treeData?: any[]
-    placeholder?: string
-    showSearch?: boolean
-    allowClear?: boolean
-    multiple?: boolean
-    defaultExpandAll?: boolean
-  }>(),
-  {
-    modelValue: undefined,
-    treeData: () => [],
-    placeholder: '请选择',
-    showSearch: true,
-    allowClear: true,
-    multiple: false,
-    defaultExpandAll: false,
-  },
-)
+export type TmTreeSelectValue = TmValue | TmValue[]
+
+export interface TmTreeSelectProps {
+  modelValue?: TmTreeSelectValue
+  treeData?: TmTreeOption[]
+  placeholder?: string
+  showSearch?: boolean
+  allowClear?: boolean
+  multiple?: boolean
+  defaultExpandAll?: boolean
+}
+
+const props = withDefaults(defineProps<TmTreeSelectProps>(), {
+  modelValue: undefined,
+  treeData: () => [],
+  placeholder: '请选择',
+  showSearch: true,
+  allowClear: true,
+  multiple: false,
+  defaultExpandAll: false,
+})
 
 const emit = defineEmits<{
-  'update:modelValue': [value: any]
+  'update:modelValue': [value: TmTreeSelectValue]
 }>()
 
 const forwardedAttrs = useForwardAttrs()
@@ -54,7 +54,7 @@ const treeSelectAttrs = computed(() => ({
   'onUpdate:value': handleChange,
 }))
 
-const handleChange = (value: any) => {
+const handleChange = (value: TmTreeSelectValue) => {
   emit('update:modelValue', value)
 }
 </script>

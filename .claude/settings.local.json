@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__plugin_everything-claude-code_context7__resolve-library-id",
+      "mcp__plugin_everything-claude-code_context7__query-docs",
+      "Bash(python3 *)",
+      "Bash(pnpm add *)",
+      "Bash(npx vue-tsc *)",
+      "Bash(npx vite *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git reset *)",
+      "Bash(git commit *)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  }
+}

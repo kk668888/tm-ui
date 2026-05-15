@@ -27,23 +27,20 @@ defineProps<{
   justify-content: space-between;
   gap: 16px;
   padding: 20px 24px;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 
 .ledger-edit-title {
   margin: 0;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 30px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--admin-text-strong);
 }
 
 .ledger-edit-subtitle {
   margin: 6px 0 0;
-  font-size: 14px;
-  color: #475569;
+  font-size: 13px;
+  color: var(--admin-text-soft);
 }
 
 .ledger-edit-badges {
@@ -57,9 +54,9 @@ defineProps<{
   margin-inline-end: 0;
   padding: 3px 12px;
   border-radius: 999px;
-  border-color: #cfd8e6;
-  color: #2563eb;
-  background: #fff;
+  border-color: var(--admin-primary-soft-strong);
+  color: var(--admin-primary);
+  background: var(--admin-primary-soft);
   font-weight: 600;
 }
 
@@ -67,9 +64,9 @@ defineProps<{
   margin-inline-end: 0;
   padding: 3px 12px;
   border-radius: 999px;
-  border-color: #98d278;
-  color: #2ca54f;
-  background: #f8fff6;
+  border-color: color-mix(in srgb, var(--admin-success) 18%, transparent);
+  color: var(--admin-success);
+  background: var(--admin-success-soft);
   font-weight: 600;
 }
 </style>

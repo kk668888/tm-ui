@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-shell-card ledger-search-card">
+  <div class="admin-panel ledger-search-card">
     <div class="ledger-search-grid">
       <tm-input class="ledger-search-input" :model-value="filters.keyword" placeholder="搜索名称、编码、IP" @update:model-value="updateField('keyword', $event)">
         <template #prefix>
@@ -50,42 +50,31 @@ function updateField<K extends keyof LedgerFilters>(key: K, value: LedgerFilters
 
 <style scoped>
 .ledger-search-card {
-  padding: 12px;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  padding: 16px 18px;
 }
 
 .ledger-search-grid {
   display: grid;
   grid-template-columns: 360px 158px 158px;
-  gap: 10px;
+  gap: 12px;
 }
 
 .ledger-search-icon {
-  color: #94a3b8;
+  color: var(--admin-text-faint);
   font-size: 14px;
 }
 
 :deep(.ledger-search-input .ant-input-affix-wrapper),
 :deep(.ledger-filter-select .ant-select-selector) {
-  height: 42px !important;
-  border-radius: 8px !important;
-  border-color: #d8dee9 !important;
-  box-shadow: none !important;
+  height: 36px !important;
 }
 
 :deep(.ledger-search-input .ant-input) {
-  font-size: 14px;
-}
-
-:deep(.ledger-search-input .ant-input::placeholder),
-:deep(.ledger-filter-select .ant-select-selection-placeholder) {
-  color: #98a2b3;
+  font-size: 13px;
 }
 
 :deep(.ledger-filter-select .ant-select-selection-item) {
-  line-height: 40px !important;
+  line-height: 34px !important;
 }
 
 @media (max-width: 1200px) {

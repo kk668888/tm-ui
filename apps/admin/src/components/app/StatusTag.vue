@@ -1,7 +1,7 @@
 <template>
-  <tm-tag :color="color">
+  <span class="admin-status-tag" :class="statusClass">
     {{ label }}
-  </tm-tag>
+  </span>
 </template>
 
 <script setup lang="ts">
@@ -11,14 +11,14 @@ const props = defineProps<{
   value: string
 }>()
 
-const color = computed(() => {
+const statusClass = computed(() => {
   if (props.value === 'enabled' || props.value === 'success') {
-    return 'success'
+    return 'admin-status-tag-success'
   }
   if (props.value === 'disabled' || props.value === 'failed') {
-    return 'error'
+    return 'admin-status-tag-danger'
   }
-  return 'processing'
+  return 'admin-status-tag-info'
 })
 
 const label = computed(() => {

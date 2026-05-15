@@ -2,8 +2,12 @@ node_modules
 dist
 apps/admin/dist
 docs/.vitepress/dist
+docs/.vitepress/cache
+docs/.vitepress/.temp
+docs/.vitepress/.cache
 *.local
 .env
 .DS_Store
+coverage
 scripts/ralph/.last-branch
 scripts/ralph/archive/

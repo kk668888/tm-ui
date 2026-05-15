@@ -1,6 +1,6 @@
 <template>
-  <a-modal
-    :open="appStore.searchOpen"
+  <tm-modal
+    v-model:model-value="appStore.searchOpen"
     :footer="null"
     width="680px"
     @cancel="appStore.searchOpen = false"
@@ -12,19 +12,19 @@
       />
       <div class="max-h-[360px] overflow-y-auto">
         <tm-empty v-if="results.length === 0" :description="t('common.noData')" />
-        <a-list v-else :data-source="results">
+        <tm-list v-else :data-source="results">
           <template #renderItem="{ item }">
-            <a-list-item class="cursor-pointer rounded-2xl transition hover:bg-slate-50 dark:hover:bg-slate-800" @click="openRoute(item.path)">
+            <div class="cursor-pointer rounded-[10px] border border-transparent px-3 py-3 transition hover:border-[var(--admin-border)] hover:bg-[var(--admin-surface-muted)]" @click="openRoute(item.path)">
               <div class="flex w-full items-center justify-between gap-4">
                 <div class="font-medium">{{ t(String(item.meta?.title)) }}</div>
                 <div class="admin-muted text-xs">{{ item.path }}</div>
               </div>
-            </a-list-item>
+            </div>
           </template>
-        </a-list>
+        </tm-list>
       </div>
     </div>
-  </a-modal>
+  </tm-modal>
 </template>
 
 <script setup lang="ts">

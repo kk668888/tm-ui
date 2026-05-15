@@ -21,14 +21,22 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'TmUI',
       fileName: (format) => `tm-ui.${format}.js`,
+      cssFileName: 'style',
       formats: ['es', 'cjs'],
     },
     rollupOptions: {
-      external: ['vue', 'ant-design-vue', 'ant-design-vue/es', 'dayjs'],
+      external: ['vue', 'ant-design-vue', 'ant-design-vue/es', 'dayjs', 'vxe-table'],
       output: {
         globals: {
           vue: 'Vue',
           'ant-design-vue': 'AntDesignVue',
+          'vxe-table': 'VXETable',
+        },
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name?.endsWith('.css')) {
+            return 'style.css'
+          }
+          return 'assets/[name]-[hash][extname]'
         },
         exports: 'named',
       },

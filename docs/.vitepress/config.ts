@@ -16,8 +16,26 @@ export default defineConfig({
         'ant-design-vue/es': resolve(__dirname, '../../node_modules/ant-design-vue/lib'),
       },
     },
+    build: {
+      chunkSizeWarningLimit: 1600,
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/vxe-table') || id.includes('node_modules/@vxe-ui') || id.includes('node_modules/xe-utils')) {
+              return 'vendor-vxe'
+            }
+            if (id.includes('node_modules/ant-design-vue') || id.includes('node_modules/@ant-design')) {
+              return 'vendor-antd'
+            }
+            if (id.includes('/src/components/')) {
+              return 'tm-ui-components'
+            }
+          },
+        },
+      },
+    },
     optimizeDeps: {
-      include: ['ant-design-vue'],
+      include: ['ant-design-vue', 'vxe-table'],
     },
   },
   themeConfig: {

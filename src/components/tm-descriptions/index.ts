@@ -1,1 +1,1 @@
-export { TmDescriptions, default } from './component'
+export { TmDescriptions, TmDescriptionsItem, default } from './component'

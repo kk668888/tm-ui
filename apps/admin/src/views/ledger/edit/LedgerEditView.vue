@@ -13,6 +13,31 @@
       :status="pageSummary.status"
     />
 
+    <div class="admin-shell-card ledger-edit-overview">
+      <div class="ledger-edit-overview-main">
+        <div class="ledger-edit-overview-item">
+          <span class="ledger-edit-overview-label">记录编号</span>
+          <span class="ledger-edit-overview-value">{{ pageSummary.recordId || '--' }}</span>
+        </div>
+        <div class="ledger-edit-overview-item">
+          <span class="ledger-edit-overview-label">所属单位</span>
+          <span class="ledger-edit-overview-value">{{ formState.ownerUnit }}</span>
+        </div>
+        <div class="ledger-edit-overview-item">
+          <span class="ledger-edit-overview-label">运行环境</span>
+          <span class="ledger-edit-overview-value">{{ formState.environment }}</span>
+        </div>
+        <div class="ledger-edit-overview-item">
+          <span class="ledger-edit-overview-label">责任人</span>
+          <span class="ledger-edit-overview-value">{{ formState.manager }}</span>
+        </div>
+      </div>
+      <div class="ledger-edit-overview-stats">
+        <div class="admin-pill">分组完成 {{ completedSectionCount }}/{{ sectionItems.length }}</div>
+        <div class="admin-pill">字段填写 {{ completedFieldCount }}/{{ totalFieldCount }}</div>
+      </div>
+    </div>
+
     <div class="admin-shell-card ledger-edit-shell">
       <LedgerEditSidebar
         :active-key="expandedSectionKey"
@@ -307,8 +332,14 @@
     </div>
 
     <div class="admin-shell-card ledger-edit-footer">
-      <tm-button class="ledger-footer-cancel" @click="goBack">取消</tm-button>
-      <tm-button type="primary" class="ledger-footer-submit" @click="saveAsPending">保存并转为未登记</tm-button>
+      <div class="ledger-edit-footer-copy">
+        <div class="ledger-edit-footer-title">保存后将更新当前台账实例信息</div>
+        <div class="ledger-edit-footer-subtitle">建议先核对基础属性、管理属性和关联资源字段。</div>
+      </div>
+      <div class="ledger-edit-footer-actions">
+        <tm-button class="ledger-footer-cancel" @click="goBack">取消</tm-button>
+        <tm-button type="primary" class="ledger-footer-submit" @click="saveAsPending">保存并转为未登记</tm-button>
+      </div>
     </div>
   </section>
 </template>
@@ -325,9 +356,12 @@ const {
   goBack,
   openSection,
   pageSummary,
+  completedFieldCount,
+  completedSectionCount,
   saveAsPending,
   scrollToSection,
   sectionItems,
+  totalFieldCount,
 } = useLedgerEditPage()
 </script>
 
@@ -347,13 +381,46 @@ const {
 :deep(.ledger-crumb-link.tm-btn.ant-btn-link) {
   height: auto;
   padding: 0;
-  color: #2563eb;
+  color: var(--admin-primary);
   font-size: 14px;
 }
 
 .ledger-crumb-separator,
 .ledger-crumb-current {
-  color: #475569;
+  color: var(--admin-text-soft);
+}
+
+.ledger-edit-overview {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px;
+}
+
+.ledger-edit-overview-main,
+.ledger-edit-overview-stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ledger-edit-overview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 120px;
+}
+
+.ledger-edit-overview-label {
+  color: var(--admin-text-soft);
+  font-size: 12px;
+}
+
+.ledger-edit-overview-value {
+  color: var(--admin-text-strong);
+  font-size: 14px;
+  font-weight: 700;
 }
 
 .ledger-edit-shell {
@@ -361,9 +428,6 @@ const {
   align-items: flex-start;
   gap: 24px;
   padding: 16px 18px 20px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }
 
 .ledger-edit-main {
@@ -402,39 +466,30 @@ const {
   align-items: center;
   gap: 6px;
   margin-bottom: 10px;
-  color: #0f172a;
-  font-size: 14px;
+  color: var(--admin-text-strong);
+  font-size: 13px;
   font-weight: 600;
 }
 
 .ledger-required-mark {
-  color: #ef4444;
+  color: var(--admin-danger);
 }
 
 .ledger-required-tip {
-  color: #ef4444;
+  color: var(--admin-danger);
   font-size: 12px;
   font-weight: 500;
 }
 
 :deep(.ledger-control.ant-input-affix-wrapper),
 :deep(.ledger-control.ant-input),
-:deep(.ledger-control.ant-input-textarea),
 :deep(.ledger-select-control .ant-select-selector) {
-  border-radius: 8px !important;
-  border-color: #d7dde8 !important;
-  box-shadow: none !important;
-}
-
-:deep(.ledger-control.ant-input-affix-wrapper),
-:deep(.ledger-control.ant-input),
-:deep(.ledger-select-control .ant-select-selector) {
-  height: 42px !important;
+  height: 36px !important;
 }
 
 :deep(.ledger-select-control .ant-select-selection-item),
 :deep(.ledger-select-control .ant-select-selection-placeholder) {
-  line-height: 40px !important;
+  line-height: 34px !important;
 }
 
 :deep(.ledger-control.ant-input-textarea textarea) {
@@ -444,33 +499,48 @@ const {
 
 .ledger-edit-footer {
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
   gap: 24px;
   padding: 22px 24px;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+.ledger-edit-footer-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ledger-edit-footer-title {
+  color: var(--admin-text-strong);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ledger-edit-footer-subtitle {
+  color: var(--admin-text-soft);
+  font-size: 13px;
+}
+
+.ledger-edit-footer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 :deep(.ledger-footer-cancel.tm-btn.ant-btn) {
   min-width: 92px;
   height: 40px;
-  border-radius: 8px;
-  border-color: #d7dde8;
-  color: #475569;
-  background: #fff;
 }
 
 :deep(.ledger-footer-submit.tm-btn.ant-btn.ant-btn-primary) {
   min-width: 142px;
   height: 40px;
-  border-radius: 8px;
-  border-color: #3b82f6;
-  background: #3b82f6;
-  box-shadow: 0 8px 18px rgba(59, 130, 246, 0.18);
 }
 
 @media (max-width: 1200px) {
+  .ledger-edit-overview,
   .ledger-edit-shell {
     flex-direction: column;
   }
@@ -481,6 +551,16 @@ const {
 
   .ledger-fields-grid {
     grid-template-columns: 1fr;
+  }
+
+  .ledger-edit-footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ledger-edit-footer-actions {
+    width: 100%;
+    justify-content: flex-end;
   }
 }
 </style>

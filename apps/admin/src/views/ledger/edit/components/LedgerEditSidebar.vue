@@ -77,7 +77,8 @@ watch(
   max-height: calc(100vh - 240px);
   padding: 14px 12px;
   border-radius: 12px;
-  background: #f6f7f9;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-surface-muted);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #cbd5e1 transparent;
@@ -104,12 +105,12 @@ watch(
 .ledger-sidebar-head-title {
   font-size: 13px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--admin-text-strong);
 }
 
 .ledger-sidebar-head-meta {
   font-size: 12px;
-  color: #64748b;
+  color: var(--admin-text-soft);
 }
 
 .ledger-sidebar-list {
@@ -123,19 +124,19 @@ watch(
   margin-bottom: 8px;
   padding: 12px 14px;
   border-radius: 10px;
-  color: #334155;
+  color: var(--admin-text);
   text-align: left;
 }
 
 :deep(.ledger-sidebar-item.tm-btn.ant-btn-text:hover) {
-  background: #eef4ff;
-  color: #2563eb;
+  background: var(--admin-primary-soft);
+  color: var(--admin-primary);
 }
 
 :deep(.ledger-sidebar-item-active.tm-btn.ant-btn-text) {
-  border: 1px solid #9dc0ff;
-  background: #eef4ff;
-  color: #2563eb;
+  border: 1px solid var(--admin-primary-soft-strong);
+  background: var(--admin-primary-soft);
+  color: var(--admin-primary);
 }
 
 .ledger-sidebar-item-inner {
@@ -165,7 +166,7 @@ watch(
 
 .ledger-sidebar-progress {
   font-size: 12px;
-  color: #475569;
+  color: var(--admin-text-soft);
 }
 
 @media (max-width: 1200px) {

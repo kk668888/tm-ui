@@ -1,5 +1,5 @@
 <template>
-  <div class="admin-shell-card ledger-filter-card">
+  <div class="admin-panel ledger-filter-card">
     <div class="ledger-type-row">
       <div class="ledger-type-label-wrap">
         <span class="ledger-type-label">类型</span>
@@ -47,10 +47,7 @@ defineEmits<{
 
 <style scoped>
 .ledger-filter-card {
-  padding: 12px 14px;
-  border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  padding: 14px 16px;
 }
 
 .ledger-type-row {
@@ -68,9 +65,9 @@ defineEmits<{
 }
 
 .ledger-type-label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: var(--admin-text-soft);
 }
 
 .ledger-type-count {
@@ -81,17 +78,16 @@ defineEmits<{
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: #edf4ff;
-  color: #2563eb;
+  background: var(--admin-primary-soft);
+  color: var(--admin-primary);
   font-size: 13px;
   font-weight: 700;
 }
 
 :deep(.ledger-chip.tm-btn.ant-btn) {
-  --ledger-chip-color: #2563eb;
-  --ledger-chip-border: #bfdbfe;
-  --ledger-chip-bg: #eff6ff;
-  --ledger-chip-shadow: rgba(37, 99, 235, 0.16);
+  --ledger-chip-color: var(--admin-primary);
+  --ledger-chip-border: var(--admin-border);
+  --ledger-chip-bg: var(--admin-primary-soft);
   height: 32px;
   padding: 0 14px;
   display: inline-flex;
@@ -99,9 +95,9 @@ defineEmits<{
   justify-content: center;
   border-radius: 999px;
   border-color: var(--ledger-chip-border);
-  background: #fff;
-  color: #475569;
-  font-size: 14px;
+  background: var(--admin-surface);
+  color: var(--admin-text-soft);
+  font-size: 13px;
   font-weight: 600;
   line-height: 1;
   box-shadow: none;
@@ -126,9 +122,9 @@ defineEmits<{
 :deep(.ledger-chip-active.tm-btn.ant-btn:focus),
 :deep(.ledger-chip-active.tm-btn.ant-btn:active) {
   color: var(--ledger-chip-color);
-  border-color: #5b93ff;
+  border-color: var(--admin-primary-soft-strong);
   background: var(--ledger-chip-bg);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.12) inset;
+  box-shadow: none;
 }
 
 .ledger-chip-dot {
@@ -141,7 +137,7 @@ defineEmits<{
 
 .ledger-chip-blue {
   --ledger-chip-color: #2563eb;
-  --ledger-chip-border: #b8d0ff;
+  --ledger-chip-border: #c6d4eb;
   --ledger-chip-bg: #edf4ff;
 }
 
@@ -182,13 +178,11 @@ defineEmits<{
 :deep(.ledger-more-select .ant-select-selector) {
   height: 32px !important;
   border-radius: 999px !important;
-  border-color: #e6eaf2 !important;
-  box-shadow: none !important;
 }
 
 :deep(.ledger-more-select .ant-select-selection-placeholder),
 :deep(.ledger-more-select .ant-select-selection-item) {
   line-height: 30px !important;
-  color: #94a3b8;
+  color: var(--admin-text-soft);
 }
 </style>

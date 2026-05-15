@@ -1,12 +1,31 @@
 <template>
   <a-segmented v-bind="segmentedAttrs" />
 </template>
+
 <script setup lang="ts">
-import { computed } from 'vue'; import { useForwardAttrs } from '@/utils'
+import { computed } from 'vue'
+import { useForwardAttrs } from '@/utils'
+import type { TmOption } from '../shared-types'
+
 defineOptions({ name: 'TmSegmented', inheritAttrs: false })
-const props = withDefaults(defineProps<{ modelValue?: string | number; options?: any[]; block?: boolean }>(), { modelValue: undefined, options: () => [], block: false })
+
+export type TmSegmentedValue = string | number
+
+export interface TmSegmentedProps {
+  modelValue?: TmSegmentedValue
+  options?: Array<TmSegmentedValue | TmOption<TmSegmentedValue>>
+  block?: boolean
+}
+
+const props = withDefaults(defineProps<TmSegmentedProps>(), {
+  modelValue: undefined,
+  options: () => [],
+  block: false,
+})
+
 const emit = defineEmits<{ 'update:modelValue': [value: string | number] }>()
 const forwardedAttrs = useForwardAttrs()
+
 const segmentedAttrs = computed(() => ({
   ...forwardedAttrs.value,
   ...(props.modelValue !== undefined ? { value: props.modelValue } : {}),
@@ -15,6 +34,12 @@ const segmentedAttrs = computed(() => ({
   class: 'tm-segmented',
   'onUpdate:value': handleChange,
 }))
-const handleChange = (v: string | number) => emit('update:modelValue', v)
+
+const handleChange = (v: TmSegmentedValue) => emit('update:modelValue', v)
 </script>
-<style scoped lang="less">.tm-segmented { border-radius: 6px; }</style>
+
+<style scoped lang="less">
+.tm-segmented {
+  border-radius: 6px;
+}
+</style>

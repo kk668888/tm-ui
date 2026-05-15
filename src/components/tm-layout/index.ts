@@ -1,1 +1,8 @@
-export { TmLayout, default } from './component'
+export {
+  TmLayout,
+  TmLayoutHeader,
+  TmLayoutSider,
+  TmLayoutContent,
+  TmLayoutFooter,
+  default,
+} from './component'

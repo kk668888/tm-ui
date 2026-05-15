@@ -1,6 +1,6 @@
 # TmTable 表格
 
-增强表格组件，默认开启 bordered，内建分页器。
+增强表格组件，底层使用 `vxe-table`，默认开启 bordered，内建分页器。
 
 ## 基础使用
 
@@ -10,7 +10,7 @@
 <template>
   <tm-table
     :data-source="data"
-    :columns="columns"
+    :columns="cols"
     :pagination="{ current: 1, pageSize: 10, total: data.length }"
   />
 </template>
@@ -44,6 +44,8 @@ const data = [
 | pagination | 分页配置或 false | `TmPageInfo \| false` | `内置` |
 | bordered | 是否显示边框 | `boolean` | `true` |
 | rowKey | 行唯一标识 | `string \| (record) => string` | `'id'` |
+| stripe | 是否显示斑马纹 | `boolean` | `false` |
+| scroll | 滚动配置，当前主要支持 `y` 高度 | `{ x?: number; y?: number }` | `-` |
 
 ### Events
 
@@ -51,6 +53,8 @@ const data = [
 |--------|------|----------|
 | page-change | 分页变化 | `(page, pageSize)` |
 | sort-change | 排序变化 | `(sorter)` |
+| row-click | 行点击 | `(record, index)` |
+| change | 分页或排序变化 | `(pagination, filters, sorter)` |
 
 <script setup lang="ts">
 const cols = [

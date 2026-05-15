@@ -6,18 +6,18 @@
 
 <div class="demo-wrapper" style="padding: 16px 0;">
   <tm-layout style="min-height: 200px;">
-    <a-layout-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</a-layout-header>
-    <a-layout-content style="padding: 16px; background: #f5f5f5;">Content</a-layout-content>
-    <a-layout-footer style="text-align: center; background: #001529; color: #fff;">Footer</a-layout-footer>
+    <tm-layout-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</tm-layout-header>
+    <tm-layout-content style="padding: 16px; background: #f5f5f5;">Content</tm-layout-content>
+    <tm-layout-footer style="text-align: center; background: #001529; color: #fff;">Footer</tm-layout-footer>
   </tm-layout>
 </div>
 
 ```vue
 <template>
   <tm-layout style="min-height: 200px;">
-    <a-layout-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</a-layout-header>
-    <a-layout-content style="padding: 16px; background: #f5f5f5;">Content</a-layout-content>
-    <a-layout-footer style="text-align: center; background: #001529; color: #fff;">Footer</a-layout-footer>
+    <tm-layout-header style="background: #001529; color: #fff; padding: 0 16px; line-height: 48px;">Header</tm-layout-header>
+    <tm-layout-content style="padding: 16px; background: #f5f5f5;">Content</tm-layout-content>
+    <tm-layout-footer style="text-align: center; background: #001529; color: #fff;">Footer</tm-layout-footer>
   </tm-layout>
 </template>
 ```
@@ -30,14 +30,14 @@
 |------|------|------|--------|
 | hasSider | 是否包含 Sider，影响子元素的渲染顺序 | `boolean` | `false` |
 
-### TmHeader Props
+### TmLayoutHeader Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
 | style | 自定义样式 | `CSSProperties` | - |
 | class | 自定义类名 | `string` | - |
 
-### TmSider Props
+### TmLayoutSider Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
@@ -50,14 +50,14 @@
 | theme | 主题色 | `'light' \| 'dark'` | `'dark'` |
 | trigger | 自定义触发器，设为 null 可隐藏 | `vnode \| #trigger` | - |
 
-### TmContent Props
+### TmLayoutContent Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
 | style | 自定义样式 | `CSSProperties` | - |
 | class | 自定义类名 | `string` | - |
 
-### TmFooter Props
+### TmLayoutFooter Props
 
 | 属性 | 说明 | 类型 | 默认值 |
 |------|------|------|--------|
@@ -70,4 +70,4 @@
 |--------|------|----------|
 | collapse | Sider 收起状态变化时触发 | `(collapsed: boolean) => void` |
 
-> TmLayout 及其子组件透传 ant-design-vue Layout 的全部 API。
+> TmLayout、TmLayoutHeader、TmLayoutSider、TmLayoutContent 和 TmLayoutFooter 透传 ant-design-vue Layout 的全部 API。

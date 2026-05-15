@@ -21,7 +21,7 @@
     </section>
 
     <section class="admin-login-panel">
-      <div class="admin-shell-card w-full max-w-[460px] rounded-[32px] p-8">
+      <div class="admin-shell-card admin-login-card">
         <div class="mb-8 flex items-center justify-between">
           <div>
             <h2 class="mb-2 text-3xl font-semibold text-slate-900">{{ t('auth.signIn') }}</h2>
@@ -32,23 +32,23 @@
           </tm-button>
         </div>
 
-        <a-form layout="vertical" :model="formState" @finish="handleSubmit">
-          <a-form-item
+        <tm-form layout="vertical" :model="formState" @finish="handleSubmit">
+          <tm-form-item
             :label="t('auth.username')"
             name="username"
             :rules="[{ required: true, message: t('auth.usernameRequired') }]"
           >
             <tm-input v-model="formState.username" :placeholder="t('auth.usernamePlaceholder')" />
-          </a-form-item>
-          <a-form-item
+          </tm-form-item>
+          <tm-form-item
             :label="t('auth.password')"
             name="password"
             :rules="[{ required: true, message: t('auth.passwordRequired') }]"
           >
             <tm-input-password v-model="formState.password" :placeholder="t('auth.passwordPlaceholder')" />
-          </a-form-item>
+          </tm-form-item>
 
-          <div class="mb-4 rounded-2xl bg-slate-50 p-4 text-xs leading-6 text-slate-500">
+          <div class="admin-login-tips mb-4 p-4 text-xs leading-6">
             admin / editor / auditor<br />
             password: 123456
           </div>
@@ -56,7 +56,7 @@
           <tm-button type="primary" html-type="submit" block :loading="submitting">
             {{ t('auth.submit') }}
           </tm-button>
-        </a-form>
+        </tm-form>
       </div>
     </section>
   </div>
@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 import { reactive, ref, watch } from 'vue'
-import { message } from 'ant-design-vue'
+import { TmMessage } from 'tm-ui'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useAppStore } from '@admin/stores/app'
@@ -93,7 +93,7 @@ async function handleSubmit() {
   submitting.value = true
   try {
     await authStore.login(formState)
-    message.success(t('auth.loginSuccess'))
+    TmMessage.success(t('auth.loginSuccess'))
     const redirect = typeof route.query.redirect === 'string' ? route.query.redirect : '/dashboard'
     router.replace(redirect)
   } finally {

@@ -1,1 +1,1 @@
-export { TmRadio, default } from './component'
+export { TmRadio, TmRadioGroup, default } from './component'

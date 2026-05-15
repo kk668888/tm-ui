@@ -38,9 +38,9 @@ defineEmits<{
 <style scoped>
 .ledger-section-card {
   overflow: hidden;
-  border: 1px solid #e5e7eb;
+  border: 1px solid var(--admin-border);
   border-radius: 12px;
-  background: #fff;
+  background: var(--admin-surface);
 }
 
 :deep(.ledger-section-trigger.tm-btn.ant-btn-text) {
@@ -48,13 +48,13 @@ defineEmits<{
   height: 44px;
   padding: 0 16px;
   border-radius: 0;
-  background: #f5f6f7;
-  color: #334155;
+  background: var(--admin-surface-secondary);
+  color: var(--admin-text);
 }
 
 :deep(.ledger-section-trigger.tm-btn.ant-btn-text:hover) {
-  background: #f1f5f9;
-  color: #2563eb;
+  background: var(--admin-surface-muted);
+  color: var(--admin-primary);
 }
 
 .ledger-section-head {
@@ -74,7 +74,7 @@ defineEmits<{
   width: 4px;
   height: 18px;
   border-radius: 999px;
-  background: #2563eb;
+  background: var(--admin-primary);
 }
 
 .ledger-section-title {
@@ -87,11 +87,11 @@ defineEmits<{
   align-items: center;
   gap: 10px;
   font-size: 14px;
-  color: #64748b;
+  color: var(--admin-text-soft);
 }
 
 .ledger-section-progress {
-  color: #475569;
+  color: var(--admin-text-soft);
 }
 
 .ledger-section-arrow {
@@ -100,16 +100,16 @@ defineEmits<{
 
 .ledger-section-body {
   padding: 18px 20px 20px;
-  background: #fff;
+  background: var(--admin-surface);
 }
 
 :deep(.ledger-section-required.tm-tag) {
   margin-inline-end: 0;
   padding: 1px 10px;
   border-radius: 999px;
-  border-color: #ffc4c4;
-  color: #ef4444;
-  background: #fff7f7;
+  border-color: color-mix(in srgb, var(--admin-danger) 16%, transparent);
+  color: var(--admin-danger);
+  background: var(--admin-danger-soft);
   font-size: 12px;
 }
 </style>

@@ -1,7 +1,7 @@
 import { computed, nextTick, reactive, ref } from 'vue'
 import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { message } from 'ant-design-vue'
+import { TmMessage } from 'tm-ui'
 import {
   ApiOutlined,
   FileTextOutlined,
@@ -183,6 +183,18 @@ export function useLedgerEditPage() {
     recordId: String(route.params.id ?? ''),
   }))
 
+  const completedSectionCount = computed(() =>
+    sectionMetas.filter((section) => countFilled(section.fields, formState) >= section.total).length,
+  )
+
+  const totalFieldCount = computed(() =>
+    sectionMetas.reduce((sum, section) => sum + section.total, 0),
+  )
+
+  const completedFieldCount = computed(() =>
+    sectionMetas.reduce((sum, section) => sum + countFilled(section.fields, formState), 0),
+  )
+
   function openSection(key: LedgerSectionKey) {
     expandedSectionKey.value = key
   }
@@ -198,7 +210,7 @@ export function useLedgerEditPage() {
   }
 
   function saveAsPending() {
-    message.success('台账信息已保存并转为未登记')
+    TmMessage.success('台账信息已保存并转为未登记')
   }
 
   function goBack() {
@@ -211,9 +223,12 @@ export function useLedgerEditPage() {
     goBack,
     openSection,
     pageSummary,
+    completedFieldCount,
+    completedSectionCount,
     saveAsPending,
     scrollToSection,
     sectionItems,
+    totalFieldCount,
   }
 }
 

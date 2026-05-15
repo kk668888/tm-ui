@@ -1,98 +1,130 @@
 <template>
-  <section class="admin-page-section">
-    <div class="admin-toolbar">
-      <div>
-        <h2 class="mb-2 text-2xl font-semibold">角色管理</h2>
-        <p class="admin-muted">角色决定菜单访问范围和按钮操作权限。</p>
-      </div>
-      <PermissionButton type="primary" permission="system:role:create" @click="openCreate">
-        新建角色
-      </PermissionButton>
-    </div>
+  <section class="admin-page">
+    <AdminPageHeader title="角色管理" description="维护角色访问范围、按钮权限与菜单授权关系。">
+      <template #actions>
+        <PermissionButton type="primary" permission="system:role:create" @click="openCreate">
+          新建角色
+        </PermissionButton>
+      </template>
+    </AdminPageHeader>
 
-    <tm-card>
-      <a-form layout="inline" class="flex flex-wrap gap-3">
-        <a-form-item label="关键词">
-          <tm-input v-model="query.keyword" placeholder="角色名称 / 编码" style="width: 220px" />
-        </a-form-item>
-        <a-form-item label="状态">
-          <tm-select v-model="query.status" style="width: 160px" :options="statusOptions" allow-clear />
-        </a-form-item>
-        <a-form-item>
-          <tm-space>
-            <tm-button type="primary" @click="loadRoles">查询</tm-button>
-            <tm-button @click="resetQuery">重置</tm-button>
-          </tm-space>
-        </a-form-item>
-      </a-form>
-    </tm-card>
+    <AdminFilterPanel>
+      <tm-form-item class="admin-filter-item admin-filter-item-wide" label="关键词">
+        <tm-input v-model="query.keyword" placeholder="角色名称 / 编码" />
+      </tm-form-item>
+      <tm-form-item class="admin-filter-item" label="状态">
+        <tm-select v-model="query.status" :options="statusOptions" allow-clear placeholder="全部状态" />
+      </tm-form-item>
+      <template #actions>
+        <tm-button type="primary" @click="loadRoles">查询</tm-button>
+        <tm-button @click="resetQuery">重置</tm-button>
+      </template>
+    </AdminFilterPanel>
 
-    <tm-card>
-      <a-table :data-source="roles" :columns="columns" :pagination="pagination" row-key="id" :loading="loading" @change="handleTableChange">
+    <AdminTablePanel title="角色列表" description="支持编辑角色基础信息并配置权限。">
+      <template #meta>
+        <div class="admin-pill">共 {{ total }} 个角色</div>
+        <div class="admin-pill">启用 {{ enabledCount }}</div>
+        <div class="admin-pill">权限点 {{ permissionOptions.length }}</div>
+      </template>
+      <tm-table
+        class="admin-data-table"
+        :data-source="roles"
+        :columns="columns"
+        :pagination="pagination"
+        row-key="id"
+        :loading="loading"
+        @change="handleTableChange"
+      >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
+          <template v-if="column.key === 'name'">
+            <div class="role-primary-cell">
+              <div class="role-primary-main">{{ record.name }}</div>
+              <div class="role-primary-sub">{{ record.code }}</div>
+            </div>
+          </template>
+          <template v-else-if="column.key === 'description'">
+            <div class="role-description">{{ record.description || '未填写描述' }}</div>
+          </template>
+          <template v-else-if="column.key === 'status'">
             <StatusTag :value="record.status" />
           </template>
           <template v-else-if="column.key === 'actions'">
-            <tm-space wrap>
+            <div class="admin-table-inline-actions">
               <PermissionButton size="small" permission="system:role:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:role:edit" @click="openAssign(record)">授权</PermissionButton>
               <PermissionButton size="small" permission="system:role:delete" danger @click="removeRole(record.id)">删除</PermissionButton>
-            </tm-space>
+            </div>
           </template>
         </template>
-      </a-table>
-    </tm-card>
+      </tm-table>
+    </AdminTablePanel>
 
-    <a-modal :open="modalOpen" :title="editingId ? '编辑角色' : '新建角色'" :confirm-loading="saving" @ok="submitRole" @cancel="modalOpen = false">
-      <a-form layout="vertical">
-        <a-form-item label="角色名称">
+    <tm-modal v-model:model-value="modalOpen" :title="editingId ? '编辑角色' : '新建角色'" :confirm-loading="saving" width="720px" @ok="submitRole" @cancel="modalOpen = false">
+      <tm-form :model="formState" layout="vertical" class="admin-form-grid">
+        <tm-form-item label="角色名称">
           <tm-input v-model="formState.name" />
-        </a-form-item>
-        <a-form-item label="角色编码">
+        </tm-form-item>
+        <tm-form-item label="角色编码">
           <tm-input v-model="formState.code" />
-        </a-form-item>
-        <a-form-item label="角色描述">
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="角色描述">
           <tm-textarea v-model="formState.description" :rows="3" />
-        </a-form-item>
-        <a-form-item label="状态">
-          <a-radio-group v-model:value="formState.status">
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="状态">
+          <tm-radio-group v-model:value="formState.status">
             <a-radio value="enabled">启用</a-radio>
             <a-radio value="disabled">停用</a-radio>
-          </a-radio-group>
-        </a-form-item>
-      </a-form>
-    </a-modal>
+          </tm-radio-group>
+        </tm-form-item>
+      </tm-form>
+    </tm-modal>
 
-    <a-modal :open="assignOpen" title="角色授权" width="880px" :confirm-loading="saving" @ok="submitAssign" @cancel="assignOpen = false">
-      <div class="grid gap-6 lg:grid-cols-[1fr_1fr]">
-        <div>
-          <div class="mb-3 font-semibold">菜单权限</div>
-          <a-tree
-            checkable
-            default-expand-all
-            :tree-data="menuTreeData"
-            :checked-keys="assignState.menuIds"
-            @check="handleMenuCheck"
-          />
+    <tm-modal v-model:model-value="assignOpen" title="角色授权" width="960px" :confirm-loading="saving" @ok="submitAssign" @cancel="assignOpen = false">
+      <div class="role-assign-summary" v-if="activeAssignRecord">
+        <div class="role-assign-summary-main">
+          <div class="role-assign-summary-title">{{ activeAssignRecord.name }}</div>
+          <div class="role-assign-summary-sub">{{ activeAssignRecord.code }} · {{ activeAssignRecord.description || '未填写描述' }}</div>
         </div>
-        <div>
-          <div class="mb-3 font-semibold">按钮权限</div>
-          <a-checkbox-group v-model:value="assignState.permissions" class="grid gap-2" :options="permissionOptions" />
+        <div class="role-assign-summary-stats">
+          <div class="admin-pill">菜单 {{ assignState.menuIds.length }}</div>
+          <div class="admin-pill">按钮 {{ assignState.permissions.length }}</div>
         </div>
       </div>
-    </a-modal>
+      <div class="admin-split-grid admin-split-grid-2">
+        <AdminTablePanel title="菜单权限" description="控制该角色可见的页面与导航。">
+          <tm-tree
+            :checkable="true"
+            :default-expand-all="true"
+            :tree-data="menuTreeData"
+            :checked-keys="assignState.menuIds"
+            @update:checked-keys="handleMenuCheck"
+          />
+        </AdminTablePanel>
+        <AdminTablePanel title="按钮权限" description="按业务域分组勾选该角色可执行的具体操作。">
+          <div class="role-permission-groups">
+            <section v-for="group in permissionGroups" :key="group.key" class="role-permission-group">
+              <div class="role-permission-group-title">{{ group.label }}</div>
+              <tm-checkbox-group v-model:value="assignState.permissions" class="grid gap-2" :options="group.options" />
+            </section>
+          </div>
+        </AdminTablePanel>
+      </div>
+    </tm-modal>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { Modal, message } from 'ant-design-vue'
-import type { TablePaginationConfig, TreeProps } from 'ant-design-vue'
+import { TmMessage } from 'tm-ui'
+import type { TablePaginationConfig } from 'ant-design-vue'
 import { menuApi, roleApi } from '@admin/api/system'
 import { useAuthStore } from '@admin/stores/auth'
 import { usePermissionStore } from '@admin/stores/permission'
 import type { MenuRecord, RoleRecord } from '@admin/types'
+import AdminFilterPanel from '@admin/components/app/AdminFilterPanel.vue'
+import AdminPageHeader from '@admin/components/app/AdminPageHeader.vue'
+import AdminTablePanel from '@admin/components/app/AdminTablePanel.vue'
 import PermissionButton from '@admin/components/app/PermissionButton.vue'
 import StatusTag from '@admin/components/app/StatusTag.vue'
 
@@ -141,7 +173,7 @@ const columns = [
   { title: '角色编码', dataIndex: 'code', key: 'code' },
   { title: '状态', key: 'status' },
   { title: '描述', dataIndex: 'description', key: 'description' },
-  { title: '操作', key: 'actions', width: 260 },
+  { title: '操作', key: 'actions', width: 220 },
 ]
 
 const statusOptions = [
@@ -155,9 +187,35 @@ const pagination = computed<TablePaginationConfig>(() => ({
   total: total.value,
   showSizeChanger: true,
 }))
+const enabledCount = computed(() => roles.value.filter((item) => item.status === 'enabled').length)
+const activeAssignRecord = computed(() => roles.value.find((item) => item.id === activeAssignId.value) ?? null)
+const permissionGroupLabels: Record<string, string> = {
+  user: '用户',
+  role: '角色',
+  menu: '菜单',
+  dict: '字典',
+  log: '日志',
+  config: '配置',
+}
+const permissionGroups = computed(() => {
+  const grouped = new Map<string, Array<{ label: string; value: string }>>()
+  permissionOptions.forEach((option) => {
+    const domain = option.value.split(':')[1] ?? 'misc'
+    if (!grouped.has(domain)) {
+      grouped.set(domain, [])
+    }
+    grouped.get(domain)?.push(option)
+  })
+
+  return Array.from(grouped.entries()).map(([key, options]) => ({
+    key,
+    label: permissionGroupLabels[key] ?? key,
+    options,
+  }))
+})
 
 const menuTreeData = computed(() => {
-  const build = (parentId: number | null): TreeProps['treeData'] =>
+  const build = (parentId: number | null) =>
     menus.value
       .filter((item) => item.parentId === parentId)
       .map((item) => ({
@@ -218,7 +276,7 @@ async function submitRole() {
   saving.value = true
   try {
     await roleApi.save({ ...formState, id: editingId.value ?? undefined })
-    message.success(editingId.value ? '角色已更新' : '角色已创建')
+    TmMessage.success(editingId.value ? '角色已更新' : '角色已创建')
     modalOpen.value = false
     await loadRoles()
   } finally {
@@ -237,7 +295,7 @@ async function submitAssign() {
       menuIds: assignState.menuIds,
       permissions: assignState.permissions,
     })
-    message.success('角色权限已更新')
+    TmMessage.success('角色权限已更新')
     assignOpen.value = false
     await authStore.fetchProfile()
     permissionStore.buildRoutes()
@@ -247,19 +305,14 @@ async function submitAssign() {
   }
 }
 
-function removeRole(id: number) {
-  Modal.confirm({
-    title: '确认删除该角色？',
-    onOk: async () => {
-      await roleApi.remove(id)
-      message.success('角色已删除')
-      await loadRoles()
-    },
-  })
+async function removeRole(id: number) {
+  await roleApi.remove(id)
+  TmMessage.success('角色已删除')
+  await loadRoles()
 }
 
-function handleMenuCheck(keys: any) {
-  assignState.menuIds = Array.isArray(keys) ? keys.map(Number) : keys.checked.map(Number)
+function handleMenuCheck(checkedKeys: Array<string | number>) {
+  assignState.menuIds = checkedKeys as number[]
 }
 
 function handleTableChange(paginationConfig: TablePaginationConfig) {
@@ -272,3 +325,75 @@ onMounted(async () => {
   await Promise.all([loadRoles(), loadMenus()])
 })
 </script>
+
+<style scoped>
+.role-primary-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.role-primary-main {
+  color: var(--admin-text-strong);
+  font-weight: 600;
+}
+
+.role-primary-sub {
+  color: var(--admin-text-soft);
+  font-size: 12px;
+}
+
+.role-description {
+  color: var(--admin-text-soft);
+  line-height: 1.6;
+}
+
+.role-assign-summary {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 16px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface-muted);
+}
+
+.role-assign-summary-title {
+  color: var(--admin-text-strong);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.role-assign-summary-sub {
+  margin-top: 4px;
+  color: var(--admin-text-soft);
+  font-size: 13px;
+}
+
+.role-assign-summary-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.role-permission-groups {
+  display: grid;
+  gap: 12px;
+}
+
+.role-permission-group {
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-muted);
+}
+
+.role-permission-group-title {
+  margin-bottom: 10px;
+  color: var(--admin-text-strong);
+  font-size: 13px;
+  font-weight: 700;
+}
+</style>

@@ -1,72 +1,95 @@
 <template>
-  <section class="admin-page-section">
-    <div class="admin-toolbar">
-      <div>
-        <h2 class="mb-2 text-2xl font-semibold">系统配置</h2>
-        <p class="admin-muted">统一维护应用标题、主题与安全策略等系统级参数。</p>
-      </div>
-      <PermissionButton type="primary" permission="system:config:create" @click="openCreate">
-        新建配置
-      </PermissionButton>
-    </div>
+  <section class="admin-page">
+    <AdminPageHeader title="系统配置" description="统一维护应用标题、主题、开关项和安全类系统参数。">
+      <template #actions>
+        <PermissionButton type="primary" permission="system:config:create" @click="openCreate">
+          新建配置
+        </PermissionButton>
+      </template>
+    </AdminPageHeader>
 
-    <tm-card>
-      <a-form layout="inline" class="flex flex-wrap gap-3">
-        <a-form-item label="关键词">
-          <tm-input v-model="query.keyword" placeholder="配置名 / 配置键" style="width: 240px" />
-        </a-form-item>
-        <a-form-item label="分组">
-          <tm-select v-model="query.group" style="width: 180px" :options="groupOptions" allow-clear />
-        </a-form-item>
-        <a-form-item>
-          <tm-space>
-            <tm-button type="primary" @click="loadConfigs">查询</tm-button>
-            <tm-button @click="resetQuery">重置</tm-button>
-          </tm-space>
-        </a-form-item>
-      </a-form>
-    </tm-card>
+    <AdminFilterPanel>
+      <tm-form-item class="admin-filter-item admin-filter-item-wide" label="关键词">
+        <tm-input v-model="query.keyword" placeholder="配置名 / 配置键" />
+      </tm-form-item>
+      <tm-form-item class="admin-filter-item" label="分组">
+        <tm-select v-model="query.group" :options="groupOptions" allow-clear placeholder="全部分组" />
+      </tm-form-item>
+      <template #actions>
+        <tm-button type="primary" @click="loadConfigs">查询</tm-button>
+        <tm-button @click="resetQuery">重置</tm-button>
+      </template>
+    </AdminFilterPanel>
 
-    <tm-card>
-      <a-table :data-source="configs" :columns="columns" row-key="id" :loading="loading" :pagination="pagination" @change="handleTableChange">
+    <AdminTablePanel title="配置列表" description="支持维护不同分组下的配置键和值。">
+      <template #meta>
+        <div class="admin-pill">共 {{ total }} 项配置</div>
+        <div class="admin-pill">布尔项 {{ booleanCount }}</div>
+        <div class="admin-pill">启用 {{ enabledCount }}</div>
+      </template>
+      <tm-table class="admin-data-table" :data-source="configs" :columns="columns" row-key="id" :loading="loading" :pagination="pagination" @change="handleTableChange">
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
+          <template v-if="column.key === 'name'">
+            <div class="config-primary-cell">
+              <div class="config-primary-main">{{ record.name }}</div>
+              <div class="config-primary-sub">{{ record.key }}</div>
+            </div>
+          </template>
+          <template v-else-if="column.key === 'group'">
+            <div class="config-primary-cell">
+              <div class="config-primary-main">{{ record.group }}</div>
+              <div class="config-primary-sub">{{ typeLabelMap[record.type] }}</div>
+            </div>
+          </template>
+          <template v-else-if="column.key === 'status'">
             <StatusTag :value="record.status" />
           </template>
+          <template v-else-if="column.key === 'value'">
+            <span class="admin-code">{{ formatConfigValue(record.value) }}</span>
+          </template>
           <template v-else-if="column.key === 'actions'">
-            <tm-space wrap>
+            <div class="admin-table-inline-actions">
               <PermissionButton size="small" permission="system:config:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:config:delete" danger @click="removeConfig(record.id)">删除</PermissionButton>
-            </tm-space>
+            </div>
           </template>
         </template>
-      </a-table>
-    </tm-card>
+      </tm-table>
+    </AdminTablePanel>
 
-    <a-modal :open="modalOpen" :title="editingId ? '编辑配置' : '新建配置'" :confirm-loading="saving" @ok="submitConfig" @cancel="modalOpen = false">
-      <a-form layout="vertical">
-        <a-form-item label="分组"><tm-input v-model="formState.group" /></a-form-item>
-        <a-form-item label="配置键"><tm-input v-model="formState.key" /></a-form-item>
-        <a-form-item label="配置名称"><tm-input v-model="formState.name" /></a-form-item>
-        <a-form-item label="类型">
+    <tm-modal v-model:model-value="modalOpen" :title="editingId ? '编辑配置' : '新建配置'" :confirm-loading="saving" width="760px" @ok="submitConfig" @cancel="modalOpen = false">
+      <tm-form :model="formState" layout="vertical" class="admin-form-grid">
+        <tm-form-item label="分组"><tm-input v-model="formState.group" /></tm-form-item>
+        <tm-form-item label="配置键"><tm-input v-model="formState.key" /></tm-form-item>
+        <tm-form-item label="配置名称"><tm-input v-model="formState.name" /></tm-form-item>
+        <tm-form-item label="类型">
           <tm-select v-model="formState.type" :options="typeOptions" />
-        </a-form-item>
-        <a-form-item label="值">
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="值">
           <tm-input v-if="formState.type !== 'boolean'" v-model="stringValue" />
           <tm-switch v-else v-model="booleanValue" />
-        </a-form-item>
-        <a-form-item label="描述"><tm-textarea v-model="formState.description" :rows="3" /></a-form-item>
-      </a-form>
-    </a-modal>
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="状态">
+          <tm-radio-group v-model:value="formState.status">
+            <a-radio value="enabled">启用</a-radio>
+            <a-radio value="disabled">停用</a-radio>
+          </tm-radio-group>
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="描述"><tm-textarea v-model="formState.description" :rows="3" /></tm-form-item>
+      </tm-form>
+    </tm-modal>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { Modal, message } from 'ant-design-vue'
+import { TmMessage } from 'tm-ui'
 import type { TablePaginationConfig } from 'ant-design-vue'
 import { configApi } from '@admin/api/system'
 import type { SystemConfigRecord } from '@admin/types'
+import AdminFilterPanel from '@admin/components/app/AdminFilterPanel.vue'
+import AdminPageHeader from '@admin/components/app/AdminPageHeader.vue'
+import AdminTablePanel from '@admin/components/app/AdminTablePanel.vue'
 import PermissionButton from '@admin/components/app/PermissionButton.vue'
 import StatusTag from '@admin/components/app/StatusTag.vue'
 
@@ -103,7 +126,7 @@ const columns = [
   { title: '类型', dataIndex: 'type', key: 'type' },
   { title: '值', dataIndex: 'value', key: 'value' },
   { title: '状态', key: 'status' },
-  { title: '操作', key: 'actions', width: 200 },
+  { title: '操作', key: 'actions', width: 180 },
 ]
 
 const groupOptions = [
@@ -118,6 +141,12 @@ const typeOptions = [
   { label: 'boolean', value: 'boolean' },
   { label: 'select', value: 'select' },
 ]
+const typeLabelMap = {
+  string: '字符串',
+  number: '数字',
+  boolean: '布尔值',
+  select: '下拉选项',
+}
 
 const pagination = computed<TablePaginationConfig>(() => ({
   current: query.page,
@@ -125,6 +154,25 @@ const pagination = computed<TablePaginationConfig>(() => ({
   total: total.value,
   showSizeChanger: true,
 }))
+const booleanCount = computed(() => configs.value.filter((item) => item.type === 'boolean').length)
+const enabledCount = computed(() => configs.value.filter((item) => item.status === 'enabled').length)
+
+function parseBooleanValue(value: SystemConfigRecord['value']) {
+  if (typeof value === 'boolean') {
+    return value
+  }
+  if (typeof value === 'number') {
+    return value !== 0
+  }
+  return value === 'true'
+}
+
+function formatConfigValue(value: SystemConfigRecord['value']) {
+  if (typeof value === 'boolean') {
+    return value ? 'true' : 'false'
+  }
+  return String(value)
+}
 
 async function loadConfigs() {
   loading.value = true
@@ -160,8 +208,8 @@ function openCreate() {
 function openEdit(record: SystemConfigRecord) {
   editingId.value = record.id
   Object.assign(formState, JSON.parse(JSON.stringify(record)))
-  stringValue.value = String(record.value)
-  booleanValue.value = Boolean(record.value)
+  stringValue.value = record.value == null ? '' : String(record.value)
+  booleanValue.value = parseBooleanValue(record.value)
   modalOpen.value = true
 }
 
@@ -170,7 +218,7 @@ async function submitConfig() {
   try {
     formState.value = formState.type === 'boolean' ? booleanValue.value : stringValue.value
     await configApi.save({ ...formState, id: editingId.value ?? undefined })
-    message.success(editingId.value ? '配置已更新' : '配置已创建')
+    TmMessage.success(editingId.value ? '配置已更新' : '配置已创建')
     modalOpen.value = false
     await loadConfigs()
   } finally {
@@ -178,15 +226,10 @@ async function submitConfig() {
   }
 }
 
-function removeConfig(id: number) {
-  Modal.confirm({
-    title: '确认删除该配置？',
-    onOk: async () => {
-      await configApi.remove(id)
-      message.success('配置已删除')
-      await loadConfigs()
-    },
-  })
+async function removeConfig(id: number) {
+  await configApi.remove(id)
+  TmMessage.success('配置已删除')
+  await loadConfigs()
 }
 
 function handleTableChange(paginationConfig: TablePaginationConfig) {
@@ -197,3 +240,22 @@ function handleTableChange(paginationConfig: TablePaginationConfig) {
 
 onMounted(loadConfigs)
 </script>
+
+<style scoped>
+.config-primary-cell {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.config-primary-main {
+  color: var(--admin-text-strong);
+  font-weight: 600;
+}
+
+.config-primary-sub {
+  color: var(--admin-text-soft);
+  font-size: 12px;
+}
+</style>

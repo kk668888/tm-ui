@@ -1,5 +1,5 @@
 <template>
-  <section class="admin-page-section ledger-page">
+  <section class="admin-page ledger-page">
     <LedgerPageHeader :total="displayTotal" />
     <LedgerTypeFilters
       :active-type="activeType"
@@ -64,6 +64,6 @@ function handleMoreTypeChange(value: typeof moreType.value) {
 
 <style scoped>
 .ledger-page {
-  gap: 14px;
+  gap: 16px;
 }
 </style>

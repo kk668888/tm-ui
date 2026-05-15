@@ -1,13 +1,15 @@
 <template>
-  <header class="admin-shell-card flex flex-col gap-4 rounded-[28px] px-5 py-4">
+  <header class="admin-shell-card flex flex-col gap-3 px-4 py-3">
     <div class="flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <tm-button type="text" @click="appStore.toggleSidebar()">
+      <div class="flex min-w-0 items-center gap-3">
+        <tm-button type="text" size="small" @click="appStore.toggleSidebar()">
           <component :is="appStore.sidebarCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined" />
         </tm-button>
-        <AppBreadcrumbs />
+        <div class="min-w-0">
+          <AppBreadcrumbs />
+        </div>
       </div>
-      <tm-space>
+      <div class="flex items-center gap-2">
         <tm-button @click="appStore.searchOpen = true">
           <SearchOutlined />
           {{ t('common.search') }}
@@ -22,21 +24,16 @@
           <GlobalOutlined />
           {{ localeLabel }}
         </tm-button>
-        <a-dropdown>
-          <a class="flex items-center gap-3 text-[var(--admin-text)]" @click.prevent>
+        <tm-dropdown :items="userMenuItems" @select="handleUserMenuSelect">
+          <a class="flex items-center gap-3 rounded-[10px] border border-[var(--admin-border)] px-3 py-2 text-[var(--admin-text)] transition hover:border-[var(--admin-primary-soft-strong)]" @click.prevent>
             <tm-avatar :src="authStore.profile?.avatar" />
             <div class="hidden text-left md:block">
               <div class="text-sm font-semibold">{{ authStore.profile?.nickname }}</div>
               <div class="admin-muted text-xs">{{ authStore.profile?.roleCodes.join(', ') }}</div>
             </div>
           </a>
-          <template #overlay>
-            <a-menu>
-              <a-menu-item @click="logout">{{ t('common.logout') }}</a-menu-item>
-            </a-menu>
-          </template>
-        </a-dropdown>
-      </tm-space>
+        </tm-dropdown>
+      </div>
     </div>
     <AppGlobalSearch />
   </header>
@@ -69,6 +66,7 @@ const localeLabel = computed(() => appStore.locale === 'zh-CN' ? 'EN' : '中文'
 const themeOptions = computed(() =>
   appStore.themeOptions.map((item) => ({ label: item.label, value: item.value })),
 )
+const userMenuItems = computed(() => [{ key: 'logout', label: t('common.logout') }])
 
 function handleThemeChange(value: string | number) {
   appStore.toggleTheme(String(value) as 'default' | 'ocean')
@@ -81,5 +79,11 @@ function toggleLanguage() {
 async function logout() {
   await authStore.logout()
   router.replace('/login')
+}
+
+function handleUserMenuSelect(item: { key: string }) {
+  if (item.key === 'logout') {
+    logout()
+  }
 }
 </script>

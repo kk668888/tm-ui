@@ -1,0 +1,39 @@
+.vp-doc .tm-code-block.is-collapsible {
+  margin-bottom: 24px;
+}
+
+.vp-doc .tm-code-block .tm-code-block__content {
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+
+.vp-doc .tm-code-block.is-collapsed .tm-code-block__content {
+  max-height: var(--tm-code-collapsed-height);
+}
+
+.vp-doc .tm-code-block.is-expanded .tm-code-block__content {
+  max-height: var(--tm-code-expanded-height);
+}
+
+.vp-doc .tm-code-block .tm-code-block__content > pre {
+  margin: 0;
+}
+
+.vp-doc .tm-code-block .tm-code-block__toggle {
+  width: 100%;
+  border: 0;
+  border-top: 1px solid var(--vp-c-divider);
+  background: color-mix(in srgb, var(--vp-code-block-bg) 94%, var(--vp-c-bg));
+  color: var(--vp-c-brand-1);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 12px 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.vp-doc .tm-code-block .tm-code-block__toggle:hover {
+  background: color-mix(in srgb, var(--vp-code-block-bg) 84%, var(--vp-c-brand-soft));
+  color: var(--vp-c-brand-2);
+}

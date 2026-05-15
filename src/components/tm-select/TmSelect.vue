@@ -1,7 +1,5 @@
 <template>
-  <a-select
-    v-bind="selectAttrs"
-  >
+  <a-select v-bind="selectAttrs">
     <template v-if="$slots.prefixIcon" #prefixIcon>
       <slot name="prefixIcon" />
     </template>
@@ -24,36 +22,40 @@
 import { computed, useAttrs } from 'vue'
 import { Empty } from 'ant-design-vue'
 import { useForwardAttrs } from '@/utils'
+import type { TmOption, TmValue } from '../shared-types'
 
 defineOptions({
   name: 'TmSelect',
   inheritAttrs: false,
 })
 
-const props = withDefaults(
-  defineProps<{
-    modelValue?: any
-    placeholder?: string
-    showSearch?: boolean
-    allowClear?: boolean
-    filterOption?: ((input: string, option: any) => boolean) | false
-    notFoundContent?: string
-    loading?: boolean
-    emptyImage?: typeof Empty['PRESENTED_IMAGES_SIMPLE']
-  }>(),
-  {
-    modelValue: undefined,
-    placeholder: '请选择',
-    showSearch: true,
-    allowClear: true,
-    filterOption: false,
-    notFoundContent: undefined,
-    loading: false,
-  },
-)
+export type TmSelectValue = TmValue | TmValue[]
+
+export interface TmSelectProps {
+  modelValue?: TmSelectValue
+  options?: TmOption[]
+  placeholder?: string
+  showSearch?: boolean
+  allowClear?: boolean
+  filterOption?: ((input: string, option?: TmOption) => boolean) | false
+  notFoundContent?: string
+  loading?: boolean
+  emptyImage?: (typeof Empty)['PRESENTED_IMAGES_SIMPLE']
+}
+
+const props = withDefaults(defineProps<TmSelectProps>(), {
+  modelValue: undefined,
+  options: undefined,
+  placeholder: '请选择',
+  showSearch: true,
+  allowClear: true,
+  filterOption: false,
+  notFoundContent: undefined,
+  loading: false,
+})
 
 const emit = defineEmits<{
-  'update:modelValue': [value: any]
+  'update:modelValue': [value: TmSelectValue]
 }>()
 
 const attrs = useAttrs()
@@ -66,13 +68,14 @@ const selectAttrs = computed(() => ({
   placeholder: props.placeholder,
   showSearch: props.showSearch,
   allowClear: props.allowClear,
+  options: props.options,
   filterOption: props.filterOption,
   notFoundContent: props.notFoundContent,
   loading: props.loading,
   'onUpdate:value': handleSelect,
 }))
 
-const handleSelect = (value: any) => {
+const handleSelect = (value: TmSelectValue) => {
   emit('update:modelValue', value)
 }
 </script>

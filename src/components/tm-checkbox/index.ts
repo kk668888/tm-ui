@@ -1,1 +1,1 @@
-export { TmCheckbox, default } from './component'
+export { TmCheckbox, TmCheckboxGroup, default } from './component'

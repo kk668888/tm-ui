@@ -1,2 +1,2 @@
-export { TmForm, default } from './component'
+export { TmForm, TmFormItem, default } from './component'
 export type { TmFormSchemaItem } from './component'

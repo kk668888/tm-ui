@@ -8,8 +8,11 @@ import {
   TmSelect,
   TmTable,
   TmForm,
+  TmFormItem,
   TmCheckbox,
+  TmCheckboxGroup,
   TmRadio,
+  TmRadioGroup,
   TmSwitch,
   TmDatePicker,
   TmTimePicker,
@@ -24,6 +27,7 @@ import {
   TmCollapse,
   TmCollapsePanel,
   TmDescriptions,
+  TmDescriptionsItem,
   TmEmpty,
   TmImage,
   TmPopover,
@@ -48,6 +52,10 @@ import {
   TmSpace,
   TmDivider,
   TmLayout,
+  TmLayoutHeader,
+  TmLayoutSider,
+  TmLayoutContent,
+  TmLayoutFooter,
   TmAffix,
   TmAnchor,
   TmCascader,
@@ -79,6 +87,7 @@ import {
 } from './components'
 
 import './styles/tailwind.css'
+import 'vxe-table/lib/style.css'
 
 const installables = [
   TmButton,
@@ -89,8 +98,11 @@ const installables = [
   TmSelect,
   TmTable,
   TmForm,
+  TmFormItem,
   TmCheckbox,
+  TmCheckboxGroup,
   TmRadio,
+  TmRadioGroup,
   TmSwitch,
   TmDatePicker,
   TmTimePicker,
@@ -105,6 +117,7 @@ const installables = [
   TmCollapse,
   TmCollapsePanel,
   TmDescriptions,
+  TmDescriptionsItem,
   TmEmpty,
   TmImage,
   TmPopover,
@@ -129,6 +142,10 @@ const installables = [
   TmSpace,
   TmDivider,
   TmLayout,
+  TmLayoutHeader,
+  TmLayoutSider,
+  TmLayoutContent,
+  TmLayoutFooter,
   TmAffix,
   TmAnchor,
   TmCascader,
@@ -176,8 +193,11 @@ export {
   TmSelect,
   TmTable,
   TmForm,
+  TmFormItem,
   TmCheckbox,
+  TmCheckboxGroup,
   TmRadio,
+  TmRadioGroup,
   TmSwitch,
   TmDatePicker,
   TmTimePicker,
@@ -192,6 +212,7 @@ export {
   TmCollapse,
   TmCollapsePanel,
   TmDescriptions,
+  TmDescriptionsItem,
   TmEmpty,
   TmImage,
   TmPopover,
@@ -216,6 +237,10 @@ export {
   TmSpace,
   TmDivider,
   TmLayout,
+  TmLayoutHeader,
+  TmLayoutSider,
+  TmLayoutContent,
+  TmLayoutFooter,
   TmAffix,
   TmAnchor,
   TmCascader,
@@ -251,6 +276,18 @@ export type { TmFormSchemaItem } from './components'
 export type { TmBreadcrumbItem } from './components'
 export type { TmDropdownItem } from './components'
 export type { TmUploadFile } from './components'
+export type { TmOption, TmTreeOption, TmValue } from './components'
+export type {
+  TmAutoCompleteProps,
+  TmCascaderProps,
+  TmCascaderValue,
+  TmSegmentedProps,
+  TmSegmentedValue,
+  TmSelectProps,
+  TmSelectValue,
+  TmTreeSelectProps,
+  TmTreeSelectValue,
+} from './components'
 
 export { withInstall } from './utils'
 export type { SFCWithInstall } from './utils'

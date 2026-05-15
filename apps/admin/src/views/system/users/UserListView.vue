@@ -1,39 +1,34 @@
 <template>
-  <section class="admin-page-section">
-    <div class="admin-toolbar">
-      <div>
-        <h2 class="mb-2 text-2xl font-semibold">用户管理</h2>
-        <p class="admin-muted">账号、状态、角色和基础资料都在这里维护。</p>
-      </div>
-      <PermissionButton type="primary" permission="system:user:create" @click="openCreate">
-        新建用户
-      </PermissionButton>
-    </div>
+  <section class="admin-page">
+    <AdminPageHeader title="用户管理" description="统一维护账号、角色、状态与基础联系信息。">
+      <template #actions>
+        <PermissionButton type="primary" permission="system:user:create" @click="openCreate">
+          新建用户
+        </PermissionButton>
+      </template>
+    </AdminPageHeader>
 
-    <tm-card>
-      <a-form layout="inline" class="flex flex-wrap gap-3">
-        <a-form-item label="关键词">
-          <tm-input v-model="query.keyword" placeholder="用户名 / 昵称 / 邮箱" style="width: 220px" />
-        </a-form-item>
-        <a-form-item label="状态">
-          <tm-select
-            v-model="query.status"
-            style="width: 160px"
-            :options="statusOptions"
-            allow-clear
-          />
-        </a-form-item>
-          <a-form-item>
-            <tm-space>
-              <tm-button type="primary" @click="loadUsers">查询</tm-button>
-              <tm-button @click="resetQuery">重置</tm-button>
-            </tm-space>
-          </a-form-item>
-      </a-form>
-    </tm-card>
+    <AdminFilterPanel>
+      <tm-form-item class="admin-filter-item admin-filter-item-wide" label="关键词">
+        <tm-input v-model="query.keyword" placeholder="用户名 / 昵称 / 邮箱" />
+      </tm-form-item>
+      <tm-form-item class="admin-filter-item" label="状态">
+        <tm-select v-model="query.status" :options="statusOptions" allow-clear placeholder="全部状态" />
+      </tm-form-item>
+      <template #actions>
+        <tm-button type="primary" @click="loadUsers">查询</tm-button>
+        <tm-button @click="resetQuery">重置</tm-button>
+      </template>
+    </AdminFilterPanel>
 
-    <tm-card>
+    <AdminTablePanel title="用户列表" description="支持分页浏览、编辑账号信息和查看详情。">
+      <template #meta>
+        <div class="admin-pill">共 {{ total }} 个用户</div>
+        <div class="admin-pill">启用 {{ enabledCount }}</div>
+        <div class="admin-pill">停用 {{ disabledCount }}</div>
+      </template>
       <tm-table
+        class="admin-data-table"
         :loading="loading"
         :data-source="users"
         :columns="columns"
@@ -42,7 +37,22 @@
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'status'">
+          <template v-if="column.key === 'username'">
+            <div class="user-primary-cell">
+              <div class="user-primary-main">{{ record.username }}</div>
+              <div class="user-primary-sub">{{ record.phone }}</div>
+            </div>
+          </template>
+          <template v-else-if="column.key === 'nickname'">
+            <div class="user-primary-cell">
+              <div class="user-primary-main">{{ record.nickname }}</div>
+              <div class="user-primary-sub">ID #{{ record.id }}</div>
+            </div>
+          </template>
+          <template v-else-if="column.key === 'email'">
+            <span class="admin-code">{{ record.email }}</span>
+          </template>
+          <template v-else-if="column.key === 'status'">
             <StatusTag :value="record.status" />
           </template>
           <template v-else-if="column.key === 'roles'">
@@ -50,74 +60,96 @@
               <tm-tag v-for="role in record.roleCodes" :key="role">{{ role }}</tm-tag>
             </tm-space>
           </template>
+          <template v-else-if="column.key === 'lastLoginAt'">
+            <div class="user-primary-cell">
+              <div class="user-primary-main">{{ record.lastLoginAt }}</div>
+              <div class="user-primary-sub">创建于 {{ record.createdAt }}</div>
+            </div>
+          </template>
           <template v-else-if="column.key === 'actions'">
-            <tm-space wrap>
+            <div class="admin-table-inline-actions">
               <PermissionButton size="small" permission="system:user:edit" @click="openEdit(record)">编辑</PermissionButton>
               <PermissionButton size="small" permission="system:user:view" @click="openDetail(record)">详情</PermissionButton>
               <PermissionButton size="small" permission="system:user:delete" danger @click="removeUser(record.id)">
                 删除
               </PermissionButton>
-            </tm-space>
+            </div>
           </template>
         </template>
       </tm-table>
-    </tm-card>
+    </AdminTablePanel>
 
-    <a-modal
-      :open="modalOpen"
+    <tm-modal
+      v-model:model-value="modalOpen"
       :title="modalTitle"
       :confirm-loading="saving"
+      width="720px"
       @ok="submitUser"
       @cancel="modalOpen = false"
     >
-      <a-form layout="vertical">
-        <a-form-item label="用户名">
+      <tm-form :model="formState" layout="vertical" class="admin-form-grid">
+        <tm-form-item label="用户名">
           <tm-input v-model="formState.username" />
-        </a-form-item>
-        <a-form-item label="昵称">
+        </tm-form-item>
+        <tm-form-item label="昵称">
           <tm-input v-model="formState.nickname" />
-        </a-form-item>
-        <a-form-item label="邮箱">
+        </tm-form-item>
+        <tm-form-item label="邮箱">
           <tm-input v-model="formState.email" />
-        </a-form-item>
-        <a-form-item label="手机号">
+        </tm-form-item>
+        <tm-form-item label="手机号">
           <tm-input v-model="formState.phone" />
-        </a-form-item>
-        <a-form-item label="角色">
-          <a-checkbox-group v-model:value="formState.roleCodes" :options="roleOptions" />
-        </a-form-item>
-        <a-form-item label="状态">
-          <a-radio-group v-model:value="formState.status">
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="角色">
+          <tm-checkbox-group v-model:value="formState.roleCodes" :options="roleOptions" class="grid gap-2 md:grid-cols-3" />
+        </tm-form-item>
+        <tm-form-item class="admin-form-span-2" label="状态">
+          <tm-radio-group v-model:value="formState.status">
             <a-radio value="enabled">启用</a-radio>
             <a-radio value="disabled">停用</a-radio>
-          </a-radio-group>
-        </a-form-item>
-      </a-form>
-    </a-modal>
+          </tm-radio-group>
+        </tm-form-item>
+      </tm-form>
+    </tm-modal>
 
     <tm-drawer :open="detailOpen" width="520" title="用户详情" @close="detailOpen = false">
-      <tm-descriptions bordered :column="1">
-        <a-descriptions-item label="用户名">{{ detailRecord?.username }}</a-descriptions-item>
-        <a-descriptions-item label="昵称">{{ detailRecord?.nickname }}</a-descriptions-item>
-        <a-descriptions-item label="邮箱">{{ detailRecord?.email }}</a-descriptions-item>
-        <a-descriptions-item label="手机">{{ detailRecord?.phone }}</a-descriptions-item>
-        <a-descriptions-item label="角色">{{ detailRecord?.roleCodes.join(', ') }}</a-descriptions-item>
-        <a-descriptions-item label="状态">
-          <StatusTag v-if="detailRecord" :value="detailRecord.status" />
-        </a-descriptions-item>
-        <a-descriptions-item label="创建时间">{{ detailRecord?.createdAt }}</a-descriptions-item>
-        <a-descriptions-item label="最近登录">{{ detailRecord?.lastLoginAt }}</a-descriptions-item>
-      </tm-descriptions>
+      <div class="admin-page-section">
+        <div class="user-detail-hero" v-if="detailRecord">
+          <div>
+            <div class="user-detail-name">{{ detailRecord.nickname }}</div>
+            <div class="user-detail-account">{{ detailRecord.username }}</div>
+          </div>
+          <StatusTag :value="detailRecord.status" />
+        </div>
+        <div class="user-detail-roles" v-if="detailRecord">
+          <tm-tag v-for="role in detailRecord.roleCodes" :key="role">{{ role }}</tm-tag>
+        </div>
+        <tm-descriptions bordered :column="1">
+          <tm-descriptions-item label="用户名">{{ detailRecord?.username }}</tm-descriptions-item>
+          <tm-descriptions-item label="昵称">{{ detailRecord?.nickname }}</tm-descriptions-item>
+          <tm-descriptions-item label="邮箱">{{ detailRecord?.email }}</tm-descriptions-item>
+          <tm-descriptions-item label="手机">{{ detailRecord?.phone }}</tm-descriptions-item>
+          <tm-descriptions-item label="角色">{{ detailRecord?.roleCodes.join(', ') }}</tm-descriptions-item>
+          <tm-descriptions-item label="状态">
+            <StatusTag v-if="detailRecord" :value="detailRecord.status" />
+          </tm-descriptions-item>
+          <tm-descriptions-item label="创建时间">{{ detailRecord?.createdAt }}</tm-descriptions-item>
+          <tm-descriptions-item label="最近登录">{{ detailRecord?.lastLoginAt }}</tm-descriptions-item>
+        </tm-descriptions>
+      </div>
     </tm-drawer>
   </section>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
-import { Modal, message } from 'ant-design-vue'
+import { TmMessage } from 'tm-ui'
 import type { TablePaginationConfig } from 'ant-design-vue'
 import { roleApi, userApi } from '@admin/api/system'
 import type { RoleRecord, UserSummary } from '@admin/types'
+import AdminFilterPanel from '@admin/components/app/AdminFilterPanel.vue'
+import AdminPageHeader from '@admin/components/app/AdminPageHeader.vue'
+import AdminTablePanel from '@admin/components/app/AdminTablePanel.vue'
 import PermissionButton from '@admin/components/app/PermissionButton.vue'
 import StatusTag from '@admin/components/app/StatusTag.vue'
 
@@ -154,7 +186,7 @@ const columns = [
   { title: '角色', key: 'roles' },
   { title: '状态', key: 'status' },
   { title: '最近登录', dataIndex: 'lastLoginAt', key: 'lastLoginAt' },
-  { title: '操作', key: 'actions', width: 240 },
+  { title: '操作', key: 'actions', width: 220 },
 ]
 
 const statusOptions = [
@@ -163,6 +195,8 @@ const statusOptions = [
 ]
 
 const roleOptions = computed(() => roles.value.map((item) => ({ label: item.name, value: item.code })))
+const enabledCount = computed(() => users.value.filter((item) => item.status === 'enabled').length)
+const disabledCount = computed(() => users.value.filter((item) => item.status === 'disabled').length)
 const pagination = computed<TablePaginationConfig>(() => ({
   current: query.page,
   pageSize: query.pageSize,
@@ -227,7 +261,7 @@ async function submitUser() {
   saving.value = true
   try {
     await userApi.save({ ...formState, id: editingId.value ?? undefined })
-    message.success(editingId.value ? '用户已更新' : '用户已创建')
+    TmMessage.success(editingId.value ? '用户已更新' : '用户已创建')
     modalOpen.value = false
     await loadUsers()
   } finally {
@@ -235,15 +269,10 @@ async function submitUser() {
   }
 }
 
-function removeUser(id: number) {
-  Modal.confirm({
-    title: '确认删除该用户？',
-    onOk: async () => {
-      await userApi.remove(id)
-      message.success('用户已删除')
-      await loadUsers()
-    },
-  })
+async function removeUser(id: number) {
+  await userApi.remove(id)
+  TmMessage.success('用户已删除')
+  await loadUsers()
 }
 
 function handleTableChange(paginationConfig: TablePaginationConfig) {
@@ -256,3 +285,50 @@ onMounted(async () => {
   await Promise.all([loadUsers(), loadRoles()])
 })
 </script>
+
+<style scoped>
+.user-primary-cell {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.user-primary-main {
+  color: var(--admin-text-strong);
+  font-weight: 600;
+}
+
+.user-primary-sub {
+  color: var(--admin-text-soft);
+  font-size: 12px;
+}
+
+.user-detail-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface-muted);
+}
+
+.user-detail-name {
+  color: var(--admin-text-strong);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.user-detail-account {
+  color: var(--admin-text-soft);
+  font-size: 13px;
+}
+
+.user-detail-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+</style>
