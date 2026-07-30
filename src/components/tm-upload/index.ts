@@ -1,2 +1,2 @@
 export { TmUpload, default } from './component'
-export type { TmUploadFile } from './component'
+export type { TmUploadChangeInfo, TmUploadFile } from './component'

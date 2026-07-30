@@ -17,7 +17,8 @@ defineOptions({ name: 'TmTransfer', inheritAttrs: false })
 const props = withDefaults(
   defineProps<{
     modelValue?: string[]
-    dataSource?: any[]
+    // 穿梭框数据源为含 key/title 的记录对象，用 Record<string, unknown> 收敛
+    dataSource?: Array<Record<string, unknown>>
     targetKeys?: string[]
     titles?: [string, string]
     showSearch?: boolean

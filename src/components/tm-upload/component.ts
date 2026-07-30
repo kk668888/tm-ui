@@ -3,4 +3,4 @@ import { withInstall } from '@/utils'
 
 export const TmUpload = withInstall(TmUploadComp)
 export default TmUpload
-export type { TmUploadFile } from './TmUpload.vue'
+export type { TmUploadChangeInfo, TmUploadFile } from './TmUpload.vue'

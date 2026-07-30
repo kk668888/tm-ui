@@ -1,1 +1,5 @@
-import C from './TmModal.vue'; import { withInstall } from '@/utils'; export const TmModal = withInstall(C); export default TmModal;
+import TmModalComp from './TmModal.vue'
+import { withInstall } from '@/utils'
+
+export const TmModal = withInstall(TmModalComp)
+export default TmModal

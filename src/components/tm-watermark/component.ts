@@ -1,1 +1,5 @@
-import C from './TmWatermark.vue'; import { withInstall } from '@/utils'; export const TmWatermark = withInstall(C); export default TmWatermark;
+import TmWatermarkComp from './TmWatermark.vue'
+import { withInstall } from '@/utils'
+
+export const TmWatermark = withInstall(TmWatermarkComp)
+export default TmWatermark

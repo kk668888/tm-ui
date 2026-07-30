@@ -10,6 +10,7 @@
 import { computed } from 'vue'
 import { Radio as ARadio } from 'ant-design-vue'
 import { ForwardRender, useForwardAttrs } from '@/utils'
+import type { TmCheckedEvent } from '../shared-types'
 
 defineOptions({
   name: 'TmRadio',
@@ -36,8 +37,9 @@ const radioAttrs = computed(() => ({
   onChange: handleChange,
 }))
 
-const handleChange = (e: any) => {
-  emit('update:modelValue', e.target?.checked ?? e)
+// ant-design-vue 的 Radio change 事件入参为 { target: { checked } } 形状
+const handleChange = (e: TmCheckedEvent | boolean) => {
+  emit('update:modelValue', typeof e === 'boolean' ? e : (e.target?.checked ?? false))
 }
 
 </script>

@@ -25,12 +25,13 @@
 
 <script setup lang="ts">
 import { useForwardAttrs } from '@/utils'
+import type { TmTreeOption } from '../shared-types'
 
 defineOptions({ name: 'TmTree', inheritAttrs: false })
 
 withDefaults(
   defineProps<{
-    treeData?: any[]
+    treeData?: TmTreeOption[]
     showLine?: boolean
     showIcon?: boolean
     selectable?: boolean

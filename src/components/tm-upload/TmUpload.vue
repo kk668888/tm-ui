@@ -30,7 +30,15 @@ export interface TmUploadFile {
   status?: string
   url?: string
   thumbUrl?: string
-  response?: any
+  // 后端响应体结构因接口而异，无法预先收窄，用 unknown 表达并交由业务层断言
+  response?: unknown
+}
+
+// ant-design-vue Upload 的 change 事件入参结构，收敛 info: any
+export interface TmUploadChangeInfo {
+  file: TmUploadFile
+  fileList: TmUploadFile[]
+  event?: { percent?: number }
 }
 
 const props = withDefaults(
@@ -53,7 +61,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   'update:modelValue': [value: TmUploadFile[]]
-  'change': [info: any]
+  'change': [info: TmUploadChangeInfo]
 }>()
 
 const forwardedAttrs = useForwardAttrs()
@@ -71,7 +79,7 @@ const uploadAttrs = computed(() => ({
   onChange: handleChange,
 }))
 
-const handleChange = (info: any) => {
+const handleChange = (info: TmUploadChangeInfo) => {
   emit('update:modelValue', info.fileList)
   emit('change', info)
 }

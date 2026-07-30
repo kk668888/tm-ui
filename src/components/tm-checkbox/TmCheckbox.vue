@@ -10,6 +10,7 @@
 import { computed } from 'vue'
 import { Checkbox as ACheckbox } from 'ant-design-vue'
 import { ForwardRender, useForwardAttrs } from '@/utils'
+import type { TmCheckedEvent } from '../shared-types'
 
 defineOptions({
   name: 'TmCheckbox',
@@ -36,8 +37,10 @@ const checkboxAttrs = computed(() => ({
   onChange: handleChange,
 }))
 
-const handleChange = (e: any) => {
-  emit('update:modelValue', e.target?.checked ?? e)
+// ant-design-vue 的 Checkbox change 事件入参为 { target: { checked } } 形状
+// 这里用 TmCheckedEvent 收敛类型，避免使用 any
+const handleChange = (e: TmCheckedEvent | boolean) => {
+  emit('update:modelValue', typeof e === 'boolean' ? e : (e.target?.checked ?? false))
 }
 
 </script>

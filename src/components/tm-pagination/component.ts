@@ -1,1 +1,5 @@
-import C from './TmPagination.vue'; import { withInstall } from '@/utils'; export const TmPagination = withInstall(C); export default TmPagination;
+import TmPaginationComp from './TmPagination.vue'
+import { withInstall } from '@/utils'
+
+export const TmPagination = withInstall(TmPaginationComp)
+export default TmPagination

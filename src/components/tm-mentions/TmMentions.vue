@@ -4,9 +4,16 @@
   </a-mentions>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue'; import { useForwardAttrs } from '@/utils'
+import { computed } from 'vue'
+import { useForwardAttrs } from '@/utils'
+import type { TmOption } from '../shared-types'
+
 defineOptions({ name: 'TmMentions', inheritAttrs: false })
-const props = withDefaults(defineProps<{ modelValue?: string; options?: any[]; placeholder?: string }>(), { options: () => [], placeholder: '请输入' })
+
+const props = withDefaults(
+  defineProps<{ modelValue?: string; options?: TmOption[]; placeholder?: string }>(),
+  { options: () => [], placeholder: '请输入' },
+)
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
 const forwardedAttrs = useForwardAttrs()
 const mentionsAttrs = computed(() => ({

@@ -1,4 +1,6 @@
-export interface TmColumn<T = any> {
+import type { TmSorterState } from '../shared-types'
+
+export interface TmColumn<T = Record<string, unknown>> {
   title: string
   dataIndex?: string
   key: string
@@ -18,7 +20,7 @@ export interface TmPageInfo {
   total: number
 }
 
-export interface TmTableProps<T = any> {
+export interface TmTableProps<T = Record<string, unknown>> {
   dataSource: T[]
   columns: TmColumn<T>[]
   loading?: boolean
@@ -29,9 +31,10 @@ export interface TmTableProps<T = any> {
   scroll?: { x?: number; y?: number }
 }
 
-export interface TmTableEmits<T = any> {
+export interface TmTableEmits<T = Record<string, unknown>> {
   (e: 'page-change', page: number, pageSize: number): void
-  (e: 'sort-change', sorter: any): void
+  (e: 'sort-change', sorter: TmSorterState): void
   (e: 'row-click', record: T, index: number): void
-  (e: 'change', pagination: TmPageInfo, filters: Record<string, never>, sorter?: any): void
+  (e: 'change', pagination: TmPageInfo, filters: Record<string, unknown>, sorter?: TmSorterState): void
 }
+

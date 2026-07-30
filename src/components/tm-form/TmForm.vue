@@ -96,13 +96,14 @@ export interface TmFormSchemaItem {
   placeholder?: string
   disabled?: boolean
   rules?: RuleObject[]
-  options?: Array<{ label: string; value: any }>
+  // 下拉选项的 value 在 schema 配置阶段无法预先收窄类型，用 unknown 表达"任意表单值"
+  options?: Array<{ label: string; value: unknown }>
   rows?: number
 }
 
 const props = withDefaults(
   defineProps<{
-    model: Record<string, any>
+    model: Record<string, unknown>
     schema?: TmFormSchemaItem[]
     autoGenerate?: boolean
     labelCol?: { span: number }
@@ -121,7 +122,7 @@ const props = withDefaults(
 )
 
 const emit = defineEmits<{
-  'update:model': [value: Record<string, any>]
+  'update:model': [value: Record<string, unknown>]
 }>()
 
 const forwardedAttrs = useForwardAttrs()
@@ -142,7 +143,7 @@ const computedRules = computed(() => {
   return merged
 })
 
-const updateField = (field: string, value: any) => {
+const updateField = (field: string, value: unknown) => {
   emit('update:model', {
     ...formModel.value,
     [field]: value,

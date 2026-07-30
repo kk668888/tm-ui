@@ -1,1 +1,5 @@
-import C from './TmSpace.vue'; import { withInstall } from '@/utils'; export const TmSpace = withInstall(C); export default TmSpace;
+import TmSpaceComp from './TmSpace.vue'
+import { withInstall } from '@/utils'
+
+export const TmSpace = withInstall(TmSpaceComp)
+export default TmSpace

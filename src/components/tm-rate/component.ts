@@ -1,1 +1,5 @@
-import C from './TmRate.vue'; import { withInstall } from '@/utils'; export const TmRate = withInstall(C); export default TmRate;
+import TmRateComp from './TmRate.vue'
+import { withInstall } from '@/utils'
+
+export const TmRate = withInstall(TmRateComp)
+export default TmRate

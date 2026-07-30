@@ -1,1 +1,5 @@
-import C from './TmSpin.vue'; import { withInstall } from '@/utils'; export const TmSpin = withInstall(C); export default TmSpin;
+import TmSpinComp from './TmSpin.vue'
+import { withInstall } from '@/utils'
+
+export const TmSpin = withInstall(TmSpinComp)
+export default TmSpin

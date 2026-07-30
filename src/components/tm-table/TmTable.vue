@@ -68,16 +68,20 @@ import { Comment, Fragment, Text, computed, defineComponent, ref, useAttrs, useS
 import { Pagination as APagination, Spin as ASpin } from 'ant-design-vue'
 import { VxeColumn, VxeTable } from 'vxe-table'
 import { useForwardAttrs } from '@/utils'
+import type { TmSorterState } from '../shared-types'
 import type { TmColumn, TmPageInfo } from './types'
+import type { VxeTableDefines } from 'vxe-table'
 
 defineOptions({
   name: 'TmTable',
   inheritAttrs: false,
 })
 
+// 单元格渲染上下文：脱离泛型 T 作用域（BodyCellRenderer 为独立组件），
+// record 用 Record<string, unknown> 收敛，避免散落 any
 type BodyCellSlotProps = {
-  column: TmColumn<any>
-  record: Record<string, any>
+  column: TmColumn
+  record: Record<string, unknown>
   index: number
 }
 
@@ -105,9 +109,9 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   'page-change': [page: number, pageSize: number]
-  'sort-change': [sorter: any]
+  'sort-change': [sorter: TmSorterState]
   'row-click': [record: T, index: number]
-  'change': [pagination: TmPageInfo, filters: Record<string, never>, sorter?: any]
+  'change': [pagination: TmPageInfo, filters: Record<string, unknown>, sorter?: TmSorterState]
 }>()
 
 const attrs = useAttrs()
@@ -157,7 +161,10 @@ const rowConfig = computed(() => {
 })
 
 const treeConfig = computed(() => {
-  const hasChildren = props.dataSource.some((item) => Array.isArray((item as Record<string, any>).children) && (item as Record<string, any>).children.length > 0)
+  const hasChildren = props.dataSource.some((item) => {
+    const children = (item as Record<string, unknown>).children
+    return Array.isArray(children) && children.length > 0
+  })
   if (!hasChildren) {
     return undefined
   }
@@ -193,11 +200,11 @@ const BodyCellRenderer = defineComponent({
   props: {
     bodyCellSlot: Function as PropType<BodyCellSlot | undefined>,
     column: {
-      type: Object as PropType<TmColumn<any>>,
+      type: Object as PropType<TmColumn>,
       required: true,
     },
     record: {
-      type: Object as PropType<Record<string, any>>,
+      type: Object as PropType<Record<string, unknown>>,
       required: true,
     },
     index: {
@@ -223,14 +230,19 @@ const BodyCellRenderer = defineComponent({
   },
 })
 
-function getCellValue(record: Record<string, any>, column: TmColumn<any>) {
+function getCellValue(record: Record<string, unknown>, column: TmColumn): unknown {
   if (!column.dataIndex) {
     return ''
   }
 
   return column.dataIndex
     .split('.')
-    .reduce<any>((current, key) => (current == null ? current : current[key]), record)
+    .reduce<unknown>((current, key) => {
+      if (current == null || typeof current !== 'object') {
+        return current
+      }
+      return (current as Record<string, unknown>)[key]
+    }, record)
 }
 
 function hasRenderableContent(nodes?: VNode[]) {
@@ -259,7 +271,7 @@ function hasRenderableContent(nodes?: VNode[]) {
   })
 }
 
-function emitChange(sorter?: any) {
+function emitChange(sorter?: TmSorterState) {
   emit(
     'change',
     {
@@ -279,17 +291,20 @@ function handlePaginationChange(page: number, pageSize: number) {
   emitChange()
 }
 
-function handleSortChange(params: Record<string, any>) {
-  const sorter = {
-    ...params,
-    order: params.order === 'asc' ? 'ascend' : params.order === 'desc' ? 'descend' : null,
+// 使用 vxe-table 官方事件参数类型，避免模板事件校验时把处理函数判断为不兼容。
+function handleSortChange(params: VxeTableDefines.SortChangeEventParams<T>) {
+  const order = params.order
+  const sorter: TmSorterState = {
+    ...(params as unknown as TmSorterState),
+    order: order === 'asc' ? 'ascend' : order === 'desc' ? 'descend' : null,
   }
 
   emit('sort-change', sorter)
   emitChange(sorter)
 }
 
-function handleCellClick(params: Record<string, any>) {
+// cell-click 入参同样跟随 vxe-table 官方类型，向外只暴露项目约定的 record / index。
+function handleCellClick(params: VxeTableDefines.CellClickEventParams<T>) {
   emit('row-click', params.row as T, params.rowIndex as number)
 }
 </script>

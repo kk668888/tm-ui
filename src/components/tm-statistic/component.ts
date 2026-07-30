@@ -1,1 +1,5 @@
-import C from './TmStatistic.vue'; import { withInstall } from '@/utils'; export const TmStatistic = withInstall(C); export default TmStatistic;
+import TmStatisticComp from './TmStatistic.vue'
+import { withInstall } from '@/utils'
+
+export const TmStatistic = withInstall(TmStatisticComp)
+export default TmStatistic

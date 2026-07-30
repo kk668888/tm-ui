@@ -8,8 +8,15 @@
   </a-comment>
 </template>
 <script setup lang="ts">
+import type { VNode } from 'vue'
 import { useForwardAttrs } from '@/utils'
+
 defineOptions({ name: 'TmComment', inheritAttrs: false })
-withDefaults(defineProps<{ author?: string; avatar?: string; content?: string; datetime?: string; actions?: any[] }>(), {})
+
+// ant-design-vue Comment 的 actions 为 VNode 数组，收敛 any[]
+withDefaults(
+  defineProps<{ author?: string; avatar?: string; content?: string; datetime?: string; actions?: VNode[] }>(),
+  {},
+)
 const forwardedAttrs = useForwardAttrs()
 </script>
