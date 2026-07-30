@@ -21,7 +21,11 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks(id) {
-            if (id.includes('node_modules/vxe-table') || id.includes('node_modules/@vxe-ui') || id.includes('node_modules/xe-utils')) {
+            if (
+              id.includes('node_modules/vxe-table')
+              || id.includes('node_modules/@vxe-ui')
+              || id.includes('node_modules/xe-utils')
+            ) {
               return 'vendor-vxe'
             }
             if (id.includes('node_modules/ant-design-vue') || id.includes('node_modules/@ant-design')) {
@@ -50,6 +54,7 @@ export default defineConfig({
           text: '指南',
           items: [
             { text: '快速开始', link: '/guide/getting-started' },
+            { text: '发布到 npm', link: '/guide/npm-publish' },
           ],
         },
       ],
@@ -59,6 +64,8 @@ export default defineConfig({
           items: [
             { text: 'TmButton 按钮', link: '/components/button' },
             { text: 'TmInput 输入框', link: '/components/input' },
+            { text: 'TmIpInput IP 输入框', link: '/components/ip-input' },
+            { text: 'TmMacInput MAC 输入框', link: '/components/mac-input' },
             { text: 'TmSelect 选择器', link: '/components/select' },
             { text: 'TmTable 表格', link: '/components/table' },
             { text: 'TmForm 表单', link: '/components/form' },
@@ -92,6 +99,8 @@ export default defineConfig({
           text: '数据录入',
           items: [
             { text: 'TmInput 输入框', link: '/components/input' },
+            { text: 'TmIpInput IP 输入框', link: '/components/ip-input' },
+            { text: 'TmMacInput MAC 输入框', link: '/components/mac-input' },
             { text: 'TmTextarea 文本域', link: '/components/textarea' },
             { text: 'TmInputNumber 数字输入框', link: '/components/input-number' },
             { text: 'TmInputPassword 密码输入框', link: '/components/input-password' },

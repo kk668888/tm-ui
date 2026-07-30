@@ -2,6 +2,8 @@ import type { App, Plugin } from 'vue'
 import {
   TmButton,
   TmInput,
+  TmIpInput,
+  TmMacInput,
   TmTextarea,
   TmInputNumber,
   TmInputPassword,
@@ -92,6 +94,8 @@ import 'vxe-table/lib/style.css'
 const installables = [
   TmButton,
   TmInput,
+  TmIpInput,
+  TmMacInput,
   TmTextarea,
   TmInputNumber,
   TmInputPassword,
@@ -187,6 +191,8 @@ export default { install } as Plugin
 export {
   TmButton,
   TmInput,
+  TmIpInput,
+  TmMacInput,
   TmTextarea,
   TmInputNumber,
   TmInputPassword,
@@ -277,6 +283,8 @@ export type { TmBreadcrumbItem } from './components'
 export type { TmDropdownItem } from './components'
 export type { TmUploadFile } from './components'
 export type { TmOption, TmTreeOption, TmValue } from './components'
+export type { TmIpInputMode, TmIpInputParsed, TmIpInputProps, TmIpInputStatus } from './components'
+export type { TmMacInputParsed, TmMacInputProps, TmMacInputStatus } from './components'
 export type {
   TmAutoCompleteProps,
   TmCascaderProps,
