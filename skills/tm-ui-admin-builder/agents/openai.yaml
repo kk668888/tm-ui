@@ -1,4 +1,0 @@
-interface:
-  display_name: "TM UI Admin Builder"
-  short_description: "Build admin pages with tm-ui first, not raw ant-design-vue."
-  default_prompt: "Use tm-ui components to build or refactor admin pages in this repo, preferring tm-* wrappers and documenting any wrapper gaps that require raw ant-design-vue subcomponents."
